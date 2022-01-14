@@ -1,0 +1,277 @@
+# sbgECom Library version 3.1.2358-stable
+
+The sbgECom C library is used to configure and communicate with [SBG Systems](https://www.sbg-systems.com/) IMU, AHRS and INS.\
+This change log lists all modifications for each released sbgECom library version.
+
+Change log issued on: 2022-01-13
+
+Copyright (C) 2022, SBG Systems SAS. All rights reserved.
+
+## Summary
+
+The sbgECom 3.2.96-dev release adds support to latest ELLIPSE 2.3 firmware that comes with new configurations and output logs.\
+It also adds two new commands sbgEComCmdApiGet and sbgEComCmdApiPost to support the new [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) over serial interfaces.
+
+A new extended sbgECom frame format has been introduced to support large payloads.\
+This new format is fully backward compatible and your code, as well as older firmware, should still work with this new sbgECom implementation.
+
+New tools and examples have been added to ease product evaluation and integration.
+
+This release also improves the overall code quality, documentation and examples.
+
+## Import Highlights for this release
+
+Please find below, the main improvements and modifications:
+ - Support for latest ELLIPSE firmware
+ - Support for new sbgInsRestApi GET/POST commands
+ - New sbgEComBasicLogger tool to convert logs to CSV files
+ - New sbgEComApi tool to use the sbgInsRestApi from command line
+ - Improved sbgECom frame for large payloads
+ - Improved ELLIPSE on-board magnetic calibration example
+ - Improve code quality
+ - First version published on github
+
+## Release - 3.1.2358-stable
+
+### New Features
+ - [SBGECOM-225] - Added KMB binary sensor output log for High Performance INS
+ - [SBGECOM-226] - Add a new log SBG_ECOM_LOG_RTCM_STREAM
+ - [SBGECOM-228] - Add new commands to implement GET/POST over sbgECom protocol
+ - [SBGECOM-229] - Now ELLIPSE-N and D can accept RTCM corrections over Port A
+ - [SBGECOM-231] - Add support for NMEA PPS frames
+ - [SBGECOM-253] - Add specific NMEA like output log WASSP
+ - [SBGECOM-279] - Add in SBG_ECOM_CMD_ADVANCED_CONF a GNSS option bitmask
+ - [SBGECOM-281] - Add a new sbgBasicLogger command line tool
+ - [SBGECOM-282] - Add a sbgEComApi CLI tool to access sbgInsRestApi over sbgECom
+ - [SBGECOM-283] - Add a minimal sbgECom example for PULSE IMU
+ - [SBGECOM-285] - Add in SBG_ECOM_CMD_ADVANCED_CONF an option to always output time in NMEA messages
+ - [SBGECOM-286] - Add in SBG_ECOM_CMD_ADVANCED_CONF an option select standard or extended NMEA mode
+
+### Improvements
+ - [SBGECOM-181] - Reduce stack usage and use new sbgEComReceiveCmd2
+ - [SBGECOM-220] - Updated license to MIT
+ - [SBGECOM-232] - Updated protocol to support large transfer using multiple pages
+ - [SBGECOM-287] - Updated sbgEComSetReceiveLogCallback to remove the unused SbgErrorCode return
+ - [SBGECOM-301] - Improved ELLIPSE onboard magnetic calibration code example
+ - [SBGECOM-302] - Added new sbgEComPurgeIncoming method to discard rx data
+ - [SBGECOM-303] - Improved examples, they now use simple CLI arguments
+
+### Bug Fixes
+ - [SBGECOM-265] - Add missing 25ms period to output log message definitions
+ - [SBGECOM-267] - Add missing 40ms period to output log message definitions
+ - [SBGECOM-284] - Receive a command must not be blocking when timeout = 0
+ - [SBGECOM-289] - Fix SBG_ECAN_MSG_GPS#_ALT NUM_SV & DIFF_CORR DBC/DBF definitions
+
+## Release - 2.0.4536-stable
+
+### New Features
+ - [SBGECOM-180] - Added NMEA GGK message output
+ - [SBGECOM-191] - Added in SBG_ECOM_LOG_GPS#_POS status report for all GNSS constellations
+ - [SBGECOM-194] - Add specific SBG_ECOM_THIRD_PARTY_ADA_01 output log
+ - [SBGECOM-208] - Added a README.md file with migration guidelines
+ - [SBGECOM-216] - Add Cobham SBG_ECOM_THIRD_PARTY_AT_ITINS output log support
+ - [SBGECOM-219] - Added CAN dbc and BusMaster definitions in sbgECom project
+### Improvements
+ - [SBGECOM-188] - Updated SBG_ECAN_MSG_ODO_VELOCITY from float field to integers
+ - [SBGECOM-196] - Added status field for SBG_ECAN_MSG_AUTO_TRACK_SLIP_CURV (0x220) message
+ - [SBGECOM-199] - Simplified SbgEComGnssModelsStdIds enum for ELLIPSE-N and ELLIPSE-D
+ - [SBGECOM-204] - Renamed SBG_ECOM_GNSS_MODEL_UBLOX_GPS_GLONASS to SBG_ECOM_GNSS_MODEL_INTERNAL
+ - [SBGECOM-207] - Reworked motion profile / aiding equipments errors models set/get API (removed SbgEComModelInfo)
+ - [SBGECOM-209] - Reworked and simplified GNSS model ids to comply with sbgECom 2.x
+ - [SBGECOM-212] - Added in SBG_ECOM_CMD_FEATURES gnss firmware version field
+### Removed Features
+ - [SBGECOM-200] - Removed SBG_ECOM_GNSS_MODEL_UBLOX_HIGH_DYNAMICS, use SBG_ECOM_GNSS_MODEL_INTERNAL instead
+ - [SBGECOM-201] - Removed SBG_ECOM_GNSS_MODEL_ELLIPSE_D_INTERNAL, use SBG_ECOM_GNSS_MODEL_INTERNAL instead
+ - [SBGECOM-202] - Removed SBG_ECOM_GNSS_MODEL_UBLOX_HIGH_SPEED, use SBG_ECOM_GNSS_MODEL_INTERNAL instead
+ - [SBGECOM-203] - Removed SBG_ECOM_GNSS_MODEL_UBLOX_LOW_SPEED, use SBG_ECOM_GNSS_MODEL_INTERNAL instead
+ - [SBGECOM-206] - Removed deprecated methods sbgEComCmdGnss1GetLeverArmAlignment & sbgEComCmdGnss1SetLeverArmAlignment
+ - [SBGECOM-211] - Removed legacy IG-500 protocol support
+
+## Release - 1.11.920-stable
+
+### New Features
+ - [SBGECOM-123] - Implement DVL aiding configuration SBG_ECOM_CMD_DVL_####
+ - [SBGECOM-126] - Implement AirData aiding configuration SBG_ECOM_CMD_AIRDATA_####
+ - [SBGECOM-135] - Add configuration commands for CAN odometer support
+ - [SBGECOM-136] - Add sbgECom Log Event Output useful for virtual odometer
+ - [SBGECOM-137] - Add SBG_ECOM_LOG_DEPTH / SBG_ECAN_MSG_DEPTH_INFO/ALTITUDE output logs
+ - [SBGECOM-140] - Updated SBG_ECOM_CMD_AIDING_ASSIGNMENT command for AirData support
+ - [SBGECOM-141] - Add airDataInput demo project to show external sbgECom AirData aiding
+ - [SBGECOM-142] - Updated SBG_ECOM_LOG_PRESSURE to SBG_ECOM_LOG_AIR_DATA with airspeed
+ - [SBGECOM-143] - Updated SBG_ECAN_MSG_PRESSURE to SBG_ECAN_MSG_AIR_DATA with airspeed
+ - [SBGECOM-156] - Add baseline length field in SBG_ECOM_LOG_GPS#_HDT log
+ - [SBGECOM-162] - Add SBG_ECOM_LOG_DIAG message to send text
+ - [SBGECOM-163] - Add CAN output message with vehicle body velocity
+ - [SBGECOM-164] - Add CAN output message with track, slip and curvature indications
+ - [SBGECOM-168] - Add INDYN NMEA like message output for marine applications
+ - [SBGECOM-170] - Add SBG_ECOM_CMD_GNSS_1_INSTALLATION command to set/get GNSS lever arm
+ - [SBGECOM-173] - Add compatibility support Crossbow AHRS500 series
+ - [SBGECOM-174] - Basic Logger: Add support for error log messages
+ - [SBGECOM-175] - Basic Logger: Add support for UDP interfaces
+
+### Improvements
+ - [SBGECOM-132] - Updated SBG_ECOM_CMD_AIDING_ASSIGNMENT command for DVL support
+ - [SBGECOM-133] - Renamed DVL standard deviation as quality indicator in DVL log structure
+ - [SBGECOM-144] - Converted SBG_ECOM_AIDING_EM_LOG_RECV to SBG_ECOM_AIDING_DEPTH_RECV
+ - [SBGECOM-145] - Renamed SBG_ECOM_AIDING_PRESSURE_RECV to SBG_ECOM_AIDING_AIR_DATA_RECV
+ - [SBGECOM-146] - Renamed SBG_ECOM_SOL_PRESSURE_USED to SBG_ECOM_SOL_AIR_DATA_USED
+ - [SBGECOM-147] - Added SBG_ECOM_SOL_DEPTH_USED in EKF solution status
+ - [SBGECOM-165] - Updated CAN log default IDs for Ship Motion HP from 0x210 to 0x14A
+ - [SBGECOM-169] - Updated SBG_ECOM_THIRD_PARTY_IXBLUE_XXX logs to comply with naming conventions
+ - [SBGECOM-176] - Minor code cleanup and removed useless defines
+ - [SBGECOM-177] - Updated all C types to use standard ones uint32 -> uint32_t
+ - [SBGECOM-178] - Updated common lib code with improved organization
+
+### Removed Features
+ - [SBGECOM-100] - Removed deprecated sbgEComSetReceiveCallback method
+ - [SBGECOM-101] - Removed deprecated sbgEComCmdGnss1SetModel method
+ - [SBGECOM-102] - Removed deprecated sbgEComCmdSensorSetMotionProfile method
+ - [SBGECOM-103] - Removed deprecated sbgEComCmdMagSetModel method
+ - [SBGECOM-171] - SBG_ECOM_CMD_GNSS_1_LEVER_ARM_ALIGNMENT deprecated and replaced by SBG_ECOM_CMD_GNSS_1_INSTALLATION
+
+## Release - 1.10.3692-stable
+
+### New Features
+ - [SBGECOM-115] - Add Septentrio Internal GNSS model for new Ellipse D
+ - [SBGECOM-117] - Added getters for delta a angle / velocity / temperature for IMU Short log
+ - [SBGECOM-119] - Added new Swell Mode Ship Motion status flags
+
+### Improvements
+ - [SBGECOM-118] - Improved sbgEComStartFrameGeneration & sbgEComFinalizeFrameGeneration methods
+ - [SBGECOM-122] - Increased time out for sbgEComCmdLicenseApply to support new ELLIPSE-D internal GNSS
+
+## Release - 1.9.706-stable
+
+### New Features
+ - [SBGECOM-110] - Added DOLOG HRP proprietary message
+ - [SBGECOM-111] - Added a new short IMU log message also used for post processing
+ - [SBGECOM-112] - Add a heavy machinery motion profile definition for Ellipse series
+
+### Bug Fixes
+ - [SBGECOM-113] - Fixed invalid SBG_ECOM_CAN_RX/TX_OK comments
+
+## Release - 1.8.2916-stable
+
+### New Features
+ - [SBGECOM-95] - Added GPS number of SV used and diff corrections details in sbgECan protocol
+ - [SBGECOM-105] - Add compatibility with SBG_ECOM_CMD_VALIDITY_THRESHOLDS command
+ - [SBGECOM-108] - Added support for aiding assignment on Port E for ELLIPSE-E and N
+
+### Improvements
+ - [SBGECOM-91] - Added sbgEComSetCmdTrialsAndTimeOut to setup the number of trials and default time out for commands
+
+## Release - 1.7.235-stable
+
+### New Features
+ - [SBGECOM-89] - Implement Kongsberg Binary 26 message output
+ - [SBGECOM-87] - Add an uptime indication in SBG_ECOM_LOG_STATUS
+ - [SBGECOM-86] - Added the command SBG_ECOM_CMD_ETHERNET_INFO to current device IP address
+ - [SBGECOM-85] - Added command SBG_ECOM_CMD_ETHERNET_CONF to define / retrieve the Ethernet configuration
+ - [SBGECOM-77] - Add new output log class for NMEA proprietary messages
+ - [SBGECOM-75] - Added UAV motion profile definition (for low dynamic rotary wing UAV applications)
+
+### Improvements
+ - [SBGECOM-83] - Better use of size_t type instead of uint32 to comply with C standard and 64 bit platforms
+ - [SBGECOM-84] - Updated sbgCommonLib to latest revision
+
+### Removed Features
+ - [SBGECOM-79] - Removed deprecated "course" from the GNSS configurable aiding sources
+
+## Release - 1.5.209-stable
+
+### New Features
+ - [SBGECOM-72] - Added proprietary NMEA message PASHR for roll, pitch, heading, heave
+ - [SBGECOM-70] - Added SBG Proprietary NMEA message with acceleration and angular rate
+ - [SBGECOM-68] - Added SBG_ECOM_OUTPUT_MODE_DIV_5 flag for 40 Hz output
+ - [SBGECOM-66] - Added SBG_ECOM_GENERAL_CPU_OK status flag
+ - [SBGECOM-65] - Added sbgEComHandleOneLog method to return even if more logs are available
+ - [SBGECOM-64] - Added sbgEComSendAck method
+ - [SBGECOM-62] - Added sbgEComStartFrameGeneration and sbgEComFinalizeFrameGeneration methods
+ - [SBGECOM-59] - Added sbgECom log generation code
+ - [SBGECOM-57] - Added SBG_ECOM_LOG_FAST_IMU_DATA message definition
+ - [SBGECOM-40] - Added KVH third party output format id (SBG_ECOM_THIRD_PARTY_KVH)
+
+### Improvements
+ - [SBGECOM-74] - Switched unix projects to CMake
+ - [SBGECOM-73] - Added examples into the sbgECom
+ - [SBGECOM-63] - Updated sbgCommonLib to latest revision
+ - [SBGECOM-61] - Use stream buffer instead of basic buffer for sbgECom log parsing
+ - [SBGECOM-51] - Added SBF (Septentrio) protocol support on Ellipse-E
+ - [SBGECOM-50] - Added direct PPS from internal GNSS Sync Output (SBG_ECOM_CMD_SYNC_OUT_CONF)
+ - [SBGECOM-47] - Made the sbgECom 64 bit compatible
+ - [SBGECOM-46] - Switched project files to Visual Studio 2013
+ - [SBGECOM-45] - Added a new callback method (sbgEComSetReceiveLogCallback) and deprecated the old one (sbgEComSetReceiveCallback)
+ - [SBGECOM-42] - Improved handling of MSG and CLASS fields in low level protocol functions
+
+### Bug Fixes
+ - [SBGECOM-71] - Fixed sbgEComCmdGetInfo incorrect error code return when an invalid payload is received
+ - [SBGECOM-44] - Fixed Various incompatibilities in Big Endian platforms
+ - [SBGECOM-43] - Added output of NACK reasons in sbgECom configuration commands using the return code
+
+### Removed Features
+ - [SBGECOM-60] - Removed Ship Motion 1,2,3 and Ship Motion HP 1,2,3 due to new deported heave concepts
+
+## Release - 1.4.3239-stable
+
+### New Features
+ - [SBGECOM-28] - Added differential correction age, diff base id and num sv to the SBG_ECOM_LOG_GPS#_POS 
+ - [SBGECOM-29] - Added GNSS raw data log for the second GNSS receiver 
+ - [SBGECOM-30] - Added official support for Ellipse additional output interfaces PORT C and PORT E 
+ - [SBGECOM-33] - Added big/little endian support for stream buffer 
+ - [SBGECOM-34] - Added sbgPlatform.h file to setup platform specific configuration such as endianness 
+
+### Improvements
+ - [SBGECOM-7] - Added support for both little and big endian platforms
+ - [SBGECOM-32] - Improved stream buffer error handling
+ - [SBGECOM-36] - Improved File naming and overall library organization
+ - [SBGECOM-37] - Modified firmware and software version numbering scheme
+ - [SBGECOM-38] - Increased raw GPS data buffer size from 2048 to 4096 bytes 
+
+### Bug Fixes
+ - [SBGECOM-21] - Fixed SBG_ECOM_ETH#_RX_OK and SBG_ECOM_ETH#_TX_OK status definitions
+ - [SBGECOM-27] - Changed sbgEComHandle behavior so the error returned by receive call back is taken into account
+ - [SBGECOM-35] - Fixed improper comments in some configuration structures
+
+## Release - 1.3
+
+### New Features
+ - [SBGECOM-10] - Added sbgInterfaceChangeBaudrate for both windows and unix platforms 
+ - [SBGECOM-19] - Added SBG_ECOM_LOG_PRESSURE log for depth sensors and altimeters 
+ - [SBGECOM-25] - Added support for Ellipse series 
+ - [SBGECOM-26] - Added SBG_ECOM_LOG_USBL log for USBL aiding equipments (beta)
+
+### Improvements
+ - [SBGECOM-18] - Fixed Typos in GPS pos, Vel and Hdt Fix Status 
+ - [SBGECOM-20] - Better error checking for sbgStreamBuffer with new method sbgStreamBufferGetLastError 
+ - [SBGECOM-22] - Added UTC & Clock status to the binary log SbgLogUtcData 
+ - [SBGECOM-23] - Added Solution status to the binary log SbgLogEkfEuler, SbgLogEkfQuat, SbgLogEkfNav 
+ - [SBGECOM-24] - Added time stamp to the log SBG_ECOM_LOG_MAG_CALIB
+
+
+## Release - 1.2
+
+### New Features
+ - [SBGECOM-14] - Added SBG_ECOM_LOG_SHIP_MOTION_HP logs for delayed heave output
+ - [SBGECOM-15] - Added sbgInterfaceSerialChangeBaudrate method to change the serial interface baud rate
+ - [SBGECOM-17] - Added SBG_ECOM_POS_FIXED / SBG_ECAN_POS_FIXED position type for GPS
+
+### Improvements
+ - [SBGECOM-13] - Updated SBG_ECOM_LOG_SHIP_MOTION_XXX logs to add velocity and status data
+ - [SBGECOM-16] - Changed GPS OmniStar solution type to PPP ones for better compatibility with third party GPS
+
+### Removed Features
+ - [SBGECOM-11] - Removed heave status field from SBG_ECOM_LOG_STATUS log
+
+## Release - 1.1
+
+### New Features
+ - [SBGECOM-1] - Added output log for DVL support 
+ - [SBGECOM-3] - Added output for GPS 1 raw data in order to support post processing 
+ - [SBGECOM-4] - Added event markers logs support 
+ - [SBGECOM-6] - Added Unix support and build script 
+ - [SBGECOM-8] - Added sbgEComReceiveAnyCmd method that return any received command that is not an output log 
+ - [SBGECOM-9] - Added settings import and export command
+
+### Improvements
+ - [SBGECOM-2] - Added pitch information in the SbgLogGpsHdt GPS true heading log 
+ - [SBGECOM-5] - Now sbgEComProtocolReceive method returns the received command even if the CRC is not valid
