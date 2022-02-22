@@ -259,9 +259,12 @@
  * This macro is used to define a new section of packed structures.
  * All structures defined after this macro will be packed.
  */
+
 #ifdef __GNUC__
 	#define SBG_BEGIN_PACKED()
 #elif defined(__TI_COMPILER_VERSION__)
+	#define SBG_BEGIN_PACKED()
+#elif defined(__clang__)
 	#define SBG_BEGIN_PACKED()
 #elif defined(_MSC_VER)
 	#define SBG_BEGIN_PACKED()	__pragma(pack(push, 1))
@@ -276,6 +279,8 @@
 	#define SBG_PACKED			__attribute__((packed))
 #elif defined(__TI_COMPILER_VERSION__)
 	#define SBG_PACKED			__attribute__((packed))
+#elif defined(__clang__)
+	#define SBG_PACKED			__attribute__((packed))
 #elif defined(_MSC_VER)
 	#define SBG_PACKED
 #else
@@ -288,6 +293,8 @@
 #ifdef __GNUC__
 	#define SBG_END_PACKED()
 #elif defined(__TI_COMPILER_VERSION__)
+	#define SBG_END_PACKED()
+#elif defined(__clang__)
 	#define SBG_END_PACKED()
 #elif defined(_MSC_VER)
 	#define SBG_END_PACKED()		__pragma(pack(pop))
