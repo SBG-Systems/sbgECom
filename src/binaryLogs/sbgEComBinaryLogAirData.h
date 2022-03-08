@@ -54,8 +54,8 @@ extern "C" {
 #define SBG_ECOM_AIR_DATA_PRESSURE_ABS_VALID		(0x0001u << 1)		/*!< Set to 1 if the pressure field is filled and valid. */
 #define SBG_ECOM_AIR_DATA_ALTITUDE_VALID			(0x0001u << 2)		/*!< Set to 1 if the barometric altitude field is filled and valid. */
 #define SBG_ECOM_AIR_DATA_PRESSURE_DIFF_VALID		(0x0001u << 3)		/*!< Set to 1 if the differential pressure field is filled and valid. */
-#define SBG_ECOM_AIR_DATA_AIRPSEED_VALID			(0x0001u << 4)		/*!< Typo. Keep for compatibility. */
 #define SBG_ECOM_AIR_DATA_AIRSPEED_VALID			(0x0001u << 4)		/*!< Set to 1 if the true airspeed field is filled and valid. */
+#define SBG_ECOM_AIR_DATA_AIRPSEED_VALID			(0x0001u << 4)		/*!< Typo. Keep for compatibility. */
 #define SBG_ECOM_AIR_DATA_TEMPERATURE_VALID			(0x0001u << 5)		/*!< Set to 1 if the output air temperature field is filled and valid. */
 
 //----------------------------------------------------------------------//

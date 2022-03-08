@@ -96,7 +96,7 @@ static SbgErrorCode airDataInputSendOneLog(SbgEComHandle *pHandle)
 	// We create a random airspeed between 0 to 12 m.s^-1
 	//
 	airDataLog.trueAirspeed = airDataInputRandFloat(0.0f, 12.0f);
-	airDataLog.status |= SBG_ECOM_AIR_DATA_AIRPSEED_VALID;
+	airDataLog.status |= SBG_ECOM_AIR_DATA_AIRSPEED_VALID;
 
 	//
 	// Write the payload
