@@ -1,5 +1,6 @@
 ﻿/*!
  * \file			sbgEComIds.h
+ * \ingroup			main
  * \author			SBG Systems
  * \date			25 February 2013
  *
@@ -90,11 +91,13 @@ typedef enum _SbgEComLog
 	SBG_ECOM_LOG_GPS1_POS 					= 14,		/*!< GPS positions from primary or secondary GPS receiver */
 	SBG_ECOM_LOG_GPS1_HDT 					= 15,		/*!< GPS true heading from dual antenna system */
 	SBG_ECOM_LOG_GPS1_RAW					= 31,		/*!< GPS 1 raw data for post processing. */
+	SBG_ECOM_LOG_GPS1_SAT					= 50,		/*!< GPS 1 Satellite data. */
 
 	SBG_ECOM_LOG_GPS2_VEL					= 16,		/*!< GPS 2 velocity log data. */
 	SBG_ECOM_LOG_GPS2_POS					= 17,		/*!< GPS 2 position log data. */
 	SBG_ECOM_LOG_GPS2_HDT					= 18,		/*!< GPS 2 true heading log data. */
 	SBG_ECOM_LOG_GPS2_RAW					= 38,		/*!< GPS 2 raw data for post processing. */
+	SBG_ECOM_LOG_GPS2_SAT					= 51,		/*!< GNSS2 Satellite data. */
 
 	SBG_ECOM_LOG_ODO_VEL 					= 19,		/*!< Provides odometer velocity */
 
@@ -149,6 +152,8 @@ typedef enum _SbgEComNmeaLog
 	SBG_ECOM_LOG_NMEA_VBW					= 5,		/*!< Water referenced and ground referenced speed data. */
 	SBG_ECOM_LOG_NMEA_DPT					= 7,		/*!< Depth sensor output. */
 	SBG_ECOM_LOG_NMEA_VTG					= 8,		/*!< Track an Speed over the ground. */
+	SBG_ECOM_LOG_NMEA_RTO					= 9,		/*!< Rate and direction of turn. */
+	SBG_ECOM_LOG_NMEA_GSV					= 10,		/*!< GNSS Satellites in View with azimuth, elevation and SNR information */
 	SBG_ECOM_LOG_NMEA_NUM_MESSAGES						/*!< Helper definition to know the number of NMEA messages */
 } SbgEComNmeaLog;
 
@@ -172,6 +177,8 @@ typedef enum _SbgEComIdNmea1Log
 	SBG_ECOM_LOG_NMEA_1_PPS					= 11,		/*!< Trimble (Applanix) NMEA like log with UTC and PPS information. */
 
 	SBG_ECOM_LOG_NMEA_1_WASSP				= 12,		/*!< WASSP NMEA like log similar to PASHR one. */
+
+	SBG_ECOM_LOG_NMEA_1_PSBGA				= 13,		/*!< SBG Systems proprietary sentence that reports EKF attitude and status. */
 
 	SBG_ECOM_LOG_NMEA_1_NUM_MESSAGES					/*!< Helper definition to know the number of NMEA messages */
 } SbgEComIdNmea1Log;

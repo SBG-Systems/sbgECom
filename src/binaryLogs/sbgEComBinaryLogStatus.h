@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComBinaryLogStatus.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			03 April 2013
  *
@@ -7,7 +8,7 @@
  *
  * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
  * \beginlicense	The MIT license
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -25,7 +26,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * \endlicense
  */
 
@@ -92,6 +93,20 @@ extern "C" {
 #define SBG_ECOM_CAN_TX_OK					(0x00000001u << 27)		/*!< Set to 0 in case of error on CAN Bus output buffer. */
 
 /*!
+ * Second communication status bit mask definitions.
+ */
+#define SBG_ECOM_COM2_ETH0_RX_OK					(0x0001u << 0)			/*!< Set to 0 in case of error on ETH0 input. */
+#define SBG_ECOM_COM2_ETH0_TX_OK					(0x0001u << 1)			/*!< Set to 0 in case of error on ETH0 output. */
+#define SBG_ECOM_COM2_ETH1_RX_OK					(0x0001u << 2)			/*!< Set to 0 in case of error on ETH1 input. */
+#define SBG_ECOM_COM2_ETH1_TX_OK					(0x0001u << 3)			/*!< Set to 0 in case of error on ETH1 output. */
+#define SBG_ECOM_COM2_ETH2_RX_OK					(0x0001u << 4)			/*!< Set to 0 in case of error on ETH2 input. */
+#define SBG_ECOM_COM2_ETH2_TX_OK					(0x0001u << 5)			/*!< Set to 0 in case of error on ETH2 output. */
+#define SBG_ECOM_COM2_ETH3_RX_OK					(0x0001u << 6)			/*!< Set to 0 in case of error on ETH3 input. */
+#define SBG_ECOM_COM2_ETH3_TX_OK					(0x0001u << 7)			/*!< Set to 0 in case of error on ETH3 output. */
+#define SBG_ECOM_COM2_ETH4_RX_OK					(0x0001u << 8)			/*!< Set to 0 in case of error on ETH4 input. */
+#define SBG_ECOM_COM2_ETH4_TX_OK					(0x0001u << 9)			/*!< Set to 0 in case of error on ETH4 output. */
+
+/*!
  * Communication status for the CAN Bus.
  */
 typedef enum _SbgEComCanBusStatus
@@ -134,8 +149,8 @@ typedef struct _SbgLogStatusData
 {
 	uint32_t	timeStamp;												/*!< Time in us since the sensor power up. */
 	uint16_t	generalStatus;											/*!< General status bitmask and enums. */
-	uint16_t	reserved1;												/*!< Reserved status field for future use */
 	uint32_t	comStatus;												/*!< Communication status bitmask and enums. */
+	uint16_t	comStatus2;												/*!< Second communication status bitmask and enums. */
 	uint32_t	aidingStatus;											/*!< Aiding equipments status bitmask and enums. */
 	uint32_t	reserved2;												/*!< Reserved status field for future use. */
 	uint16_t	reserved3;												/*!< Reserved status field for future use. */
@@ -148,7 +163,7 @@ typedef struct _SbgLogStatusData
 
 /*!
  * Method used to read the CAN bus status from a communication status field.
- * 
+ *
  * \param[in]	status				Status field to extract the CAN bus status from it.
  * \return							The extracted CAN bus status.
  */
@@ -159,7 +174,7 @@ SBG_INLINE SbgEComCanBusStatus sbgEComLogStatusGetCanStatus(uint32_t status)
 
 /*!
  * Method used to write the CAN bus status field.
- * 
+ *
  * \param[in]	canStatus			The CAN bus status to set.
  * \param[in]	masks				Bit mask to set.
  * \return							The build communication status field.
@@ -178,7 +193,7 @@ SBG_INLINE uint32_t sbgEComLogStatusBuildCommunicationStatus(SbgEComCanBusStatus
 
 /*!
  * Parse data for the SBG_ECOM_LOG_STATUS message and fill the corresponding structure.
- * 
+ *
  * \param[in]	pInputStream				Input stream buffer to read the payload from.
  * \param[out]	pOutputData					Pointer on the output structure that stores parsed data.
  * \return									SBG_NO_ERROR if the payload has been parsed.
@@ -187,7 +202,7 @@ SbgErrorCode sbgEComBinaryLogParseStatusData(SbgStreamBuffer *pInputStream, SbgL
 
 /*!
  * Write data for the SBG_ECOM_LOG_STATUS message to the output stream buffer from the provided structure.
- * 
+ *
  * \param[out]	pOutputStream				Output stream buffer to write the payload to.
  * \param[in]	pInputData					Pointer on the input structure that stores data to write.
  * \return									SBG_NO_ERROR if the message has been generated in the provided buffer.

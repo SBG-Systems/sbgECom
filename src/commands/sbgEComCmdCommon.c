@@ -98,6 +98,8 @@ SbgErrorCode sbgEComReceiveAnyCmd2(SbgEComHandle *pHandle, uint8_t *pMsgClass, u
 					if (errorCode == SBG_NO_ERROR)
 					{
 						pHandle->pReceiveLogCallback(pHandle, (SbgEComClass)receivedMsgClass, receivedMsgId, &logData, pHandle->pUserArg);						
+
+						sbgEComBinaryLogCleanup(&logData, (SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsgId);
 					}
 				}
 			}
@@ -134,7 +136,7 @@ SbgErrorCode sbgEComReceiveAnyCmd2(SbgEComHandle *pHandle, uint8_t *pMsgClass, u
 		}
 		else
 		{
-			errorCode = SBG_TIME_OUT;
+			errorCode = SBG_NOT_READY;
 			break;
 		}
 	}
@@ -245,6 +247,10 @@ SbgErrorCode sbgEComReceiveCmd2(SbgEComHandle *pHandle, uint8_t msgClass, uint8_
 		else if (errorCode == SBG_NOT_READY)
 		{
 			sbgSleep(1);
+		}
+		else
+		{
+			break;
 		}
 
 		now = sbgGetTime();

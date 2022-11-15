@@ -25,7 +25,7 @@ static SbgErrorCode sbgEComTransferSendInit(SbgEComHandle *pHandle, uint8_t msgC
 {
 	SbgErrorCode		errorCode = SBG_NO_ERROR;
 	SbgStreamBuffer		streamBuffer;
-	uint8_t				outputBuffer[16];
+	uint8_t				outputBuffer[6];
 	uint32_t			trial;
 
 	assert(pHandle);
@@ -89,7 +89,7 @@ static SbgErrorCode sbgEComTransferSendData(SbgEComHandle *pHandle, uint8_t msgC
 {
 	SbgErrorCode		errorCode = SBG_NO_ERROR;
 	SbgStreamBuffer		streamBuffer;
-	uint8_t				outputBuffer[16];
+	uint8_t				outputBuffer[SBG_ECOM_TRANSFER_PACKET_SIZE+6];
 	uint32_t			trial;
 	
 	assert(pHandle);
@@ -153,7 +153,7 @@ static SbgErrorCode sbgEComTransferSendEnd(SbgEComHandle *pHandle, uint8_t msgCl
 {
 	SbgErrorCode		errorCode = SBG_NO_ERROR;
 	SbgStreamBuffer		outputStream;
-	uint8_t				outputBuffer[sizeof(uint16_t)];
+	uint8_t				outputBuffer[2];
 	uint32_t			trial;
 
 	assert(pHandle);
@@ -208,10 +208,10 @@ static SbgErrorCode sbgEComTransferSendEnd(SbgEComHandle *pHandle, uint8_t msgCl
  */
 static SbgErrorCode sbgEComTransferReceiveInit(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg, size_t *pSize)
 {
-	SbgErrorCode			errorCode = SBG_NO_ERROR;
+	SbgErrorCode			errorCode = SBG_ERROR;
 	SbgEComProtocolPayload	receivedPayload;
 	SbgStreamBuffer			outputStream;	
-	uint8_t					outputBuffer[sizeof(uint16_t)];
+	uint8_t					outputBuffer[2];
 	uint16_t				transferCmd;
 	size_t					transferSize;
 	uint32_t				trial;
@@ -319,7 +319,7 @@ static SbgErrorCode sbgEComTransferReceiveData(SbgEComHandle *pHandle, uint8_t m
 	SbgErrorCode			errorCode = SBG_NO_ERROR;
 	SbgEComProtocolPayload	receivedPayload;
 	SbgStreamBuffer			outputStream;	
-	uint8_t					outputBuffer[16];	
+	uint8_t					outputBuffer[10];	
 	uint32_t				trial;
 
 	assert(pHandle);
@@ -408,7 +408,7 @@ static SbgErrorCode sbgEComTransferReceiveEnd(SbgEComHandle *pHandle, uint8_t ms
 {
 	SbgErrorCode		errorCode = SBG_NO_ERROR;
 	SbgStreamBuffer		outputStream;
-	uint8_t				outputBuffer[sizeof(uint16_t)];
+	uint8_t				outputBuffer[2];
 	uint32_t			trial;
 
 	assert(pHandle);

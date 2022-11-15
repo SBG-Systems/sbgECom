@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComBinaryLogAutomotiveData.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			22 April 2020
  *

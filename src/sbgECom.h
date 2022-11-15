@@ -1,5 +1,6 @@
 ﻿/*!
  * \file			sbgECom.h
+ * \ingroup			main
  * \author			SBG Systems
  * \date			05 February 2013
  *
@@ -27,6 +28,11 @@
  * SOFTWARE.
  * 
  * \endlicense
+ */
+
+/*!
+ * \defgroup	main Main Library
+ * \brief		Main sbgECom library initialization and parsing methods.
  */
 
 #ifndef SBG_ECOM_H

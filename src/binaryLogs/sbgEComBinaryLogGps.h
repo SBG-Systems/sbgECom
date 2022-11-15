@@ -1,5 +1,6 @@
 ﻿/*!
  * \file			sbgEComBinaryLogGps.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			20 February 2013
  *

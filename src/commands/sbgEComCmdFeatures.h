@@ -1,5 +1,6 @@
 ﻿/*!
  * \file			sbgEComCmdFeatures.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			19 March 2015
  *

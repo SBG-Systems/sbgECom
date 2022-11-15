@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComCmdEthernet.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			14 November 2016
  *

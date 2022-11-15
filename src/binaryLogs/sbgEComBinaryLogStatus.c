@@ -14,7 +14,7 @@ SbgErrorCode sbgEComBinaryLogParseStatusData(SbgStreamBuffer *pInputStream, SbgL
 	//
 	pOutputData->timeStamp		= sbgStreamBufferReadUint32LE(pInputStream);
 	pOutputData->generalStatus	= sbgStreamBufferReadUint16LE(pInputStream);
-	pOutputData->reserved1		= sbgStreamBufferReadUint16LE(pInputStream);
+	pOutputData->comStatus2		= sbgStreamBufferReadUint16LE(pInputStream);
 	pOutputData->comStatus		= sbgStreamBufferReadUint32LE(pInputStream);
 	pOutputData->aidingStatus	= sbgStreamBufferReadUint32LE(pInputStream);
 	pOutputData->reserved2		= sbgStreamBufferReadUint32LE(pInputStream);
@@ -54,7 +54,7 @@ SbgErrorCode sbgEComBinaryLogWriteStatusData(SbgStreamBuffer *pOutputStream, con
 	//
 	sbgStreamBufferWriteUint32LE(pOutputStream, pInputData->timeStamp);
 	sbgStreamBufferWriteUint16LE(pOutputStream, pInputData->generalStatus);
-	sbgStreamBufferWriteUint16LE(pOutputStream, pInputData->reserved1);
+	sbgStreamBufferWriteUint16LE(pOutputStream, pInputData->comStatus2);
 	sbgStreamBufferWriteUint32LE(pOutputStream, pInputData->comStatus);
 	sbgStreamBufferWriteUint32LE(pOutputStream, pInputData->aidingStatus);
 	sbgStreamBufferWriteUint32LE(pOutputStream, pInputData->reserved2);

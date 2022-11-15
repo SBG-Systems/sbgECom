@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComProtocol.h
+ * \ingroup			protocol
  * \author			SBG Systems
  * \date			06 February 2013
  *
@@ -42,6 +43,11 @@
  * SOFTWARE.
  * 
  * \endlicense
+ */
+
+/*!
+ * \defgroup	protocol Low Level Protocol
+ * \brief		Defines the low level protocol method to receive and send frames.
  */
 
 #ifndef SBG_ECOM_PROTOCOL_H

@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComBinaryLogUsbl.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			02 June 2014
  *

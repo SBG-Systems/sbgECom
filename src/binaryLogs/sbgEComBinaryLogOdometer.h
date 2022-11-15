@@ -1,5 +1,6 @@
 ﻿/*!
  * \file			sbgEComBinaryLogOdometer.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			25 February 2013
  *

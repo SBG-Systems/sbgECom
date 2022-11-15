@@ -1,6 +1,7 @@
-// sbgCommonLib headers
+// Project headers
 #include <sbgCommon.h>
 #include <swap/sbgSwap.h>
+
 
 // Local headers
 #include "sbgNetwork.h"
@@ -123,3 +124,4 @@ SBG_COMMON_LIB_API bool sbgIpNetMaskValid(sbgIpAddress netmask)
 
 	return true;
 }
+

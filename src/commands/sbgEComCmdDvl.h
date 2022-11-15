@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComCmdDvl.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			13 December 2018
  *
@@ -55,6 +56,7 @@ extern "C" {
 typedef enum _SbgEComDvlModelsIds
 {
 	SBG_ECOM_DVL_MODEL_GENERIC_PD6	= 202,		/*!< Generic DVL using PD6 protocol format. */
+	SBG_ECOM_DVL_MODEL_WAYFINDER	= 203		/*!< Teledyne Wayfinder DVL using proprietary protocol. */
 } SbgEComDvlModelsIds;
 
 /*!

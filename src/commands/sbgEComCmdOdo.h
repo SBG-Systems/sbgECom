@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComCmdOdo.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			11 June 2014
  *

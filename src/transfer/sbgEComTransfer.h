@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComTransfer.h
+ * \ingroup			protocol
  * \author			SBG Systems
  * \date			19 November 2013
  *

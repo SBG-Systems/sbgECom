@@ -1,4 +1,4 @@
-# sbgECom License
+# License
 The MIT License (MIT)
 
 Copyright (C) 2022, SBG Systems SAS. All rights reserved.

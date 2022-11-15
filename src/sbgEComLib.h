@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComLib.h
+ * \ingroup			main
  * \author			SBG Systems
  * \date			05 February 2013
  *
@@ -29,12 +30,6 @@
  * SOFTWARE.
  * 
  * \endlicense
- */
-
-/*!
- * \mainpage SBG Systems Enhanced Communication library documentation
- * Welcome to the sbgECom library documentation.<br>
- * This documentation describes all functions implemented in the sbgECom library.
  */
 
 #ifndef SBG_ECOM_LIB_H

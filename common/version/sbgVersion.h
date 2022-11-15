@@ -1,59 +1,59 @@
 /*!
- *      \file           sbgVersion.h
- *      \author         SBG Systems (Raphael Siryani)
- *      \date           23 April 2015
+ * \file		sbgVersion.h
+ * \ingroup		common
+ * \author		SBG Systems
+ * \date		April 23, 2015
+ * 
+ * \brief		Helper methods and definitions used to handle version.
+ * 
+ * Version information is stored within a single uint32_t.
+ * There are two different versions schemes to better handle software revisions and file format / hardware ones.
+ * 
+ * Software version are only used for firmware and software.
+ *         This versions is defined as a `Major`.`Minor`.`Build`-`Qualifier` for example: 1.3.1845-rc
+ *         Major and Minor can range from 0 to 63.
+ *         Build is an uint16_t ranging from 0 to 65535.
+ *         Qualifier is an enum encoded on 3 bits.
+ * 
+ * Basic version is used for hardware or file formats and is the legacy one for software.
+ *         This versions is defined as a `Major`.`Minor`.`Revision`.`Build`
+ *         Each element is stored in an uint8_t.
+ *         The Major version should NEVER go above 31
+ * 
+ * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
+ * \beginlicense	The MIT license
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- *      \brief          Helper methods and definitions used to handle version.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- *      Version information is stored within a single uint32_t.
- *      There are two different versions schemes to better handle software revisions and file format / hardware ones.
- *
- *      Software version are only used for firmware and software.
- *              This versions is defined as a <Major>.<Minor>.<Build>-<Qualifier> for example: 1.3.1845-RC
- *              Major and Minor can range from 0 to 63.
- *              Build is an uint16_t ranging from 0 to 65535.
- *              Qualifier is an enum encoded on 3 bits.
- *
- *      Basic version is used for hardware or file formats and is the legacy one for software.
- *              This versions is defined as a <Major>.<Minor>.<Revision>.<Build>
- *              Each element is stored in an uint8_t.
- *              The Major version should NEVER go above 31
- *
- *      \section CodeCopyright Copyright Notice
- *      The MIT license
- *
- *      Copyright (C) 2007-2020, SBG Systems SAS. All rights reserved.
- *
- *      Permission is hereby granted, free of charge, to any person obtaining a copy
- *      of this software and associated documentation files (the "Software"), to deal
- *      in the Software without restriction, including without limitation the rights
- *      to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *      copies of the Software, and to permit persons to whom the Software is
- *      furnished to do so, subject to the following conditions:
- *
- *      The above copyright notice and this permission notice shall be included in all
- *      copies or substantial portions of the Software.
- *
- *      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *      SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * \endlicense
  */
+
 #ifndef SBG_VERSION_H
 #define SBG_VERSION_H
 
-//----------------------------------------------------------------------//
-//- Header (open extern C block)                                       -//
-//----------------------------------------------------------------------//
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// sbgCommonLib headers
+// Project headers
 #include <sbgCommon.h>
+
 
 //----------------------------------------------------------------------//
 //- Version related definitions                                        -//
@@ -73,9 +73,9 @@ extern "C" {
 #define SBG_VERSION_SOFT_SCHEME_BUILD_SHIFT			(0)					/*!< Bitshift used to get the build version field. */
 
 /*!
- *	Version qualifier enum definition.
- *	This enum is used to identify if we have a basic version scheme or a software one.
- *	If it's a software one, we can easly know if the software version is a beta, a stable one.
+ * Version qualifier enum definition.
+ * This enum is used to identify if we have a basic version scheme or a software one.
+ * If it's a software one, we can easly know if the software version is a beta, a stable one.
  */
 typedef enum _SbgVersionQualifier
 {
@@ -88,9 +88,9 @@ typedef enum _SbgVersionQualifier
 } SbgVersionQualifier;
 
 /*!
- *	Version qualifier enum definition.
- *	This enum is used to identify if we have a basic version scheme or a software one.
- *	If it's a software one, we can easily know if the software version is a beta, a stable one.
+ * Version qualifier enum definition.
+ * This enum is used to identify if we have a basic version scheme or a software one.
+ * If it's a software one, we can easily know if the software version is a beta, a stable one.
  */
 typedef enum _SbgVersionCmpThreshold
 {
@@ -112,7 +112,7 @@ typedef enum _SbgVersionCmpThreshold
 
 /*!
  * This structure contains all the fields provided by a version number.
- *	It handles both basic and software version numbers.
+ * It handles both basic and software version numbers.
  */
 typedef struct _SbgVersion
 {
@@ -129,12 +129,13 @@ typedef struct _SbgVersion
 //----------------------------------------------------------------------//
 
 /*!
- *	Compile a version number using the basic scheme based on major, minor, revision and build information
- *	\param[in]	maj							The major version between 0 to 127.
- *	\param[in]	min							The minor version between 0 to 255.
- *	\param[in]	rev							The revision version between 0 to 255.
- *	\param[in]	build						The build number between 0 to 255.
- *	\return									The encoded version number.
+ * Compile a version number using the basic scheme based on major, minor, revision and build information
+ * 
+ * \param[in]	major						The major version between 0 to 127.
+ * \param[in]	minor						The minor version between 0 to 255.
+ * \param[in]	rev							The revision version between 0 to 255.
+ * \param[in]	build						The build number between 0 to 255.
+ * \return									The encoded version number.
  */
 #define SBG_VERSION_BASIC(major, minor, rev, build)					(	(((uint32_t)(major)) << 24)	|		\
 																		(((uint32_t)(minor)) << 16)	|		\
@@ -142,12 +143,13 @@ typedef struct _SbgVersion
 																		(((uint32_t)(build))) )
 
 /*!
- *	Compile a version number using the software scheme based on major, minor, build, qualifier.
- *	\param[in]	major						The major version between 0 to 63.
- *	\param[in]	minor						The minor version between 0 to 63.
- *	\param[in]	build						The build version between 0 to 65535.
- *	\param[in]	qualifier					The version qualifier within the SbgVersionQualifier enum.
- *	\return									The encoded version number.
+ * Compile a version number using the software scheme based on major, minor, build, qualifier.
+ * 
+ * \param[in]	major						The major version between 0 to 63.
+ * \param[in]	minor						The minor version between 0 to 63.
+ * \param[in]	build						The build version between 0 to 65535.
+ * \param[in]	qualifier					The version qualifier within the SbgVersionQualifier enum.
+ * \return									The encoded version number.
  */
 #define SBG_VERSION_SOFTWARE(major, minor, build, qualifier)		(	SBG_VERSION_SOFT_SCHEME |																						\
 																		((((uint32_t)(qualifier)) & SBG_VERSION_SOFT_SCHEME_QUALIFIER_MASK) << SBG_VERSION_SOFT_SCHEME_QUALIFIER_SHIFT) |	\
@@ -193,16 +195,18 @@ SBG_COMMON_LIB_API void sbgVersionConstructCopy(SbgVersion *pVersion, const SbgV
 //----------------------------------------------------------------------//
 
 /*!
- *	Fill a SbgVersion structure based on an uint32_t that stores the 'compiled' version information.
- *	\param[in]	encodedVersion											The version information stored within a uint32_t.
- *	\param[out]	pVersionInfo											Pointer on an allocated SbgVersion structure to fill.
+ * Fill a SbgVersion structure based on an uint32_t that stores the 'compiled' version information.
+ * 
+ * \param[in]	encodedVersion											The version information stored within a uint32_t.
+ * \param[out]	pVersionInfo											Pointer on an allocated SbgVersion structure to fill.
  */
 SBG_COMMON_LIB_API void sbgVersionDecode(uint32_t encodedVersion, SbgVersion *pVersionInfo);
 
 /*!
- *	Construct a uint32_t containing a version information based on a SbgVersion structure.
- *	\param[in]	pVersionInfo											Pointer on a read only version structure to encode.
- *	\return																The encoded version information on an uint32_t or 0 if an error has occurred.
+ * Construct a uint32_t containing a version information based on a SbgVersion structure.
+ * 
+ * \param[in]	pVersionInfo											Pointer on a read only version structure to encode.
+ * \return																The encoded version information on an uint32_t or 0 if an error has occurred.
  */
 SBG_COMMON_LIB_API uint32_t sbgVersionEncode(const SbgVersion *pVersionInfo);
 
@@ -211,9 +215,10 @@ SBG_COMMON_LIB_API uint32_t sbgVersionEncode(const SbgVersion *pVersionInfo);
 //----------------------------------------------------------------------//
 
 /*!
- *	Returns true if this encoded version number is using a software scheme.
- *	\param[in]	encodedVersion											The encoded version number to test stored in a uint32_t.
- *	\return																true if the version number is using a software scheme.
+ * Returns true if this encoded version number is using a software scheme.
+ * 
+ * \param[in]	encodedVersion											The encoded version number to test stored in a uint32_t.
+ * \return																true if the version number is using a software scheme.
  */
 SBG_INLINE bool sbgVersionIsUsingSoftwareScheme(uint32_t encodedVersion)
 {
@@ -235,30 +240,30 @@ SBG_INLINE bool sbgVersionIsUsingSoftwareScheme(uint32_t encodedVersion)
 //----------------------------------------------------------------------//
 
 /*!
- *	Compare two version information structures and return if the version A is greater, less or equal than the version B.
+ * Compare two version information structures and return if the version A is greater, less or equal than the version B.
  *
- *	The computation is roughly result = version A - version B
- *	We can define how far we will check if the version A is greater than the version B.
- *	For example, we can only check the major or major and minor fields.
+ * The computation is roughly result = version A - version B
+ * We can define how far we will check if the version A is greater than the version B.
+ * For example, we can only check the major or major and minor fields.
  *
- *	\param[in]	pVersionA					The first version to compare.
- *	\param[in]	pVersionB					The second version to compare.
- *	\param[in]	threshold					The comparaison threshold to know if we are checking the major, minor, revision, build, ...
- *	\return									A positive value if the version A is greater than B, a negative one if version A is less than B and 0 if the two versions are the same (according to the threshold).
+ * \param[in]	pVersionA					The first version to compare.
+ * \param[in]	pVersionB					The second version to compare.
+ * \param[in]	threshold					The comparaison threshold to know if we are checking the major, minor, revision, build, ...
+ * \return									A positive value if the version A is greater than B, a negative one if version A is less than B and 0 if the two versions are the same (according to the threshold).
  */
 SBG_COMMON_LIB_API int32_t sbgVersionCompare(const SbgVersion *pVersionA, const SbgVersion *pVersionB, SbgVersionCmpThreshold threshold);
 
 /*!
- *	Compare two encoded versions and return if the version A is greater, less or equal than the version B.
+ * Compare two encoded versions and return if the version A is greater, less or equal than the version B.
  *
- *	The computation is roughly result = version A - version B
- *	We can define how far we will check if the version A is greater than the version B.
- *	For example, we can only check the major or major and minor fields.
+ * The computation is roughly result = version A - version B
+ * We can define how far we will check if the version A is greater than the version B.
+ * For example, we can only check the major or major and minor fields.
  *
- *	\param[in]	versionA					The first compiled version to compare.
- *	\param[in]	versionB					The second compiled version to compare.
- *	\param[in]	threshold					The comparaison threshold to know if we are checking the major, minor, revision, build, ...
- *	\return									A positive value if the version A is greater than B, a negative one if version A is less than B and 0 if the two versions are the same (according to the threshold).
+ * \param[in]	versionA					The first compiled version to compare.
+ * \param[in]	versionB					The second compiled version to compare.
+ * \param[in]	threshold					The comparaison threshold to know if we are checking the major, minor, revision, build, ...
+ * \return									A positive value if the version A is greater than B, a negative one if version A is less than B and 0 if the two versions are the same (according to the threshold).
  */
 SBG_COMMON_LIB_API int32_t sbgVersionCompareEncoded(uint32_t versionA, uint32_t versionB, SbgVersionCmpThreshold threshold);
 
@@ -294,21 +299,23 @@ SBG_COMMON_LIB_API int32_t sbgVersionIsWithinRangeEncoded(uint32_t lowerVersion,
 //----------------------------------------------------------------------//
 
 /*!
- *	Convert a version information to a human readable string.
- *	\param[in]	pVersionInfo											Pointer on a read only version structure to convert to a human readable string.
- *	\param[out]	pBuffer													Buffer to store the version as a human readable null terminated string.
- *	\param[in]	sizeOfBuffer											Maximum buffer size including the null terminated char.
- *	\return																SBG_NO_ERROR if the version information has been converted to a string.
+ * Convert a version information to a human readable string.
+ * 
+ * \param[in]	pVersionInfo											Pointer on a read only version structure to convert to a human readable string.
+ * \param[out]	pBuffer													Buffer to store the version as a human readable null terminated string.
+ * \param[in]	sizeOfBuffer											Maximum buffer size including the null terminated char.
+ * \return																SBG_NO_ERROR if the version information has been converted to a string.
  *																		SBG_BUFFER_OVERFLOW is the buffer isn't big enough to store the converted version string.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgVersionToString(const SbgVersion *pVersionInfo, char *pBuffer, size_t sizeOfBuffer);
 
 /*!
- *	Convert an encoded version number to a human readable string.
- *	\param[in]	version													Encoded version value to to convert to a human readable string.
- *	\param[out]	pBuffer													Buffer to store the version as a human readable null terminated string.
- *	\param[in]	sizeOfBuffer											Maximum buffer size including the null terminated char.
- *	\return																SBG_NO_ERROR if the version information has been converted to a string.
+ * Convert an encoded version number to a human readable string.
+ * 
+ * \param[in]	version													Encoded version value to to convert to a human readable string.
+ * \param[out]	pBuffer													Buffer to store the version as a human readable null terminated string.
+ * \param[in]	sizeOfBuffer											Maximum buffer size including the null terminated char.
+ * \return																SBG_NO_ERROR if the version information has been converted to a string.
  *																		SBG_BUFFER_OVERFLOW is the buffer isn't big enough to store the converted version string.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgVersionToStringEncoded(uint32_t version, char *pBuffer, size_t sizeOfBuffer);
@@ -318,18 +325,20 @@ SBG_COMMON_LIB_API SbgErrorCode sbgVersionToStringEncoded(uint32_t version, char
 //----------------------------------------------------------------------//
 
 /*!
- *	Convert a human readable string to a version structure.
- *	\param[in]	pVersionStr												The string containing the version to convert.
- *	\param[out]	pVersionInfo											Pointer to a version structure to store the parsed version info.
- *	\return																SBG_NO_ERROR if the version information has been converted from a string.
+ * Convert a human readable string to a version structure.
+ * 
+ * \param[in]	pVersionStr												The string containing the version to convert.
+ * \param[out]	pVersionInfo											Pointer to a version structure to store the parsed version info.
+ * \return																SBG_NO_ERROR if the version information has been converted from a string.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgVersionFromString(const char *pVersionStr, SbgVersion *pVersionInfo);
 
 /*!
- *	Convert an encoded version number to a human readable string.
- *	\param[in]	pVersionStr												The string containing the version to convert.
- *	\param[out]	pVersion												Returned encoded version value parsed from the string.
- *	\return																SBG_NO_ERROR if the version information has been converted from a string.
+ * Convert an encoded version number to a human readable string.
+ * 
+ * \param[in]	pVersionStr												The string containing the version to convert.
+ * \param[out]	pVersion												Returned encoded version value parsed from the string.
+ * \return																SBG_NO_ERROR if the version information has been converted from a string.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgVersionFromStringEncoded(const char *pVersionStr, uint32_t *pVersion);
 
@@ -347,15 +356,15 @@ SBG_DEPRECATED(SBG_INLINE uint8_t SBG_VERSION_GET_REV(uint32_t encodedVersion));
 SBG_DEPRECATED(SBG_INLINE uint8_t SBG_VERSION_GET_BUILD(uint32_t encodedVersion));
 
 /*!
- *	DEPRECATED macro, please update your code
+ * DEPRECATED macro, please update your code
  *
- *	Compile a version number using the basic scheme based on major, minor, revision and build information
+ * Compile a version number using the basic scheme based on major, minor, revision and build information
  *
- *	\param[in]	maj							The major version between 0 to 127.
- *	\param[in]	min							The minor version between 0 to 255.
- *	\param[in]	rev							The revision version between 0 to 255.
- *	\param[in]	build						The build number between 0 to 255.
- *	\return									The encoded version number.
+ * \param[in]	major						The major version between 0 to 127.
+ * \param[in]	minor						The minor version between 0 to 255.
+ * \param[in]	rev							The revision version between 0 to 255.
+ * \param[in]	build						The build number between 0 to 255.
+ * \return									The encoded version number.
  */
 SBG_INLINE uint32_t SBG_VERSION(uint8_t major, uint8_t minor, uint8_t rev, uint8_t build)
 {
@@ -366,12 +375,12 @@ SBG_INLINE uint32_t SBG_VERSION(uint8_t major, uint8_t minor, uint8_t rev, uint8
 }
 
 /*!
- *	DEPRECATED method, please update your code.
+ * DEPRECATED method, please update your code.
  *
- *	Extract a basic version scheme using legacy methods.
+ * Extract a basic version scheme using legacy methods.
  *
- *	\param[in]	encodedVersion					The encoded version to extract the major version.
- *	\return										The major version.
+ * \param[in]	encodedVersion					The encoded version to extract the major version.
+ * \return										The major version.
  */
 SBG_INLINE uint8_t SBG_VERSION_GET_MAJOR(uint32_t encodedVersion)
 {
@@ -389,12 +398,12 @@ SBG_INLINE uint8_t SBG_VERSION_GET_MAJOR(uint32_t encodedVersion)
 }
 
 /*!
- *	DEPRECATED method, please update your code.
+ * DEPRECATED method, please update your code.
  *
- *	Extract a basic version scheme using legacy methods.
+ * Extract a basic version scheme using legacy methods.
  *
- *	\param[in]	encodedVersion					The encoded version to extract the major version.
- *	\return										The major version.
+ * \param[in]	encodedVersion					The encoded version to extract the major version.
+ * \return										The major version.
  */
 SBG_INLINE uint8_t SBG_VERSION_GET_MINOR(uint32_t encodedVersion)
 {
@@ -412,12 +421,12 @@ SBG_INLINE uint8_t SBG_VERSION_GET_MINOR(uint32_t encodedVersion)
 }
 
 /*!
- *	DEPRECATED method, please update your code.
+ * DEPRECATED method, please update your code.
  *
- *	Extract a basic version scheme using legacy methods.
+ * Extract a basic version scheme using legacy methods.
  *
- *	\param[in]	encodedVersion					The encoded version to extract the major version.
- *	\return										The major version.
+ * \param[in]	encodedVersion					The encoded version to extract the major version.
+ * \return										The major version.
  */
 SBG_INLINE uint8_t SBG_VERSION_GET_REV(uint32_t encodedVersion)
 {
@@ -435,12 +444,12 @@ SBG_INLINE uint8_t SBG_VERSION_GET_REV(uint32_t encodedVersion)
 }
 
 /*!
- *	DEPRECATED method, please update your code.
+ * DEPRECATED method, please update your code.
  *
- *	Extract a basic version scheme using legacy methods
+ * Extract a basic version scheme using legacy methods
  *
- *	\param[in]	encodedVersion					The encoded version to extract the major version.
- *	\return										The major version.
+ * \param[in]	encodedVersion					The encoded version to extract the major version.
+ * \return										The major version.
  */
 SBG_INLINE uint8_t SBG_VERSION_GET_BUILD(uint32_t encodedVersion)
 {
@@ -457,11 +466,9 @@ SBG_INLINE uint8_t SBG_VERSION_GET_BUILD(uint32_t encodedVersion)
 	return (uint8_t)versionInfo.build;
 }
 
-//----------------------------------------------------------------------//
-//- Footer (close extern C block)                                      -//
-//----------------------------------------------------------------------//
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* SBG_VERSION_H */
+#endif	// SBG_VERSION_H

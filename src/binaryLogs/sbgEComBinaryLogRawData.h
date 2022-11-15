@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComBinaryLogRawData.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			16 November 2020
  *

@@ -21,6 +21,7 @@
 #include "sbgEComBinaryLogStatus.h"
 #include "sbgEComBinaryLogUsbl.h"
 #include "sbgEComBinaryLogUtc.h"
+#include "sbgEComBinaryLogSat.h"
 #include "sbgEComBinaryLogs.h"
 
 //----------------------------------------------------------------------//
@@ -95,6 +96,10 @@ SbgErrorCode sbgEComBinaryLogParse(SbgEComClass msgClass, SbgEComMsgId msg, cons
 		case SBG_ECOM_LOG_GPS2_RAW:
 			errorCode = sbgEComBinaryLogParseGpsRawData(&inputStream, &pOutputData->gpsRawData);
 			break;
+		case SBG_ECOM_LOG_GPS1_SAT:
+		case SBG_ECOM_LOG_GPS2_SAT:
+			errorCode = sbgEComBinaryLogParseSatGroupData(&inputStream, &pOutputData->satGroupData);
+			break;
 		case SBG_ECOM_LOG_RTCM_RAW:
 			errorCode = sbgEComBinaryLogParseRtcmRawData(&inputStream, &pOutputData->rtcmRawData);
 			break;
@@ -159,4 +164,20 @@ SbgErrorCode sbgEComBinaryLogParse(SbgEComClass msgClass, SbgEComMsgId msg, cons
 	}
 
 	return errorCode;
+}
+
+void sbgEComBinaryLogCleanup(SbgBinaryLogData *pLogData, SbgEComClass msgClass, SbgEComMsgId msgId)
+{
+	assert(pLogData);
+
+	if (msgClass == SBG_ECOM_CLASS_LOG_ECOM_0)
+	{
+		switch (msgId)
+		{
+		case SBG_ECOM_LOG_GPS1_SAT:
+		case SBG_ECOM_LOG_GPS2_SAT:
+			sbgLogSatGroupDataDestroy(&pLogData->satGroupData);
+			break;
+		}
+	}
 }

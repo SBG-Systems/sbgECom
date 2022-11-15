@@ -1,5 +1,6 @@
 /*!
  * \file			sbgECanId.h
+ * \ingroup			main
  * \author			SBG Systems
  * \date			10 October 2014
  *

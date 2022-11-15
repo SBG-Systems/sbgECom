@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComBinaryLogs.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			06 February 2013
  *
@@ -29,6 +30,11 @@
  * \endlicense
  */
 
+/*!
+ * \defgroup	binaryLogs Binary Logs
+ * \brief		All messages and logs that can be output by the device.
+ */
+
 #ifndef SBG_ECOM_BINARY_LOGS_H
 #define SBG_ECOM_BINARY_LOGS_H
 
@@ -51,6 +57,7 @@
 #include "sbgEComBinaryLogOdometer.h"
 #include "sbgEComBinaryLogRawData.h"
 #include "sbgEComBinaryLogRtcm.h"
+#include "sbgEComBinaryLogSat.h"
 #include "sbgEComBinaryLogShipMotion.h"
 #include "sbgEComBinaryLogStatus.h"
 #include "sbgEComBinaryLogUsbl.h"
@@ -91,6 +98,7 @@ typedef union _SbgBinaryLogData
 	SbgLogDepth						depthData;			/*!< Stores data for the SBG_ECOM_LOG_DEPTH message */
 	SbgLogEvent						eventMarker;		/*!< Stores data for the SBG_ECOM_LOG_EVENT_# message. */
 	SbgLogDiagData					diagData;			/*!< Stores data for the SBG_ECOM_LOG_DIAG message. */
+	SbgLogSatGroupData				satGroupData;		/*!< Stores data for the SBG_ECOM_LOG_SAT message. */
 
 	/* Fast logs */
 	SbgLogFastImuData				fastImuData;		/*!< Stores Fast Imu Data for 1KHz output */
@@ -111,6 +119,15 @@ typedef union _SbgBinaryLogData
  * \param[out]	pOutputData					Pointer on the output union that stores parsed data.
  */
 SbgErrorCode sbgEComBinaryLogParse(SbgEComClass msgClass, SbgEComMsgId msg, const void *pPayload, size_t payloadSize, SbgBinaryLogData *pOutputData);
+
+/*!
+ * Clean up resources allocated during parsing, if any.
+ *
+ * \param[in]	pLogData					Log data.
+ * \param[in]	msgClass					Message class.
+ * \param[in]	msgId						Message ID.
+ */
+void sbgEComBinaryLogCleanup(SbgBinaryLogData *pLogData, SbgEComClass msgClass, SbgEComMsgId msgId);
 
 #ifdef __cplusplus
 }

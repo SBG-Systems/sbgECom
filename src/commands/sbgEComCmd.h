@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComCmd.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			16 June	2014
  *
@@ -27,6 +28,11 @@
  * SOFTWARE.
  * 
  * \endlicense
+ */
+
+/*!
+ * \defgroup	commands Commands
+ * \brief		Configuration and action commands mainly for ELLIPSE products.
  */
 
 #ifndef SBG_ECOM_CMD_H

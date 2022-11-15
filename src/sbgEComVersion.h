@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComVersion.h
+ * \ingroup			main
  * \author			SBG Systems
  * \date			05 February 2013
  *
@@ -45,8 +46,8 @@ extern "C" {
 //----------------------------------------------------------------------//
 
 #define SBG_E_COM_VERSION_MAJOR			3
-#define SBG_E_COM_VERSION_MINOR			1
-#define SBG_E_COM_VERSION_REV			2358
+#define SBG_E_COM_VERSION_MINOR			2
+#define SBG_E_COM_VERSION_REV			4011
 #define SBG_E_COM_VERSION_BUILD			SBG_VERSION_QUALIFIER_STABLE
 
 #define SBG_E_COM_VERSION				SBG_VERSION_SOFTWARE(SBG_E_COM_VERSION_MAJOR,SBG_E_COM_VERSION_MINOR,SBG_E_COM_VERSION_REV,SBG_E_COM_VERSION_BUILD)

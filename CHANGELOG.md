@@ -1,18 +1,17 @@
-# sbgECom Library version 3.1.2358-stable
+# Change Log
+This change log lists all modifications for each sbgECom library release.
 
-The sbgECom C library is used to configure and communicate with [SBG Systems](https://www.sbg-systems.com/) IMU, AHRS and INS.\
-This change log lists all modifications for each released sbgECom library version.
-
-Change log issued on: 2022-01-13
-
+sbgECom C library change log issued on: 2022-11-15  
 Copyright (C) 2022, SBG Systems SAS. All rights reserved.
 
-## Summary
+## Release Summary
 
-The sbgECom 3.2.96-dev release adds support to latest ELLIPSE 2.3 firmware that comes with new configurations and output logs.\
+The sbgECom 3.2.4011-stable release adds support to latest High Performance INS firmware 4.2 and ELLIPSE firmware 2.5  
+New configurations and output logs have been added such as `SBG_ECOM_LOG_GPS#_SAT` binary log.
+
 It also adds two new commands sbgEComCmdApiGet and sbgEComCmdApiPost to support the new [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) over serial interfaces.
 
-A new extended sbgECom frame format has been introduced to support large payloads.\
+A new extended sbgECom frame format has been introduced to support large payloads.  
 This new format is fully backward compatible and your code, as well as older firmware, should still work with this new sbgECom implementation.
 
 New tools and examples have been added to ease product evaluation and integration.
@@ -22,14 +21,42 @@ This release also improves the overall code quality, documentation and examples.
 ## Import Highlights for this release
 
 Please find below, the main improvements and modifications:
- - Support for latest ELLIPSE firmware
+ - Support for latest firmware
  - Support for new sbgInsRestApi GET/POST commands
  - New sbgEComBasicLogger tool to convert logs to CSV files
  - New sbgEComApi tool to use the sbgInsRestApi from command line
  - Improved sbgECom frame for large payloads
  - Improved ELLIPSE on-board magnetic calibration example
  - Improve code quality
- - First version published on github
+ - Improved Doxygen documentation
+ - Improved CMake & GitHub support
+
+## Release - 3.2.4011-stable
+
+### New Features
+ - [SBGECOM-306] - Added built in CHANGELOG file in the repository
+ - [SBGECOM-307] - Add support for event markers in sbgBasicLogger
+ - [SBGECOM-309] - Add SBG_ECOM_LOG_GPS#_SAT message containing satellite information
+ - [SBGECOM-310] - Add NMEA message GPROT
+ - [SBGECOM-312] - sbgBasicLogger: handle sbgEComLogSat messages
+ - [SBGECOM-313] - Added a static motion profile for 27/7 operations on ELLIPSE
+ - [SBGECOM-314] - Added pedestrian motion profile that uses foot odometry
+ - [SBGECOM-317] - Added search capabilities for Doxygen documentation
+ - [SBGECOM-319] - Add support for the Teledyne Wayfinder DVL protocol
+ - [SBGECOM-323] - Add a new PSBGA NMEA message that output the INS atitude
+ - [SBGECOM-326] - Add NMEA GSV output message with satellite in view information
+ - [SBGECOM-327] - Added L-Band support for GNSS receiver channel reporting
+ 
+### Improvements
+- [SBGECOM-311] - Improve public CMakeLists
+- [SBGECOM-315] - Enable sbgEComApi users to provide command execution parameters
+- [SBGECOM-322] - Added Truck and Railway motion profiles
+- [SBGECOM-325] - sbgBasicLogger: Improve project code and build script for code source public release
+- [SBGECOM-328] - Improved doxygen documentation
+
+### Bug Fixes
+- [SBGECOM-316] - Fix ELLIPSE settings import that was not working
+- [SBGECOM-324] - Fix invalid time-out errors when calling sbgEComReceiveCmd2
 
 ## Release - 3.1.2358-stable
 
@@ -246,7 +273,6 @@ Please find below, the main improvements and modifications:
  - [SBGECOM-22] - Added UTC & Clock status to the binary log SbgLogUtcData 
  - [SBGECOM-23] - Added Solution status to the binary log SbgLogEkfEuler, SbgLogEkfQuat, SbgLogEkfNav 
  - [SBGECOM-24] - Added time stamp to the log SBG_ECOM_LOG_MAG_CALIB
-
 
 ## Release - 1.2
 

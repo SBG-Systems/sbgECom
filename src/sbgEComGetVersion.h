@@ -1,5 +1,6 @@
 ﻿/*!
  * \file			sbgEComGetVersion.h
+ * \ingroup			main
  * \author			SBG Systems
  * \date			05 February 2013
  * \brief			Version information.

@@ -1,33 +1,35 @@
 /*!
- *      \file           sbgDefines.h
- *      \author         SBG Systems (Raphael Siryani)
- *      \date           17 March 2015
+ * \file           sbgDefines.h
+ * \ingroup        common
+ * \author         SBG Systems
+ * \date           17 March 2015
  *
- *      \brief          Header file that contains all common definitions.
+ * \brief          Header file that contains all common definitions.
  *
- *      \section CodeCopyright Copyright Notice
- *      The MIT license
+ * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
+ * \beginlicense	The MIT license
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- *      Copyright (C) 2007-2020, SBG Systems SAS. All rights reserved.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- *      Permission is hereby granted, free of charge, to any person obtaining a copy
- *      of this software and associated documentation files (the "Software"), to deal
- *      in the Software without restriction, including without limitation the rights
- *      to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *      copies of the Software, and to permit persons to whom the Software is
- *      furnished to do so, subject to the following conditions:
- *
- *      The above copyright notice and this permission notice shall be included in all
- *      copies or substantial portions of the Software.
- *
- *      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *      SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * \endlicense
  */
+
 #ifndef SBG_DEFINES_H
 #define SBG_DEFINES_H
 
@@ -61,7 +63,7 @@
 #endif // NDEBUG
 
 /*!
- *	Macro used to handle export and import methods of the sbgCommon library
+ * Macro used to handle export and import methods of the sbgCommon library
  */
 #ifdef _MSC_VER
 	#ifdef SBG_COMMON_STATIC_USE
@@ -137,7 +139,7 @@
 #endif
 
 #ifndef SBG_LIKELY
-	#if defined(__GNUC__)
+	#if defined(__GNUC__) || defined(__clang__)
 		#define SBG_LIKELY(expr)		__builtin_expect((bool)(expr), true)
 	#else
 		#define SBG_LIKELY(expr)		(expr)
@@ -145,7 +147,7 @@
 #endif
 
 #ifndef SBG_UNLIKELY
-	#if defined(__GNUC__)
+	#if defined(__GNUC__) || defined(__clang__)
 		#define SBG_UNLIKELY(expr)		__builtin_expect((bool)(expr), false)
 	#else
 		#define SBG_UNLIKELY(expr)		(expr)
@@ -153,7 +155,7 @@
 #endif
 
 #ifndef SBG_CHECK_FORMAT
-	#if defined(__GNUC__)
+	#if defined(__GNUC__) || defined(__clang__)
 		#define SBG_CHECK_FORMAT(style, format_index, va_args)	__attribute__((format(style, format_index, va_args)))
 	#else
 		#define SBG_CHECK_FORMAT(style, format_index, va_args)
@@ -161,15 +163,15 @@
 #endif
 
 /*!
- * XXX Visual C (not C++) doesn't provide anything to implement typeof(). As a result,
- * This macro is private and shouldn't be relied on.
+ * GCC typeof C extension
+ * 
+ * XXX Visual C (not C++) doesn't provide anything to implement typeof().
+ * As a result, this macro is private and shouldn't be relied on.
  */
 #ifndef __SBG_TYPEOF
 	#ifdef __cplusplus
 		#define __SBG_TYPEOF(x)			decltype(x)
-	#elif defined(__GNUC__)
-		#define __SBG_TYPEOF(x)			typeof(x)
-	#elif defined(__TI_COMPILER_VERSION__)
+	#elif defined(__GNUC__) || defined(__clang__) || defined(__TI_COMPILER_VERSION__)
 		#define __SBG_TYPEOF(x)			typeof(x)
 	#endif
 #endif
@@ -191,9 +193,9 @@
 #endif
 
 /*!
- *	__BASE_FILE__ is gcc specific
+ * __BASE_FILE__ is gcc specific
  */
-#ifndef __GNUC__
+#if !defined(__GNUC__) && !defined(__clang__)
 #ifndef __BASE_FILE__
 	#define __BASE_FILE__ __FILE__
 #endif
@@ -216,7 +218,7 @@
 //----------------------------------------------------------------------//
 
 /*!
- *	Macro used to abstract the compiler specific inline keyword.
+ * Macro used to abstract the compiler specific inline keyword.
  */
 #ifndef SBG_INLINE
 	#if defined(_MSC_VER)
@@ -227,22 +229,24 @@
 #endif
 
 /*!
- *	Macro used to avoid compiler warning when a variable is not used.
+ * Macro used to avoid compiler warning when a variable is not used.
  */
 #ifndef SBG_UNUSED_PARAMETER
 	#define SBG_UNUSED_PARAMETER(x)		(void)(x)
 #endif
 
 /*!
+ * Compiler independent switch/case fallthrough attribute
+ *
  * The fallthrough attribute is used to avoid compiler warning in swith case statements
  * when an intentional break is missing
  */
 #ifndef SBG_FALLTHROUGH
 	#if __cplusplus >= 201703L
 		#define SBG_FALLTHROUGH			[[fallthrough]]					/* introduced in C++ 17 */
-	#elif defined(__GNUC__)
-		#if __GNUC__ >= 7
-			#define SBG_FALLTHROUGH			__attribute__ ((fallthrough))
+	#elif defined(__GNUC__) || defined(__clang__)
+		#if (__GNUC__ >= 7) || defined(__clang__)
+			#define SBG_FALLTHROUGH			__attribute__((fallthrough))
 		#else
 			#define SBG_FALLTHROUGH			((void)0)
 		#endif
@@ -256,12 +260,12 @@
 //----------------------------------------------------------------------//
 
 /*!
+ * Compiler independent struct members packing attribute
+ * 
  * This macro is used to define a new section of packed structures.
  * All structures defined after this macro will be packed.
  */
-#ifdef __GNUC__
-	#define SBG_BEGIN_PACKED()
-#elif defined(__TI_COMPILER_VERSION__)
+#if defined(__GNUC__) || defined(__clang__) || defined(__TI_COMPILER_VERSION__)
 	#define SBG_BEGIN_PACKED()
 #elif defined(_MSC_VER)
 	#define SBG_BEGIN_PACKED()	__pragma(pack(push, 1))
@@ -270,11 +274,11 @@
 #endif
 
 /*!
+ * Compiler independent struct members packing attribute
+ * 
  * This macro is used to specify that a structure is packed.
  */
-#ifdef __GNUC__
-	#define SBG_PACKED			__attribute__((packed))
-#elif defined(__TI_COMPILER_VERSION__)
+#if defined(__GNUC__) || defined(__clang__) || defined(__TI_COMPILER_VERSION__)
 	#define SBG_PACKED			__attribute__((packed))
 #elif defined(_MSC_VER)
 	#define SBG_PACKED
@@ -283,14 +287,14 @@
 #endif
 
 /*!
+ * Compiler independent struct members packing attribute
+ * 
  * This macro is used to close the section of packed structures and return to the default packing.
  */
-#ifdef __GNUC__
-	#define SBG_END_PACKED()
-#elif defined(__TI_COMPILER_VERSION__)
+#if defined(__GNUC__) || defined(__clang__) || defined(__TI_COMPILER_VERSION__)
 	#define SBG_END_PACKED()
 #elif defined(_MSC_VER)
-	#define SBG_END_PACKED()		__pragma(pack(pop))
+	#define SBG_END_PACKED()	__pragma(pack(pop))
 #else
 	#error you must byte-align these structures with the appropriate compiler directives
 #endif
@@ -300,46 +304,44 @@
 //----------------------------------------------------------------------//
 
 /*!
- *	Macro used to indicate that a function is deprecated.
+ * Macro used to indicate that a function is deprecated.
  */
-#ifdef __GNUC__
-	#define SBG_DEPRECATED(func) __attribute__ ((deprecated)) func
+#if defined(__GNUC__) || defined(__clang__)
+	#define SBG_DEPRECATED(func) __attribute__((deprecated)) func
 #elif defined(__TI_COMPILER_VERSION__)
-	#define SBG_DEPRECATED(func) func __attribute__ ((deprecated))
+	#define SBG_DEPRECATED(func) func __attribute__((deprecated))
 #elif defined(_MSC_VER)
 	#define SBG_DEPRECATED(func) __declspec(deprecated) func
 #else
-	//#warning "WARNING: You need to implement SBG_DEPRECATED for this compiler"
 	#define SBG_DEPRECATED(func) func
 #endif
 
 /*!
- *	Macro used to indicate that a macro is deprecated.
+ * Macro used to indicate that a macro is deprecated.
  */
-#ifdef __GNUC__
+#if defined(__GNUC__) || defined(__clang__)
 	#define SBG_DEPRECATED_MACRO(func) __pragma(deprecated(func))
 #elif defined(_MSC_VER)
 #define SBG_DEPRECATED_MACRO(func) __pragma(deprecated(func))
 #else
-	//#warning "WARNING: You need to implement SBG_DEPRECATED_MACRO for this compiler"
 	#define SBG_DEPRECATED_MACRO(func) func
 #endif
 
 /*!
- *	Set the default value of SBG_CONFIG_WARN_ABOUT_DEPRECATED_TYPES.
+ * Set the default value of SBG_CONFIG_WARN_ABOUT_DEPRECATED_TYPES.
  */
 #ifndef SBG_CONFIG_WARN_ABOUT_DEPRECATED_TYPES
 #define SBG_CONFIG_WARN_ABOUT_DEPRECATED_TYPES (1)
 #endif
 
 /*!
- *	Macro used to indicate that a type definition is deprecated.
+ * Macro used to indicate that a type definition is deprecated.
  *
  * XXX In order to avoid excessive noise caused by deprecation warnings, the attribute
  * may currently be disabled by defining SBG_CONFIG_WARN_ABOUT_DEPRECATED_TYPES to 0.
  */
 #if SBG_CONFIG_WARN_ABOUT_DEPRECATED_TYPES != 0
-	#ifdef __GNUC__
+	#if defined(__GNUC__) || defined(__clang__)
 		#define SBG_DEPRECATED_TYPEDEF(decl) decl __attribute__((deprecated))
 	#elif defined(_MSC_VER)
 		#define SBG_DEPRECATED_TYPEDEF(decl) __declspec(deprecated) decl
@@ -362,30 +364,32 @@
 #endif
 
 /*!
- *	Returns the absolute value of x.
+ * Returns the absolute value of x.
  *
- *	\param[in]	x					Signed integer value.
- *	\return							The absolute value of x.
+ * \param[in]	x					Signed integer value.
+ * \return							The absolute value of x.
  */
 #ifndef sbgAbs
 	#define sbgAbs(x)				(((x) < 0) ? -(x) : (x))
 #endif
 
 /*!
- *	Returns the maximum between a and b
- *	\param[in]	a					First operand.
- *	\param[in]	b					Second operand.
- *	\return							The maximum between a and b.
+ * Returns the maximum between a and b
+ * 
+ * \param[in]	a					First operand.
+ * \param[in]	b					Second operand.
+ * \return							The maximum between a and b.
  */
 #ifndef sbgMax
 	#define sbgMax(a,b)            (((a) > (b)) ? (a) : (b))
 #endif
 
 /*!
- *	Returns the minimum between a and b
- *	\param[in]	a					First operand.
- *	\param[in]	b					Second operand.
- *	\return							The minimum between a and b.
+ * Returns the minimum between a and b
+ * 
+ * \param[in]	a					First operand.
+ * \param[in]	b					Second operand.
+ * \return							The minimum between a and b.
  */
 #ifndef sbgMin
 	#define sbgMin(a,b)            (((a) < (b)) ? (a) : (b))
@@ -393,6 +397,7 @@
 
 /*!
  * Clamp a value between minValue and maxValue ie minValue <= value <= maxValue
+ * 
  * \param[in]	value				First operand.
  * \param[in]	minValue			First operand.
  * \param[in]	maxValue			Second operand.
@@ -404,8 +409,10 @@
 
 /*!
  * Integer division with a result rounded up.
+ * 
  * \param[in]	n					Dividend.
  * \param[in]	d					Divisor.
+ * \return							Rounded division
  */
 #ifndef sbgDivCeil
 	#define sbgDivCeil(n, d)		(((n) + (d) - 1) / (d))
@@ -460,7 +467,7 @@ SBG_INLINE float sbgDegToRadf(float angle)
  *
  * \param[in]	leftValue				The first operand to test for equality.
  * \param[in]	rightValue				The second operand to test for equality.
- * \retrun								true if both left and right operands are almost equal.
+ * \return								true if both left and right operands are almost equal.
  */
 SBG_INLINE bool sbgAlmostEqualsFloat(float leftValue, float rightValue)
 {
@@ -490,7 +497,7 @@ SBG_INLINE bool sbgAlmostEqualsFloat(float leftValue, float rightValue)
  *
  * \param[in]	leftValue				The first operand to test for equality.
  * \param[in]	rightValue				The second operand to test for equality.
- * \retrun								true if both left and right operands are almost equal.
+ * \return								true if both left and right operands are almost equal.
  */
 SBG_INLINE bool sbgAlmostEqualsDouble(double leftValue, double rightValue)
 {
@@ -515,4 +522,4 @@ SBG_INLINE bool sbgAlmostEqualsDouble(double leftValue, double rightValue)
 	}
 }
 
-#endif	/* __SBG_DEFINES_H__ */
+#endif	// SBG_DEFINES_H

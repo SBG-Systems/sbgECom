@@ -1,5 +1,6 @@
 ﻿/*!
  * \file			sbgEComCmdSensor.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			11 June 2014
  *
@@ -95,12 +96,16 @@ typedef enum _SbgEComOdometerPinAssignment
 typedef enum _SbgEComMotionProfileStdIds
 {
 	SBG_ECOM_MOTION_PROFILE_GENERAL_PURPOSE		= 1,		/*!< Should be used as a default when other profiles do not apply */
-	SBG_ECOM_MOTION_PROFILE_AUTOMOTIVE			= 2,		/*!< Dedicated to car applications */
+	SBG_ECOM_MOTION_PROFILE_AUTOMOTIVE			= 2,		/*!< Dedicated to car applications with strict lateral velocity constraints. */
 	SBG_ECOM_MOTION_PROFILE_MARINE				= 3,		/*!< Used in marine and underwater applications */
 	SBG_ECOM_MOTION_PROFILE_AIRPLANE			= 4,		/*!< For fixed wings aircraft */
 	SBG_ECOM_MOTION_PROFILE_HELICOPTER			= 5,		/*!< For rotary wing aircraft */
+	SBG_ECOM_MOTION_PROFILE_PEDESTRIAN			= 6,		/*!< Pedestrian applications using foot odometry */
 	SBG_ECOM_MOTION_PROFILE_UAV_ROTARY_WING		= 7,		/*!< For rotary wing UAVs that have low dynamics */
 	SBG_ECOM_MOTION_PROFILE_HEAVY_MACHINERY		= 8,		/*!< For vibrating applications with low dynamics and no specific travel direction */
+	SBG_ECOM_MOTION_PROFILE_STATIC				= 9,		/*!< Static motion profile that delivers stable results for 27/7 operations. */
+	SBG_ECOM_MOTION_PROFILE_TRUCK				= 10,		/*!< Truck applications with medium lateral velocity constraints. */
+	SBG_ECOM_MOTION_PROFILE_RAILWAY				= 11		/*!< Train applications with relaxed lateral velocity constraints. */
 } SbgEComMotionProfileStdIds;
 
 //----------------------------------------------------------------------//

@@ -82,6 +82,7 @@ static SbgErrorCode sbgInterfaceFileWrite(SbgInterface *pInterface, const void *
 
 /*!
  * Try to read some data from an interface.
+ * 
  * \param[in]	pInterface								Valid handle on an initialized interface.
  * \param[in]	pBuffer									Pointer on an allocated buffer that can hold at least bytesToRead bytes of data.
  * \param[out]	pReadBytes								Pointer on an uint32_t used to return the number of read bytes.

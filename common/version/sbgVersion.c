@@ -1,5 +1,6 @@
-// sbgCommonLib headers
+// Project headers
 #include <sbgCommon.h>
+
 
 // Local headers
 #include "sbgVersion.h"
@@ -557,3 +558,4 @@ SBG_COMMON_LIB_API SbgErrorCode sbgVersionFromStringEncoded(const char *pVersion
 	//
 	return errorCode;
 }
+

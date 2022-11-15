@@ -93,6 +93,11 @@ SbgErrorCode sbgEComHandleOneLog(SbgEComHandle *pHandle)
 					//
 					errorCode = pHandle->pReceiveLogCallback(pHandle, (SbgEComClass)receivedMsgClass, receivedMsg, &logData, pHandle->pUserArg);
 				}
+
+				//
+				// Clean up resources allocated during parsing, if any.
+				//
+				sbgEComBinaryLogCleanup(&logData, (SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsg);
 			}
 			else
 			{

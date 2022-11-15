@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComBinaryLogShipMotion.h
+ * \ingroup			binaryLogs
  * \author			SBG Systems
  * \date			30 March 2013
  *

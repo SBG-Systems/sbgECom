@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComCmdApi.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			October 14, 2020
  *

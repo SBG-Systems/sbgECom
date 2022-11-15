@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComCmdAirData.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			18 February 2019
  *

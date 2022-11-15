@@ -1,15 +1,14 @@
 /*!
  * \file                sbgInterfaceUdp.h
+ * \ingroup             common
  * \author              SBG Systems
  * \date                05 February 2013
  *
  * \brief               This file implements an UDP interface.
  *
- * \section CodeCopyright Copyright Notice
- * The MIT license
- *
- * Copyright (C) 2007-2020, SBG Systems SAS. All rights reserved.
- *
+ * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
+ * \beginlicense	The MIT license
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -27,6 +26,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ * 
+ * \endlicense
  */
 #ifndef SBG_INTERFACE_UDP_H
 #define SBG_INTERFACE_UDP_H

@@ -1,5 +1,6 @@
 /*!
  * \file			sbgEComCmdLicense.h
+ * \ingroup			commands
  * \author			SBG Systems
  * \date			25 February 2015
  *
