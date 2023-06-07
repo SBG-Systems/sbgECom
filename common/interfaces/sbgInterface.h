@@ -175,6 +175,18 @@ typedef uint32_t (*SbgInterfaceGetSpeed)(const SbgInterface *pInterface);
  */
 typedef uint32_t (*SbgInterfaceGetDelayFunc)(const SbgInterface *pInterface, size_t numBytes);
 
+/*!
+ * Callback definition called each time some bytes are received.
+ *
+ * \param[in] pInterface                 Interface instance.
+ * \param[in] pBuffer                 Pointer on an allocated buffer of data.
+ * \param[in] pReadBytes                Number of bytes read.
+ * \param[in] pUserArg                Optional user supplied argument.
+ *
+ */
+typedef void (*SbgInterfaceReadRawFunc)(SbgInterface *pInterface, void *pBuffer, size_t *pReadBytes, void *pUserArg);
+
+
 //----------------------------------------------------------------------//
 //- Structures definitions                                             -//
 //----------------------------------------------------------------------//
@@ -202,6 +214,8 @@ struct _SbgInterface
 	SbgInterfaceSetSpeed		 pSetSpeedFunc;						/*!< Optional method used to set the interface speed in bps. */
 	SbgInterfaceGetSpeed		 pGetSpeedFunc;						/*!< Optional method used to retrieve the interface speed in bps. */
 	SbgInterfaceGetDelayFunc	 pDelayFunc;						/*!< Optional method used to compute an expected delay to transmit/receive X bytes */
+	SbgInterfaceReadRawFunc    pReadCallback;   /*!< Pointer on the method called each time some data is received. */
+	void            *pUserArg;                        /*!< Optional user supplied argument for callbacks. */
 };
 
 //----------------------------------------------------------------------//
@@ -274,6 +288,16 @@ SBG_INLINE const char *sbgInterfaceNameGet(const SbgInterface *pInterface)
 SBG_COMMON_LIB_API void sbgInterfaceNameSet(SbgInterface *pInterface, const char *pName);
 
 /*!
+ * Define the callback that should be called each time a new data is received.
+ *
+ * \param[in] pInterface             Interface instance.
+ * \param[in] pReadCallback       Pointer on the callback to call when a new log is received.
+ * \param[in] pUserArg            Optional user argument that will be passed to the callback method.
+ */
+void sbgInterfaceSetReadRawCallback(SbgInterface *pInterface, SbgInterfaceReadRawFunc pReadCallback, void *pUserArg);
+
+
+/*!
  * Write some data to an interface.
  *
  * This method should return an error only if all bytes were not written successfully.
@@ -329,6 +353,11 @@ SBG_INLINE SbgErrorCode sbgInterfaceRead(SbgInterface *pInterface, void *pBuffer
 	if (pInterface->pReadFunc)
 	{
 		errorCode = pInterface->pReadFunc(pInterface, pBuffer, pReadBytes, bytesToRead);
+
+		if (pInterface->pReadCallback && *pReadBytes != 0)
+		{
+		  pInterface->pReadCallback(pInterface, pBuffer, pReadBytes, pInterface->pUserArg);
+		}
 	}
 	else
 	{

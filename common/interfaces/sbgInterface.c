@@ -81,3 +81,14 @@ void sbgInterfaceNameSet(SbgInterface *pInterface, const char *pName)
 		strcpy(pInterface->name, pName+(nameLen-(SBG_ARRAY_SIZE(pInterface->name)-1)));
 	}
 }
+
+void sbgInterfaceSetReadRawCallback(SbgInterface *pInterface, SbgInterfaceReadRawFunc pReadCallback, void *pUserArg)
+{
+  assert(pInterface);
+
+  //
+  // Define the callback and the user argument
+  //
+  pInterface->pReadCallback  = pReadCallback;
+  pInterface->pUserArg       = pUserArg;
+}
