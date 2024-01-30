@@ -15,7 +15,7 @@ The library is written and maintained by SBG Systems SAS. You can contact the su
 
 # Documentation
 
-You can access the full online sbgECom Doxygen documentation [here](https://developer.sbg-systems.com/sbgECom/).  
+You can access the full online sbgECom Doxygen documentation [here](https://developer.sbg-systems.com/sbgECom/3.2).  
 You should also read the SBG Systems [Support Center](https://support.sbg-systems.com) to quickly start using and integrating your products.  
 Please also have a look at the [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) documentation that is used to configure High Performance INS products.
 
