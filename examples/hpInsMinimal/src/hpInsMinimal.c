@@ -6,7 +6,7 @@
  * \brief			C example to read euler angles from a high performance INS over Ethernet
  *
  * This small C example demonstrates how to initialize the sbgECom library
- * with an ethernet UDP interface and parse incoming SBG_ECOM_LOG_EKF_EULER logs.
+ * with an Ethernet UDP interface and parse incoming SBG_ECOM_LOG_EKF_EULER logs.
  * 
  * The INS has to be correctly setup to output the SBG_ECOM_LOG_EKF_EULER log
  * on the selected UDP port.
@@ -55,7 +55,7 @@
  *	\param[in]	pUserArg								Optional user supplied argument.
  *	\return												SBG_NO_ERROR if the received log has been used successfully.
  */
-SbgErrorCode onLogReceived(SbgEComHandle *pHandle, SbgEComClass msgClass, SbgEComMsgId msg, const SbgBinaryLogData *pLogData, void *pUserArg)
+static SbgErrorCode onLogReceived(SbgEComHandle *pHandle, SbgEComClass msgClass, SbgEComMsgId msg, const SbgEComLogUnion *pLogData, void *pUserArg)
 {
 	SBG_UNUSED_PARAMETER(pHandle);
 	SBG_UNUSED_PARAMETER(pUserArg);
@@ -147,7 +147,7 @@ static SbgErrorCode hpInsMinimalProcess(SbgInterface *pInterface)
 		}
 
 		//
-		// Close the sbgEcom library
+		// Close the sbgECom library
 		//
 		sbgEComClose(&comHandle);
 	}

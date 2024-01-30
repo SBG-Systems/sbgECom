@@ -523,6 +523,78 @@ SBG_COMMON_LIB_API void sbgStringTruncate(SbgString *pString, size_t length);
 //----------------------------------------------------------------------//
 
 /*!
+ * Convert and assign a 8-bits signed integer value to a string.
+ *
+ * \param[in]	pString						String.
+ * \param[in]	value						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromInt8(SbgString *pString, int8_t value);
+
+/*!
+ * Convert a string to a 8-bits signed integer value.
+ *
+ * \param[in]	pString						String.
+ * \param[out]	pValue						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToInt8(const SbgString *pString, int8_t *pValue);
+
+/*!
+ * Convert and assign a 8-bits unsigned integer value to a string.
+ *
+ * \param[in]	pString						String.
+ * \param[in]	value						Value
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromUint8(SbgString *pString, uint8_t value);
+
+/*!
+ * Convert a string to a 8-bits unsigned integer value.
+ *
+ * \param[in]	pString						String.
+ * \param[out]	pValue						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToUint8(const SbgString *pString, uint8_t *pValue);
+
+/*!
+ * Convert and assign a 16-bits signed integer value to a string.
+ *
+ * \param[in]	pString						String.
+ * \param[in]	value						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromInt16(SbgString *pString, int16_t value);
+
+/*!
+ * Convert a string to a 16-bits signed integer value.
+ *
+ * \param[in]	pString						String.
+ * \param[out]	pValue						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToInt16(const SbgString *pString, int16_t *pValue);
+
+/*!
+ * Convert and assign a 16-bits unsigned integer value to a string.
+ *
+ * \param[in]	pString						String.
+ * \param[in]	value						Value
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromUint16(SbgString *pString, uint16_t value);
+
+/*!
+ * Convert a string to a 16-bits unsigned integer value.
+ *
+ * \param[in]	pString						String.
+ * \param[out]	pValue						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToUint16(const SbgString *pString, uint16_t *pValue);
+
+/*!
  * Convert and assign a 32-bits signed integer value to a string.
  *
  * \param[in]	pString						String.
@@ -593,6 +665,24 @@ SBG_COMMON_LIB_API SbgErrorCode sbgStringFromUint64(SbgString *pString, uint64_t
  * \return									SBG_NO_ERROR if successful.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgStringToUint64(const SbgString *pString, uint64_t *pValue);
+
+/*!
+ * Convert and assign a float value to a string.
+ *
+ * \param[in]	pString						String.
+ * \param[in]	value						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromFloat(SbgString *pString, float value);
+
+/*!
+ * Convert a string to a float value.
+ *
+ * \param[in]	pString						String.
+ * \param[out]	pValue						Value.
+ * \return									SBG_NO_ERROR if successful.
+ */
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToFloat(const SbgString *pString, float *pValue);
 
 /*!
  * Convert and assign a double value to a string.

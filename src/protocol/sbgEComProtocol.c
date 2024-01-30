@@ -121,6 +121,8 @@ static SbgErrorCode sbgEComProtocolFindSyncBytes(SbgEComProtocol *pProtocol, siz
 	SbgErrorCode						 errorCode;
 
 	assert(pProtocol);
+	assert(pOffset);
+	assert(pProtocol->rxBufferSize > 0);
 
 	errorCode = SBG_NOT_READY;
 
@@ -365,6 +367,18 @@ static SbgErrorCode sbgEComProtocolFindFrame(SbgEComProtocol *pProtocol, uint8_t
 				// on the next read.
 				//
 				pProtocol->discardSize = endOffset;
+				
+				//
+				// If installed, call the method used to intercept received sbgECom frames
+				//
+				if (pProtocol->pReceiveFrameCb)
+				{
+					SbgStreamBuffer		fullFrameStream;
+
+					sbgStreamBufferInitForRead(&fullFrameStream, &pProtocol->rxBuffer[offset], endOffset-offset);
+					pProtocol->pReceiveFrameCb(pProtocol, *pMsgClass, *pMsgId, &fullFrameStream, pProtocol->pUserArg);
+				}
+
 				break;
 			}
 			else if (errorCode == SBG_NOT_READY)
@@ -849,10 +863,9 @@ SbgErrorCode sbgEComProtocolInit(SbgEComProtocol *pProtocol, SbgInterface *pInte
 	assert(pProtocol);
 	assert(pInterface);
 
+	memset(pProtocol, 0x00, sizeof(*pProtocol));
+
 	pProtocol->pLinkedInterface	= pInterface;
-	pProtocol->rxBufferSize		= 0;
-	pProtocol->discardSize		= 0;
-	pProtocol->nextLargeTxId	= 0;
 
 	sbgEComProtocolResetLargeTransfer(pProtocol);
 
@@ -889,7 +902,7 @@ SbgErrorCode sbgEComProtocolPurgeIncoming(SbgEComProtocol *pProtocol)
 	sbgEComProtocolClearLargeTransfer(pProtocol);
 
 	//
-	// Try to read all iconming data for at least 100 ms and trash them
+	// Try to read all incoming data for at least 100 ms and trash them
 	///
 	timeStamp = sbgGetTime();
 
@@ -1085,6 +1098,14 @@ SbgErrorCode sbgEComProtocolReceive2(SbgEComProtocol *pProtocol, uint8_t *pMsgCl
 	}
 
 	return errorCode;
+}
+
+void sbgEComProtocolSetOnFrameReceivedCb(SbgEComProtocol *pProtocol, SbgEComProtocolFrameCb pOnFrameReceivedCb, void *pUserArg)
+{
+	assert(pProtocol);
+	
+	pProtocol->pReceiveFrameCb	= pOnFrameReceivedCb;
+	pProtocol->pUserArg			= pUserArg;
 }
 
 SbgErrorCode sbgEComStartFrameGeneration(SbgStreamBuffer *pOutputStream, uint8_t msgClass, uint8_t msg, size_t *pStreamCursor)

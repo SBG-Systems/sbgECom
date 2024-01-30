@@ -125,21 +125,6 @@ extern "C" {
 #include "debug/sbgDebug.h"
 #include "platform/sbgPlatform.h"
 
-//----------------------------------------------------------------------//
-//- Public functions                                                   -//
-//----------------------------------------------------------------------//
-
-/*!
- * Retreive the current sbgCommonLib encoded version.
- * \return												The current sbgCommonLib version
- */
-SBG_COMMON_LIB_API uint32_t sbgCommonLibGetVersion(void);
-
-/*!
- *	Tell if the library is compiled in debug mode or not
- *	\return						True if it's compiled in debug, False otherwise
- */
-SBG_COMMON_LIB_API bool sbgCommonLibIsDebug(void);
 
 #ifdef __cplusplus
 }

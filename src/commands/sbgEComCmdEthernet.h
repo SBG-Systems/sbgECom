@@ -44,7 +44,7 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Ethernet interface configuration								   -//
+//- Ethernet interface configuration                                   -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -61,7 +61,7 @@ typedef enum _SbgEComEthernetMode
  */
 typedef struct _SbgEComEthernetConf
 {
-	SbgEComEthernetMode	mode;						/*!< Define how the device will acquiere its IP address, either DHCP or Static. */
+	SbgEComEthernetMode	mode;						/*!< Define how the device will acquire its IP address, either DHCP or Static. */
 	sbgIpAddress		ipAddress;					/*!< For static mode, defines the device IP address. */
 	sbgIpAddress		netmask;					/*!< For static mode, defines the device net mask. */
 	sbgIpAddress		gateway;					/*!< For static mode, defines the gateway to use. */
@@ -76,11 +76,11 @@ typedef struct _SbgEComEthernetConf
 /*!
  * Get the configuration for the Ethernet interface.
  * 
- * Warning: this method only returns the Ethernet configuration and NOT the ip address currently used by the device.
- * You should rather use sbgEComEthernetInfo to retreive the current assigned IP.
+ * Warning: this method only returns the Ethernet configuration and NOT the IP address currently used by the device.
+ * You should rather use sbgEComEthernetInfo to retrieve the current assigned IP.
  * 
  * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pEthernetConf				Poiner to a SbgEComEthernetConf struct that holds the read configuration from the device.
+ * \param[out]	pEthernetConf				SbgEComEthernetConf struct to hold the read configuration from the device.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComEthernetGetConf(SbgEComHandle *pHandle, SbgEComEthernetConf *pEthernetConf);
@@ -89,19 +89,19 @@ SbgErrorCode sbgEComEthernetGetConf(SbgEComHandle *pHandle, SbgEComEthernetConf 
  * Set the configuration for the Ethernet interface.
  * 
  * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	pEthernetConf				Poiner to a SbgEComEthernetConf struct that holds the new configuration to apply.
+ * \param[in]	pEthernetConf				SbgEComEthernetConf struct to hold the new configuration to apply.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComEthernetSetConf(SbgEComHandle *pHandle, const SbgEComEthernetConf *pEthernetConf);
 
 /*!
- * Get the current assigned and used IP address as well as network inforamtion.
+ * Get the current assigned and used IP address as well as network information.
  * 
  * In opposition to sbgEComEthernetGetConf, this method will not return the Ethernet configuration.
  * It will rather return the IP address currently used by the device.
  * 
  * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pEthernetConf				Poiner to a SbgEComEthernetConf struct that holds the read IP settings from the device.
+ * \param[out]	pEthernetConf				SbgEComEthernetConf struct to hold the read IP settings from the device.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComEthernetInfo(SbgEComHandle *pHandle, SbgEComEthernetConf *pEthernetConf);

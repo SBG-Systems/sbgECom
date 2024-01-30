@@ -44,12 +44,13 @@ extern "C" {
 
 // sbgCommonLib headers
 #include <sbgCommon.h>
+#include <interfaces/sbgInterface.h>
 
 // Local headers
 #include "sbgECanId.h"
 #include "sbgEComIds.h"
+#include "logs/sbgEComLog.h"
 #include "protocol/sbgEComProtocol.h"
-#include "binaryLogs/sbgEComBinaryLogs.h"
 
 //----------------------------------------------------------------------//
 //- Predefinitions                                                     -//
@@ -74,7 +75,7 @@ typedef struct _SbgEComHandle SbgEComHandle;
  * \param[in]	pUserArg								Optional user supplied argument.
  * \return												SBG_NO_ERROR if the received log has been used successfully.
  */
-typedef SbgErrorCode (*SbgEComReceiveLogFunc)(SbgEComHandle *pHandle, SbgEComClass msgClass, SbgEComMsgId msg, const SbgBinaryLogData *pLogData, void *pUserArg);
+typedef SbgErrorCode (*SbgEComReceiveLogFunc)(SbgEComHandle *pHandle, SbgEComClass msgClass, SbgEComMsgId msg, const SbgEComLogUnion *pLogData, void *pUserArg);
 
 //----------------------------------------------------------------------//
 //- Structures definitions                                             -//

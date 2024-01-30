@@ -12,14 +12,15 @@
 //----------------------------------------------------------------------//
 //- Private methods                                                    -//
 //----------------------------------------------------------------------//
+
 /*!
  * Initiates an upload transfer sequence with a device.
  * 
- * \param[in] pHandle					Pointer to a valid SbgEComHandle.
- * \param[in] msgClass					Original protocol class asking for transfer.
- * \param[in] msg						Original protocol message id asking for transfer.
- * \param[in] size						Total size of the upload.
- * \return								SBG_NO_ERROR when the transfer was initiated successfully.
+ * \param[in]	pHandle						Pointer to a valid SbgEComHandle.
+ * \param[in]	msgClass					Original protocol class asking for transfer.
+ * \param[in]	msg							Original protocol message id asking for transfer.
+ * \param[in]	size						Total size of the upload.
+ * \return									SBG_NO_ERROR when the transfer was initiated successfully.
  */
 static SbgErrorCode sbgEComTransferSendInit(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg, size_t size)
 {
@@ -77,13 +78,13 @@ static SbgErrorCode sbgEComTransferSendInit(SbgEComHandle *pHandle, uint8_t msgC
 /*!
  * Send one packet of data on a initiated upload transfer.
  * 
- * \param[in] pHandle					Pointer to a valid SbgEComHandle.
- * \param[in] msgClass					Original protocol class asking for transfer.
- * \param[in] msg						Original protocol message id asking for transfer.
- * \param[in] pBuffer					Pointer to the buffer containing the data to send.
- * \param[in] offset					The offset from the start of the transfer.
- * \param[in] packetSize				The size of this packet.
- * \return								SBG_NO_ERROR if the packet was sent and acknowledged by the device.
+ * \param[in]	pHandle						Pointer to a valid SbgEComHandle.
+ * \param[in]	msgClass					Original protocol class asking for transfer.
+ * \param[in]	msg							Original protocol message id asking for transfer.
+ * \param[in]	pBuffer						Pointer to the buffer containing the data to send.
+ * \param[in]	offset						The offset from the start of the transfer.
+ * \param[in]	packetSize					The size of this packet.
+ * \return									SBG_NO_ERROR if the packet was sent and acknowledged by the device.
  */
 static SbgErrorCode sbgEComTransferSendData(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg, const void *pBuffer, size_t offset, size_t packetSize)
 {
@@ -144,10 +145,10 @@ static SbgErrorCode sbgEComTransferSendData(SbgEComHandle *pHandle, uint8_t msgC
 /*!
  * Ends ongoing upload transfer sequence with a device.
  * 
- * \param[in] pHandle					Pointer to a valid SbgEComHandle.
- * \param[in] msgClass					Original protocol class asking for transfer.
- * \param[in] msg						Original protocol message id asking for transfer.
- * \return								SBG_NO_ERROR when the transfer ended successfully.
+ * \param[in]	pHandle						Pointer to a valid SbgEComHandle.
+ * \param[in]	msgClass					Original protocol class asking for transfer.
+ * \param[in]	msg							Original protocol message id asking for transfer.
+ * \return									SBG_NO_ERROR when the transfer ended successfully.
  */
 static SbgErrorCode sbgEComTransferSendEnd(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg)
 {
@@ -200,11 +201,11 @@ static SbgErrorCode sbgEComTransferSendEnd(SbgEComHandle *pHandle, uint8_t msgCl
 /*!
  * Initiates a download sequences with a device.
  * 
- * \param[in] pHandle					Pointer to a valid SbgEComHandle.
- * \param[in] msgClass					Original protocol class asking for transfer.
- * \param[in] msg						Original protocol message id asking for transfer.
- * \param[out] pSize					Size of the transfer initiated, returned from the device.
- * \return								SBG_NO_ERROR when the transfer initiated successfully.
+ * \param[in]	pHandle						Pointer to a valid SbgEComHandle.
+ * \param[in]	msgClass					Original protocol class asking for transfer.
+ * \param[in]	msg							Original protocol message id asking for transfer.
+ * \param[out]	pSize						Size of the transfer initiated, returned from the device.
+ * \return									SBG_NO_ERROR when the transfer initiated successfully.
  */
 static SbgErrorCode sbgEComTransferReceiveInit(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg, size_t *pSize)
 {
@@ -239,7 +240,7 @@ static SbgErrorCode sbgEComTransferReceiveInit(SbgEComHandle *pHandle, uint8_t m
 		if (errorCode == SBG_NO_ERROR)
 		{
 			//
-			// Wait for reponse, the device should respond with a ECOM_TRANSFER_START command and the transfer size
+			// Wait for response, the device should respond with a ECOM_TRANSFER_START command and the transfer size
 			// If it can not initiate the transfer, it will respond with a NACK
 			//
 			errorCode = sbgEComReceiveCmd2(pHandle, msgClass, msg,  &receivedPayload, pHandle->cmdDefaultTimeOut);
@@ -306,13 +307,13 @@ static SbgErrorCode sbgEComTransferReceiveInit(SbgEComHandle *pHandle, uint8_t m
 /*!
  * Receive one packet of data on a initiated download transfer.
  * 
- * \param[in] pHandle					Pointer to a valid SbgEComHandle.
- * \param[in] msgClass					Original protocol class asking for transfer.
- * \param[in] msg						Original protocol message id asking for transfer.
- * \param[in] pBuffer					Pointer to the buffer where to write the packet.
- * \param[in] offset					The offset from the start of the buffer.
- * \param[in] packetSize				The size of the data asked to the device.
- * \return								SBG_NO_ERROR if the packet was successfully received.
+ * \param[in]	pHandle						Pointer to a valid SbgEComHandle.
+ * \param[in]	msgClass					Original protocol class asking for transfer.
+ * \param[in]	msg							Original protocol message id asking for transfer.
+ * \param[in]	pBuffer						Pointer to the buffer where to write the packet.
+ * \param[in]	offset						The offset from the start of the buffer.
+ * \param[in]	packetSize					The size of the data asked to the device.
+ * \return									SBG_NO_ERROR if the packet was successfully received.
  */
 static SbgErrorCode sbgEComTransferReceiveData(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg, void *pBuffer, size_t offset, size_t packetSize)
 {
@@ -349,7 +350,7 @@ static SbgErrorCode sbgEComTransferReceiveData(SbgEComHandle *pHandle, uint8_t m
 		if (errorCode == SBG_NO_ERROR)
 		{
 			//
-			// Wait for reponse, the device should respond with a ECOM_TRANSFER_DATA, the offset from the start of the transfer and the data payload
+			// Wait for response, the device should respond with a ECOM_TRANSFER_DATA, the offset from the start of the transfer and the data payload
 			// If it can not provide the data, it will respond with a NACK
 			//
 			errorCode = sbgEComReceiveCmd2(pHandle, msgClass, msg, &receivedPayload, pHandle->cmdDefaultTimeOut);
@@ -399,10 +400,10 @@ static SbgErrorCode sbgEComTransferReceiveData(SbgEComHandle *pHandle, uint8_t m
 /*!
  * Function that ends a download sequence with a device.
  * 
- * \param[in] pHandle					Pointer to a valid SbgEComHandle.
- * \param[in] msgClass					Original protocol class asking for transfer.
- * \param[in] msg						Original protocol message id asking for transfer.
- * \return								SBG_NO_ERROR when the transfer ended successfully.
+ * \param[in]	pHandle						Pointer to a valid SbgEComHandle.
+ * \param[in]	msgClass					Original protocol class asking for transfer.
+ * \param[in]	msg							Original protocol message id asking for transfer.
+ * \return									SBG_NO_ERROR when the transfer ended successfully.
  */
 static SbgErrorCode sbgEComTransferReceiveEnd(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg)
 {

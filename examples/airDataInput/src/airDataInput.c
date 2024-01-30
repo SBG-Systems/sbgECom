@@ -68,10 +68,10 @@ static float airDataInputRandFloat(float randMin, float randMax)
  */
 static SbgErrorCode airDataInputSendOneLog(SbgEComHandle *pHandle)
 {
-	SbgErrorCode	errorCode = SBG_NO_ERROR;
-	SbgLogAirData	airDataLog;
-	uint8_t			outputBuffer[64];
-	SbgStreamBuffer	outputStream;
+	SbgErrorCode		errorCode = SBG_NO_ERROR;
+	SbgEComLogAirData	airDataLog;
+	uint8_t				outputBuffer[64];
+	SbgStreamBuffer		outputStream;
 
 	assert(pHandle);
 
@@ -103,7 +103,7 @@ static SbgErrorCode airDataInputSendOneLog(SbgEComHandle *pHandle)
 	//
 	sbgStreamBufferInitForWrite(&outputStream, outputBuffer, sizeof(outputBuffer));
 
-	errorCode = sbgEComBinaryLogWriteAirData(&outputStream, &airDataLog);
+	errorCode = sbgEComLogAirDataWriteToStream(&airDataLog, &outputStream);
 
 	if (errorCode == SBG_NO_ERROR)
 	{
@@ -193,7 +193,7 @@ static SbgErrorCode airDataInputProcess(SbgInterface *pInterface)
 		}
 
 		//
-		// Close the sbgEcom library
+		// Close the sbgECom library
 		//
 		sbgEComClose(&comHandle);
 	}

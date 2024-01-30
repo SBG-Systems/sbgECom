@@ -88,7 +88,7 @@ static SbgErrorCode sbgEComCmdApiReplyParsePayload(SbgEComCmdApiReply *pReply)
 //- Public methods                                                     -//
 //----------------------------------------------------------------------//
 
-void sbgEComCmdApiReplyConstruct(SbgEComCmdApiReply *pReply) //TODO: minuscule ds un commit séparé
+void sbgEComCmdApiReplyConstruct(SbgEComCmdApiReply *pReply)
 {
 	assert(pReply);
 
@@ -98,7 +98,7 @@ void sbgEComCmdApiReplyConstruct(SbgEComCmdApiReply *pReply) //TODO: minuscule d
 	pReply->pContent	= NULL;
 }
 
-void sbgEComCmdApiReplyDestroy(SbgEComCmdApiReply *pReply) //TODO: minuscule ds un commit séparé
+void sbgEComCmdApiReplyDestroy(SbgEComCmdApiReply *pReply)
 {
 	assert(pReply);
 

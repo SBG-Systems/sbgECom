@@ -58,7 +58,7 @@
  * \param[in]	pUserArg				Optional user argument.
  * \return								SBG_NO_ERROR if successful.
  */
-static SbgErrorCode pulseMinimalOnLogReceived(SbgEComHandle *pECom, SbgEComClass msgClass, SbgEComMsgId msg, const SbgBinaryLogData *pLogData, void *pUserArg)
+static SbgErrorCode pulseMinimalOnLogReceived(SbgEComHandle *pECom, SbgEComClass msgClass, SbgEComMsgId msg, const SbgEComLogUnion *pLogData, void *pUserArg)
 {
 	SBG_UNUSED_PARAMETER(pECom);
 	SBG_UNUSED_PARAMETER(pUserArg);
@@ -142,8 +142,8 @@ static SbgErrorCode pulseMinimalGetAndPrintProductInfo(SbgEComHandle *pECom)
 		int								 ret;
 
 		//
-		// This is a naive and simplistic way to parse a json content.
-		// It is recommanded to use a true json parser.
+		// This is a naive and simplistic way to parse a JSON content.
+		// It is recommended to use a true JSON parser.
 		// The cJson library can help you with this.
 		//
 		ret = sscanf(reply.pContent, "{"									\
@@ -168,7 +168,7 @@ static SbgErrorCode pulseMinimalGetAndPrintProductInfo(SbgEComHandle *pECom)
 		else
 		{
 			errorCode = SBG_INVALID_PARAMETER;
-			SBG_LOG_ERROR(errorCode, "Received JSON is mal formatted");
+			SBG_LOG_ERROR(errorCode, "Received JSON is malformed");
 		}
 	}
 	else
@@ -185,7 +185,7 @@ static SbgErrorCode pulseMinimalGetAndPrintProductInfo(SbgEComHandle *pECom)
  * Parse an error JSON payload to extract each field.
  *
  * This is a naive implementation only for demonstration purposes.
- * It should NOT be used in production environements.
+ * It should NOT be used in production environments.
  * 
  * \param[in]	pContent					The JSON payload to parse
  * \param[out]	pStatus						Extracted 'status' field from the JSON payload
@@ -218,8 +218,8 @@ static SbgErrorCode pulseMinimalJsonParseError(const char* pContent, uint32_t *p
 	if (ret > 0)
 	{		
 		//
-		// This is a naive and simplistic way to parse a json content.
-		// It is recommanded to use a true json parser.
+		// This is a naive and simplistic way to parse a JSON content.
+		// It is recommended to use a true JSON parser.
 		// The cJson library can help you with this.
 		//
 		ret = sscanf(pContent, formatStr, pStatus, pTitle,  pDetail);
@@ -227,7 +227,7 @@ static SbgErrorCode pulseMinimalJsonParseError(const char* pContent, uint32_t *p
 		if (ret != 3)
 		{
 			errorCode = SBG_INVALID_PARAMETER;
-			SBG_LOG_ERROR(errorCode, "JSON payload mal formatted");
+			SBG_LOG_ERROR(errorCode, "JSON payload malformed");
 		}
 	}
 	else
@@ -258,8 +258,8 @@ static SbgErrorCode pulseMinimalChangeImuShortOutputRate(SbgEComHandle *pECom, u
 	sbgEComCmdApiReplyConstruct(&reply);
 
 	//
-	// This is a naive and simplistic way to build a json string.
-	// It is recommanded to use a true json generator.
+	// This is a naive and simplistic way to build a JSON string.
+	// It is recommended to use a true JSON generator.
 	// The cJson library can help you with this.
 	//
 	ret = snprintf(periodStr, sizeof(periodStr), "\"%"PRIu32"ms\"", period);
@@ -275,7 +275,7 @@ static SbgErrorCode pulseMinimalChangeImuShortOutputRate(SbgEComHandle *pECom, u
 			//
 			if (reply.statusCode == 200)
 			{
-				SBG_LOG_INFO("IMU Short output periode successfully configured");
+				SBG_LOG_INFO("IMU Short output period successfully configured");
 			}
 			else
 			{
@@ -284,8 +284,8 @@ static SbgErrorCode pulseMinimalChangeImuShortOutputRate(SbgEComHandle *pECom, u
 				char			details[128];
 
 				//
-				// Parse an error payload using a naive and simplistic approch
-				// You should rather use a true json parser such as cJson library
+				// Parse an error payload using a naive and simplistic approach
+				// You should rather use a true JSON parser such as cJson library
 				//
 				errorCode = pulseMinimalJsonParseError(reply.pContent, &status, title, sizeof(title), details, sizeof(details));
 

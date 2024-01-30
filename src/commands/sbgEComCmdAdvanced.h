@@ -44,7 +44,7 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Advanced definitions											   -//
+//- Advanced definitions                                               -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -69,7 +69,7 @@ typedef enum _SbgEComTimeReferenceSrc
 #define SBG_ECOM_NMEA_OPT_FORCE_UTC		(uint32_t)(0x00000001 << 4)		/*!< Always output time in NMEA messages even if invalid */
 
 //----------------------------------------------------------------------//
-//- Advanced configurations											   -//
+//- Advanced configurations                                            -//
 //----------------------------------------------------------------------//
 
 /*!

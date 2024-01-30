@@ -43,6 +43,8 @@
 typedef struct _SbgInterfaceUdp
 {
 	SOCKET 			udpSocket;					/*!< The socket used to send and / or receive some UDP data. */
+	bool			useConnected;				/*!< Set to true to use connected mode or false for unconnected. */
+
 	sbgIpAddress	remoteAddr;					/*!< IP address to send data to. */
 	uint32_t		remotePort;					/*!< Ethernet port to send data to. */
 	uint32_t		localPort;					/*!< Ethernet port on which the interface is listening. */
@@ -65,6 +67,21 @@ static SbgInterfaceUdp *sbgInterfaceUdpGet(SbgInterface *pInterface)
 	assert(pInterface->handle);
 
 	return (SbgInterfaceUdp*)pInterface->handle;
+}
+
+/*!
+ * Returns the UDP interface instance (const version)
+ *
+ * \param[in]	pInterface								Interface instance.
+ * \return												The UDP interface instance.
+ */
+static const SbgInterfaceUdp *sbgInterfaceUdpGetConst(const SbgInterface *pInterface)
+{
+	assert(pInterface);
+	assert(pInterface->type == SBG_IF_TYPE_ETH_UDP);
+	assert(pInterface->handle);
+
+	return (const SbgInterfaceUdp*)pInterface->handle;
 }
 
 /*!
@@ -205,9 +222,9 @@ static SbgErrorCode sbgInterfaceUdpWrite(SbgInterface *pInterface, const void *p
 
 	pUdpHandle = sbgInterfaceUdpGet(pInterface);
 		
-	outAddr.sin_family = AF_INET;
-	outAddr.sin_addr.s_addr = pUdpHandle->remoteAddr;
-	outAddr.sin_port = htons((uint16_t)pUdpHandle->remotePort);
+	outAddr.sin_family		= AF_INET;
+	outAddr.sin_addr.s_addr	= pUdpHandle->remoteAddr;
+	outAddr.sin_port		= htons((uint16_t)pUdpHandle->remotePort);
 
 	while (bytesToWrite != 0)
 	{
@@ -273,20 +290,16 @@ static SbgErrorCode sbgInterfaceUdpRead(SbgInterface *pInterface, void *pBuffer,
 
 	if (ret != -1)
 	{
-		if ((pUdpHandle->remoteAddr == 0) &&
-			(pUdpHandle->remotePort == 0))
+		if (pUdpHandle->useConnected)
 		{
-			pUdpHandle->remoteAddr = remoteAddr.sin_addr.s_addr;
-			pUdpHandle->remotePort = ntohs(remoteAddr.sin_port);
-		}
-		else if ((pUdpHandle->remoteAddr != remoteAddr.sin_addr.s_addr) ||
-			(pUdpHandle->remotePort != ntohs(remoteAddr.sin_port)))
-		{
-			char			 remoteAddrString[16];
+			if ( (pUdpHandle->remoteAddr != remoteAddr.sin_addr.s_addr) || (pUdpHandle->remotePort != ntohs(remoteAddr.sin_port)) )
+			{
+				char			 remoteAddrString[16];
 
-			sbgNetworkIpToString(remoteAddr.sin_addr.s_addr, remoteAddrString, sizeof(remoteAddrString));
-			SBG_LOG_WARNING(SBG_READ_ERROR, "received data from invalid remote host (%s:%u)", remoteAddrString, ntohs(remoteAddr.sin_port));
-			ret = 0;
+				sbgNetworkIpToString(remoteAddr.sin_addr.s_addr, remoteAddrString, sizeof(remoteAddrString));
+				SBG_LOG_DEBUG("received data from invalid remote host (%s:%u)", remoteAddrString, ntohs(remoteAddr.sin_port));
+				ret = 0;
+			}
 		}
 
 		errorCode = SBG_NO_ERROR;
@@ -314,7 +327,6 @@ static SbgErrorCode sbgInterfaceUdpRead(SbgInterface *pInterface, void *pBuffer,
 	return errorCode;
 }
 
-
 //----------------------------------------------------------------------//
 //- Public functions                                                   -//
 //----------------------------------------------------------------------//
@@ -340,6 +352,7 @@ SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpCreate(SbgInterface *pInterface, 
 
 		if (pNewUdpHandle)
 		{
+			pNewUdpHandle->useConnected	= false;
 			pNewUdpHandle->remoteAddr	= remoteAddr;
 			pNewUdpHandle->remotePort	= remotePort;
 			pNewUdpHandle->localPort	= localPort;
@@ -355,6 +368,9 @@ SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpCreate(SbgInterface *pInterface, 
 					SOCKADDR_IN	 bindAddress;
 					int			 socketError;
 
+					//
+					// Accept incoming data from any IP address but on localPort only
+					//
 					bindAddress.sin_family			= AF_INET;
 					bindAddress.sin_addr.s_addr		= INADDR_ANY;
 					bindAddress.sin_port			= htons((uint16_t)localPort);
@@ -423,7 +439,29 @@ SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpCreate(SbgInterface *pInterface, 
 	return errorCode;
 }
 
+SBG_COMMON_LIB_API void sbgInterfaceUdpSetConnectedMode(SbgInterface *pInterface, bool useConnected)
+{
+	SbgInterfaceUdp			*pUdpHandle;
 
+	assert(pInterface);
+	assert(pInterface->type == SBG_IF_TYPE_ETH_UDP);
+
+	pUdpHandle = sbgInterfaceUdpGet(pInterface);
+
+	pUdpHandle->useConnected = useConnected;
+}
+
+SBG_COMMON_LIB_API bool sbgInterfaceUdpGetConnectedMode(const SbgInterface *pInterface)
+{
+	const SbgInterfaceUdp			*pUdpHandle;
+
+	assert(pInterface);
+	assert(pInterface->type == SBG_IF_TYPE_ETH_UDP);
+
+	pUdpHandle = sbgInterfaceUdpGetConst(pInterface);
+
+	return pUdpHandle->useConnected;
+}
 
 SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpAllowBroadcast(SbgInterface *pInterface, bool allowBroadcast)
 {

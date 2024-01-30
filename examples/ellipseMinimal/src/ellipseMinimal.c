@@ -44,16 +44,16 @@
 //----------------------------------------------------------------------//
 
 /*!
- *	Callback definition called each time a new log is received.
+ * Callback definition called each time a new log is received.
  * 
- *	\param[in]	pHandle									Valid handle on the sbgECom instance that has called this callback.
- *	\param[in]	msgClass								Class of the message we have received
- *	\param[in]	msg										Message ID of the log received.
- *	\param[in]	pLogData								Contains the received log data as an union.
- *	\param[in]	pUserArg								Optional user supplied argument.
- *	\return												SBG_NO_ERROR if the received log has been used successfully.
+ * \param[in]	pHandle									Valid handle on the sbgECom instance that has called this callback.
+ * \param[in]	msgClass								Class of the message we have received
+ * \param[in]	msg										Message ID of the log received.
+ * \param[in]	pLogData								Contains the received log data as an union.
+ * \param[in]	pUserArg								Optional user supplied argument.
+ * \return												SBG_NO_ERROR if the received log has been used successfully.
  */
-SbgErrorCode onLogReceived(SbgEComHandle *pHandle, SbgEComClass msgClass, SbgEComMsgId msg, const SbgBinaryLogData *pLogData, void *pUserArg)
+static SbgErrorCode onLogReceived(SbgEComHandle *pHandle, SbgEComClass msgClass, SbgEComMsgId msg, const SbgEComLogUnion *pLogData, void *pUserArg)
 {
 	assert(pLogData);
 
@@ -97,7 +97,7 @@ static SbgErrorCode getAndPrintProductInfo(SbgEComHandle *pECom)
 	assert(pECom);
 
 	//
-	// Get device inforamtions
+	// Get device information
 	//
 	errorCode = sbgEComCmdGetInfo(pECom, &deviceInfo);
 
@@ -114,7 +114,7 @@ static SbgErrorCode getAndPrintProductInfo(SbgEComHandle *pECom)
 		sbgVersionToStringEncoded(deviceInfo.hardwareRev, hwRevisionStr, sizeof(hwRevisionStr));
 		sbgVersionToStringEncoded(deviceInfo.firmwareRev, fmwVersionStr, sizeof(fmwVersionStr));
 
-		printf("      Serial Number: %0.9"PRIu32"\n",	deviceInfo.serialNumber);
+		printf("      Serial Number: %09"PRIu32"\n",	deviceInfo.serialNumber);
 		printf("       Product Code: %s\n",				deviceInfo.productCode);
 		printf("  Hardware Revision: %s\n",				hwRevisionStr);
 		printf("   Firmware Version: %s\n",				fmwVersionStr);
@@ -213,7 +213,7 @@ static SbgErrorCode ellipseMinimalProcess(SbgInterface *pInterface)
 		}
 
 		//
-		// Close the sbgEcom library
+		// Close the sbgECom library
 		//
 		sbgEComClose(&comHandle);
 	}

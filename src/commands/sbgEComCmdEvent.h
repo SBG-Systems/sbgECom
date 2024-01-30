@@ -44,7 +44,7 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Event definitions												   -//
+//- Event definitions                                                  -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -99,7 +99,9 @@ typedef enum _SbgEComSyncOutFunction
 	SBG_ECOM_SYNC_OUT_MODE_EVENT_IN_D	= 10006,	/*!< Output is generated on a Sync In D event. */
 
 	SBG_ECOM_SYNC_OUT_MODE_DIRECT_PPS	= 10100,	/*!< The internal GNSS PPS signal is directly routed to the Sync Out.
-														 This mode is only valid for ELLIPSE-N with hardware revisions above 1.2.1.0.
+														 This mode is only valid for the following products:
+															- ELLIPSE-N with hardware revisions above 1.2.1.0
+															- ELLIPSE-N & ELLIPSE-D Generation 3 or above.
 														 Polarity and duration parameters are ignored with this specific mode. */
 
 } SbgEComSyncOutFunction;
@@ -115,7 +117,7 @@ typedef enum _SbgEComSyncOutPolarity
 } SbgEComSyncOutPolarity;
 
 //----------------------------------------------------------------------//
-//- Event configurations											   -//
+//- Event configurations                                               -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -124,7 +126,7 @@ typedef enum _SbgEComSyncOutPolarity
 typedef struct _SbgEComSyncInConf
 {
 	SbgEComSyncInSensitivity	sensitivity;	/*!< Sensitivity of the sync in. */
-	int32_t						delay;			/*!< Delay to take into account for the sync in. (in us)*/
+	int32_t						delay;			/*!< Delay to take into account for the sync in. (in ns)*/
 } SbgEComSyncInConf;
 
 /*!

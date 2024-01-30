@@ -76,7 +76,7 @@ typedef enum _SbgEComLog
 
 	SBG_ECOM_LOG_UTC_TIME 					= 2,		/*!< Provides UTC time reference */
 
-	SBG_ECOM_LOG_IMU_DATA 					= 3,		/*!< Includes IMU status, acc., gyro, temp delta speeds and delta angles values */
+	SBG_ECOM_LOG_IMU_DATA 					= 3,		/*!< DEPRECATED: Synchronous IMU measurements (time aligned to UTC - NEVER use for Post Processing). */
 
 	SBG_ECOM_LOG_MAG 						= 4,		/*!< Magnetic data with associated accelerometer on each axis */
 	SBG_ECOM_LOG_MAG_CALIB 					= 5,		/*!< Magnetometer calibration data (raw buffer) */
@@ -90,14 +90,10 @@ typedef enum _SbgEComLog
 	SBG_ECOM_LOG_GPS1_VEL 					= 13,		/*!< GPS velocities from primary or secondary GPS receiver */
 	SBG_ECOM_LOG_GPS1_POS 					= 14,		/*!< GPS positions from primary or secondary GPS receiver */
 	SBG_ECOM_LOG_GPS1_HDT 					= 15,		/*!< GPS true heading from dual antenna system */
-	SBG_ECOM_LOG_GPS1_RAW					= 31,		/*!< GPS 1 raw data for post processing. */
-	SBG_ECOM_LOG_GPS1_SAT					= 50,		/*!< GPS 1 Satellite data. */
 
 	SBG_ECOM_LOG_GPS2_VEL					= 16,		/*!< GPS 2 velocity log data. */
 	SBG_ECOM_LOG_GPS2_POS					= 17,		/*!< GPS 2 position log data. */
 	SBG_ECOM_LOG_GPS2_HDT					= 18,		/*!< GPS 2 true heading log data. */
-	SBG_ECOM_LOG_GPS2_RAW					= 38,		/*!< GPS 2 raw data for post processing. */
-	SBG_ECOM_LOG_GPS2_SAT					= 51,		/*!< GNSS2 Satellite data. */
 
 	SBG_ECOM_LOG_ODO_VEL 					= 19,		/*!< Provides odometer velocity */
 
@@ -110,22 +106,33 @@ typedef enum _SbgEComLog
 	SBG_ECOM_LOG_DVL_BOTTOM_TRACK			= 29,		/*!< Doppler Velocity Log for bottom tracking data. */
 	SBG_ECOM_LOG_DVL_WATER_TRACK			= 30,		/*!< Doppler Velocity log for water layer data. */
 
+	SBG_ECOM_LOG_GPS1_RAW					= 31,		/*!< GPS 1 raw data for post processing. */
+
 	SBG_ECOM_LOG_SHIP_MOTION_HP				= 32,		/*!< Return delayed ship motion such as surge, sway, heave. */
 
 	SBG_ECOM_LOG_AIR_DATA					= 36,		/*!< Air Data aiding such as barometric altimeter and true air speed. */
 
-	SBG_ECOM_LOG_USBL						= 37,		/*!< Raw USBL position data for subsea navigation. */
+	SBG_ECOM_LOG_USBL						= 37,		/*!< Raw USBL position data for sub-sea navigation. */
+
+	SBG_ECOM_LOG_GPS2_RAW					= 38,		/*!< GPS 2 raw data for post processing. */
 
 
-	SBG_ECOM_LOG_IMU_SHORT					= 44,		/*!< Short IMU message recommended for post processing usages. */
+	SBG_ECOM_LOG_IMU_SHORT					= 44,		/*!< Asynchronous IMU measurements output at the IMU rate and to use for Post Processing with Qinertia. */
 
 	SBG_ECOM_LOG_EVENT_OUT_A				= 45,		/*!< Event marker used to time stamp each generated Sync Out A signal. */
 	SBG_ECOM_LOG_EVENT_OUT_B				= 46,		/*!< Event marker used to time stamp each generated Sync Out B signal. */
 
-	SBG_ECOM_LOG_DEPTH						= 47,		/*!< Depth sensor measurement log used for subsea navigation. */
+	SBG_ECOM_LOG_DEPTH						= 47,		/*!< Depth sensor measurement log used for sub-sea navigation. */
 	SBG_ECOM_LOG_DIAG						= 48,		/*!< Diagnostic log. */
 
 	SBG_ECOM_LOG_RTCM_RAW					= 49,		/*!< RTCM raw data. */
+
+	SBG_ECOM_LOG_GPS1_SAT					= 50,		/*!< GPS 1 Satellite data. */
+	SBG_ECOM_LOG_GPS2_SAT					= 51,		/*!< GNSS2 Satellite data. */
+
+	SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY			= 52,		/*!< INS body rotation rate and lateral acceleration (bias, earth rotation and gravity free compensated). */
+	SBG_ECOM_LOG_EKF_ROT_ACCEL_NED			= 53,		/*!< INS North/East/Down rotation rate and lateral acceleration (bias, earth rotation and gravity free compensated). */
+	SBG_ECOM_LOG_EKF_VEL_BODY				= 54,		/*!< INS X,Y,Z body velocity and standard deviation. */
 
 	SBG_ECOM_LOG_ECOM_NUM_MESSAGES						/*!< Helper definition to know the number of ECom messages */
 } SbgEComLog;
@@ -140,7 +147,7 @@ typedef enum _SbgEComLog1MsgId
 } SbgEComLog1;
 
 /*!
- * Enum that defines all the available Nmea output logs from the sbgECom library.
+ * Enum that defines all the available NMEA output logs from the sbgECom library.
  */
 typedef enum _SbgEComNmeaLog
 {
@@ -158,7 +165,7 @@ typedef enum _SbgEComNmeaLog
 } SbgEComNmeaLog;
 
 /*!
- * Enum that defines all the available Proprietary Nmea output logs from the sbgECom library.
+ * Enum that defines all the available Proprietary NMEA output logs from the sbgECom library.
  */
 typedef enum _SbgEComIdNmea1Log
 {
@@ -192,17 +199,17 @@ typedef enum _SbgEComIdThirdParty
 	SBG_ECOM_THIRD_PARTY_KVH				= 1,		/*!< Roll, Pitch, Yaw */
 
 	SBG_ECOM_THIRD_PARTY_PD0				= 2,		/*!< Teledyne PD0 DVL proprietary frame. */
-	SBG_ECOM_THIRD_PARTY_SIMRAD_1000		= 3,		/*!< Konsberg SimRad 1000 proprietary frame that outputs Roll, Pitch and Heading.  */
-	SBG_ECOM_THIRD_PARTY_SIMRAD_3000		= 4,		/*!< Konsberg SimRad 3000 proprietary frame that outputs Roll, Pitch and Heading. */
+	SBG_ECOM_THIRD_PARTY_SIMRAD_1000		= 3,		/*!< Kongsberg SimRad 1000 proprietary frame that outputs Roll, Pitch and Heading.  */
+	SBG_ECOM_THIRD_PARTY_SIMRAD_3000		= 4,		/*!< Kongsberg SimRad 3000 proprietary frame that outputs Roll, Pitch and Heading. */
 
-	SBG_ECOM_THIRD_PARTY_SEAPATH_B26		= 5,		/*!< Konsberg Seapth Binary Log 26 used for MBES FM mode. */
+	SBG_ECOM_THIRD_PARTY_SEAPATH_B26		= 5,		/*!< Kongsberg Seapth Binary Log 26 used for MBES FM mode. */
 	SBG_ECOM_THIRD_PARTY_DOLOG_HRP			= 6,		/*!< DOLOG Heading, Roll, Pitch proprietary and binary message. */
 	SBG_ECOM_THIRD_PARTY_AHRS_500			= 7,		/*!< Crossbow AHRS-500 Data Packet output with attitude, rate, acceleration and status. */
 	SBG_ECOM_THIRD_PARTY_ADA_01				= 8,		/*!< ADA specific Data Packet with IMU/INS/Status data */
 
 	SBG_ECOM_THIRD_PARTY_AT_ITINS			= 9,		/*!< Cobham Aviator UAV 200 navigation (orientation & position) data */
 
-	SBG_ECOM_THIRD_PARTY_KONGSBERG_MB		= 10,		/*!< Kongsberg multibeam binary log. */
+	SBG_ECOM_THIRD_PARTY_KONGSBERG_MB		= 10,		/*!< Kongsberg multi-beam binary log. */
 
 	SBG_ECOM_LOG_THIRD_PARTY_NUM_MESSAGES				/*!< Helper definition to know the number of third party messages */
 } SbgEComIdThirdParty;
@@ -242,7 +249,6 @@ typedef enum _SbgEComCmd
 	/* GNSS configuration */
 	SBG_ECOM_CMD_GNSS_1_MODEL_ID 			= 17,		/*!< Set/get GNSS model information */
 	SBG_ECOM_CMD_GNSS_1_LEVER_ARM_ALIGNMENT = 18,		/*!< DEPRECATED: GNSS installation configuration (lever arm, antenna alignments) */
-	SBG_ECOM_CMD_GNSS_1_INSTALLATION		= 46,		/*!< Define or retrieve the GNSS 1 main and secondary lever arms configuration. */
 	SBG_ECOM_CMD_GNSS_1_REJECT_MODES 		= 19,		/*!< GNSS aiding rejection modes configuration. */
 
 	/* Odometer configuration */
@@ -295,9 +301,11 @@ typedef enum _SbgEComCmd
 	/* Odometer configuration (using CAN) */
 	SBG_ECOM_CMD_ODO_CAN_CONF 				= 45,		/*!< Configuration for CAN based odometer (CAN ID & DBC) */
 
+	SBG_ECOM_CMD_GNSS_1_INSTALLATION		= 46,		/*!< Define or retrieve the GNSS 1 main and secondary lever arms configuration. */
+
 	/* REST API related commands */
-	SBG_ECOM_CMD_API_GET					= 46,		/*!< Command equivalent to the HTTP GET method for a REST API. */
 	SBG_ECOM_CMD_API_POST					= 47,		/*!< Command equivalent to the HTTP POST method for a REST API. */
+	SBG_ECOM_CMD_API_GET					= 48,		/*!< Command equivalent to the HTTP GET method for a REST API. */
 
 	/* Misc. */
 	SBG_ECOM_LOG_ECOM_NUM_CMDS							/*!< Helper definition to know the number of commands */

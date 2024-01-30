@@ -47,17 +47,45 @@ extern "C" {
 /*!
  * Initialize an unconnected UDP interface for read and write operations.
  *
- * If the remote address and port are zero, the interface waits for the first packet received on the
- * local port and uses the source of that packet as its remote host. This provides a convenient way
- * to create "server" UDP interfaces.
+ * Connected/Unconnected modes:
+ * 
+ * The UDP socket is unconnected so any host sending data on localPort should be received.
+ * However, only the host specified in remoteAddr should received sent data  on remotePort.
+ * 
+ * You can enable the connected mode with the `sbgInterfaceUdpSetConnectedMode` method.
+ * If this case, only datagrams sent by the host with remoteAddr ip and remotePort
+ * will be received and any other traffic should be discarded.
+ * 
+ * Broadcast:
+ * 
+ * You can specify a SBG_IPV4_BROADCAST_ADDR address to send an UDP datagram to all hosts
+ * However, you have to allow broadcasted packets with the `sbgInterfaceUdpAllowBroadcast` method.
  *
  * \param[in]	pInterface						Pointer on an allocated interface instance to initialize.
  * \param[in]	remoteAddr						IP address to send data to.
  * \param[in]	remotePort						Ethernet port to send data to.
- * \param[in]	localPort						Ehternet port on which the interface is listening.
+ * \param[in]	localPort						Ethernet port on which the interface is listening.
  * \return										SBG_NO_ERROR if the interface has been created.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpCreate(SbgInterface *pInterface, sbgIpAddress remoteAddr, uint32_t remotePort, uint32_t localPort);
+
+/*!
+ * Define if the UDP socket should use connected or unconnected mode.
+ *
+ * If connected mode is enabled, the interface only accepts datagrams from remortAddr & remotePort.
+ * 
+ * \param[in]	pInterface						Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
+ * \param[in]	useConnected					Set to true to enable connected mode and false for unconnected.
+ */
+SBG_COMMON_LIB_API void sbgInterfaceUdpSetConnectedMode(SbgInterface *pInterface, bool useConnected);
+
+/*!
+ * Returns if the UDP socket is using or not connected mode.
+ * 
+ * \param[in]	pInterface						Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
+ * \return										true if connected mode is enabled or false otherwise.
+ */
+SBG_COMMON_LIB_API bool sbgInterfaceUdpGetConnectedMode(const SbgInterface *pInterface);
 
 /*!
  * Define if a socket can send broadcasted packets.

@@ -18,17 +18,17 @@
  * \param[in]	value							Integer value, must not be zero.
  * \return										Number of leading zeros.
  */
-static uint32_t sbgStringCountLeadingZeros(size_t value)
+static size_t sbgStringCountLeadingZeros(size_t value)
 {
-	uint32_t								 result;
+	size_t								 result;
 
 	assert(value != 0);
 
 #if defined(__GNUC__) || defined(__clang__)
 	result = __builtin_clzl((unsigned long)value);
 #else
-	size_t									 count;
-	size_t									 tmp;
+	size_t								 count;
+	size_t								 tmp;
 
 	tmp = value;
 	count = 0;
@@ -1067,6 +1067,242 @@ SBG_COMMON_LIB_API void sbgStringTruncate(SbgString *pString, size_t length)
 //- Conversion methods                                                 -//
 //----------------------------------------------------------------------//
 
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromInt8(SbgString *pString, int8_t value)
+{
+	assert(pString);
+	assert(!pString->readOnly);
+
+	if (pString->errorCode == SBG_NO_ERROR)
+	{
+		size_t							 length;
+		size_t							 oldCapacity;
+		int								 result;
+
+		result = snprintf(pString->pBuffer, pString->capacity, "%" PRId8, value);
+
+		assert(result >= 0);
+
+		length = (size_t)result;
+
+		oldCapacity = pString->capacity;
+
+		pString->errorCode = sbgStringResizeBuffer(pString, length + 1);
+
+		if (pString->errorCode == SBG_NO_ERROR)
+		{
+			if (length >= oldCapacity)
+			{
+				snprintf(pString->pBuffer, pString->capacity, "%" PRId8, value);
+			}
+
+			pString->length = (size_t)length;
+		}
+	}
+
+	return pString->errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToInt8(const SbgString *pString, int8_t *pValue)
+{
+	SbgErrorCode						 errorCode;
+	int									 result;
+	int8_t								 value;
+
+	assert(pString);
+
+	result = sscanf(pString->pBuffer, "%" SCNd8, &value);
+
+	if (result == 1)
+	{
+		*pValue = value;
+
+		errorCode = SBG_NO_ERROR;
+	}
+	else
+	{
+		errorCode = SBG_ERROR;
+	}
+
+	return errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromUint8(SbgString *pString, uint8_t value)
+{
+	assert(pString);
+	assert(!pString->readOnly);
+
+	if (pString->errorCode == SBG_NO_ERROR)
+	{
+		size_t							 length;
+		size_t							 oldCapacity;
+		int								 result;
+
+		result = snprintf(pString->pBuffer, pString->capacity, "%" PRIu8, value);
+
+		assert(result >= 0);
+
+		length = (size_t)result;
+
+		oldCapacity = pString->capacity;
+
+		pString->errorCode = sbgStringResizeBuffer(pString, length + 1);
+
+		if (pString->errorCode == SBG_NO_ERROR)
+		{
+			if (length >= oldCapacity)
+			{
+				snprintf(pString->pBuffer, pString->capacity, "%" PRIu8, value);
+			}
+
+			pString->length = (size_t)length;
+		}
+	}
+
+	return pString->errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToUint8(const SbgString *pString, uint8_t *pValue)
+{
+	SbgErrorCode						 errorCode;
+	int									 result;
+	uint8_t								 value;
+
+	assert(pString);
+
+	result = sscanf(pString->pBuffer, "%" SCNu8, &value);
+
+	if (result == 1)
+	{
+		*pValue = value;
+
+		errorCode = SBG_NO_ERROR;
+	}
+	else
+	{
+		errorCode = SBG_ERROR;
+	}
+
+	return errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromInt16(SbgString *pString, int16_t value)
+{
+	assert(pString);
+	assert(!pString->readOnly);
+
+	if (pString->errorCode == SBG_NO_ERROR)
+	{
+		size_t							 length;
+		size_t							 oldCapacity;
+		int								 result;
+
+		result = snprintf(pString->pBuffer, pString->capacity, "%" PRId16, value);
+
+		assert(result >= 0);
+
+		length = (size_t)result;
+
+		oldCapacity = pString->capacity;
+
+		pString->errorCode = sbgStringResizeBuffer(pString, length + 1);
+
+		if (pString->errorCode == SBG_NO_ERROR)
+		{
+			if (length >= oldCapacity)
+			{
+				snprintf(pString->pBuffer, pString->capacity, "%" PRId16, value);
+			}
+
+			pString->length = (size_t)length;
+		}
+	}
+
+	return pString->errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToInt16(const SbgString *pString, int16_t *pValue)
+{
+	SbgErrorCode						 errorCode;
+	int									 result;
+	int16_t								 value;
+
+	assert(pString);
+
+	result = sscanf(pString->pBuffer, "%" SCNd16, &value);
+
+	if (result == 1)
+	{
+		*pValue = value;
+
+		errorCode = SBG_NO_ERROR;
+	}
+	else
+	{
+		errorCode = SBG_ERROR;
+	}
+
+	return errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromUint16(SbgString *pString, uint16_t value)
+{
+	assert(pString);
+	assert(!pString->readOnly);
+
+	if (pString->errorCode == SBG_NO_ERROR)
+	{
+		size_t							 length;
+		size_t							 oldCapacity;
+		int								 result;
+
+		result = snprintf(pString->pBuffer, pString->capacity, "%" PRIu16, value);
+
+		assert(result >= 0);
+
+		length = (size_t)result;
+
+		oldCapacity = pString->capacity;
+
+		pString->errorCode = sbgStringResizeBuffer(pString, length + 1);
+
+		if (pString->errorCode == SBG_NO_ERROR)
+		{
+			if (length >= oldCapacity)
+			{
+				snprintf(pString->pBuffer, pString->capacity, "%" PRIu16, value);
+			}
+
+			pString->length = (size_t)length;
+		}
+	}
+
+	return pString->errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToUint16(const SbgString *pString, uint16_t *pValue)
+{
+	SbgErrorCode						 errorCode;
+	int									 result;
+	uint16_t							 value;
+
+	assert(pString);
+
+	result = sscanf(pString->pBuffer, "%" SCNu16, &value);
+
+	if (result == 1)
+	{
+		*pValue = value;
+
+		errorCode = SBG_NO_ERROR;
+	}
+	else
+	{
+		errorCode = SBG_ERROR;
+	}
+
+	return errorCode;
+}
+
 SBG_COMMON_LIB_API SbgErrorCode sbgStringFromInt32(SbgString *pString, int32_t value)
 {
 	assert(pString);
@@ -1288,6 +1524,65 @@ SBG_COMMON_LIB_API SbgErrorCode sbgStringToUint64(const SbgString *pString, uint
 	assert(pString);
 
 	result = sscanf(pString->pBuffer, "%" SCNu64, &value);
+
+	if (result == 1)
+	{
+		*pValue = value;
+
+		errorCode = SBG_NO_ERROR;
+	}
+	else
+	{
+		errorCode = SBG_ERROR;
+	}
+
+	return errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringFromFloat(SbgString *pString, float value)
+{
+	assert(pString);
+	assert(!pString->readOnly);
+
+	if (pString->errorCode == SBG_NO_ERROR)
+	{
+		size_t							 length;
+		size_t							 oldCapacity;
+		int								 result;
+
+		result = snprintf(pString->pBuffer, pString->capacity, "%f", value);
+
+		assert(result >= 0);
+
+		length = (size_t)result;
+
+		oldCapacity = pString->capacity;
+
+		pString->errorCode = sbgStringResizeBuffer(pString, length + 1);
+
+		if (pString->errorCode == SBG_NO_ERROR)
+		{
+			if (length >= oldCapacity)
+			{
+				snprintf(pString->pBuffer, pString->capacity, "%f", value);
+			}
+
+			pString->length = (size_t)length;
+		}
+	}
+
+	return pString->errorCode;
+}
+
+SBG_COMMON_LIB_API SbgErrorCode sbgStringToFloat(const SbgString *pString, float *pValue)
+{
+	SbgErrorCode						 errorCode;
+	int									 result;
+	float								 value;
+
+	assert(pString);
+
+	result = sscanf(pString->pBuffer, "%f", &value);
 
 	if (result == 1)
 	{

@@ -1,22 +1,34 @@
-cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 set(CMAKE_BUILD_TYPE Release CACHE STRING "build type")
 
 project(sbgECom)
 
 #
-# Project configuration
+# Compiler configuration
 #
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-option(BUILD_EXAMPLES "Build examples" OFF)
-option(BUILD_TOOLS "Build tools" OFF)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #
-# sbgECom
+# Project configuration
+#
+option(BUILD_EXAMPLES           "Build examples" OFF)
+option(BUILD_TOOLS              "Build tools" OFF)
+option(USE_DEPRECATED_MACROS    "Enable deprecated preprocessor defines and macros" ON)
+
+if (USE_DEPRECATED_MACROS)
+	message(NOTICE "deprecated definitions, macros and enum values enabled")
+	add_compile_definitions(SBG_ECOM_USE_DEPRECATED_MACROS)
+endif()
+
+#
+# sbgECom library
 #
 add_library(${PROJECT_NAME} STATIC)
 
@@ -91,20 +103,55 @@ if (BUILD_TOOLS)
 		add_subdirectory(${argtable3_SOURCE_DIR} ${argtable3_BINARY_DIR} EXCLUDE_FROM_ALL)
 	endif()
 
+	#
+	# sbgBasicLogger tool - log sbgECom logs to CSV like files
+	#
 	add_executable(sbgBasicLogger
-		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/main.c
-		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/sbgBasicLoggerAccumulators.h
-		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/sbgBasicLoggerFile.h
-		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/sbgBasicLoggerHandler.h
-		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/sbgBasicLoggerAccumulators.c
-		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/sbgBasicLoggerFile.c
-		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/sbgBasicLoggerHandler.c
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/helpers/imuDataMean.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryAidings.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryDvl.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryEkf.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryEkfRotAccel.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryEvent.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryGeneral.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryGnss.h	
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryImu.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryMag.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryShipMotion.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerContext.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerEntry.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerManager.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerSettings.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerApp.h
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/helpers/imuDataMean.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryAidings.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryDvl.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryEkf.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryEkfRotAccel.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryEvent.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryGeneral.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryGnss.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryImu.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryMag.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerEntry/loggerEntryShipMotion.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerContext.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerEntry.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerManager.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerManager/loggerSettings.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/loggerApp.cpp
+		${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src/main.cpp
 	)
-	target_include_directories(sbgBasicLogger PRIVATE ${argtable3_SOURCE_DIR}/src)
+	target_include_directories(sbgBasicLogger
+		PRIVATE ${argtable3_SOURCE_DIR}/src
+		PRIVATE ${PROJECT_SOURCE_DIR}/tools/sbgBasicLogger/src
+	)
 	target_link_libraries(sbgBasicLogger ${PROJECT_NAME} argtable3_static)
 	install(TARGETS sbgBasicLogger DESTINATION bin/tools/sbgBasicLogger COMPONENT executables)
 	install(FILES tools/sbgBasicLogger/README.md DESTINATION bin/tools/sbgBasicLogger COMPONENT executables)
 
+	#
+	# sbgEComApi tool - use sbgInsRestApi GET/POS method over a serial port
+	#
 	add_executable(sbgEComApi ${PROJECT_SOURCE_DIR}/tools/sbgEComApi/src/main.c)
 	target_include_directories(sbgEComApi PRIVATE ${argtable3_SOURCE_DIR}/src)
 	target_link_libraries(sbgEComApi ${PROJECT_NAME} argtable3_static)

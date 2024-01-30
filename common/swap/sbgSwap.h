@@ -48,6 +48,7 @@ extern "C" {
 
 /*!
  *	Swap a uint16_t number.
+ * 
  *	\param[in]	x					The uint16_t to swap.
  *	\return							The swapped value.
  */
@@ -68,6 +69,7 @@ SBG_INLINE uint32_t sbgSwap32(uint32_t x)
 
 /*!
  *	Swap a uint64_t number.
+ * 
  *	\param[in]	x					The uint64_t to swap.
  *	\return							The swapped value.
  */
@@ -94,12 +96,13 @@ SBG_INLINE uint64_t sbgSwap64(uint64_t x)
 
 /*!
  * Swap a float number.
+ * 
  * \param[in]	val					The float to swap.
  * \return							The swapped value.
  */
 SBG_INLINE float sbgSwapFloat(float val)
 {
-	FloatNint	tmpFloat;
+	SbgFloatNint	tmpFloat;
 
 	//
 	// We use a union to do the type punning
@@ -115,12 +118,13 @@ SBG_INLINE float sbgSwapFloat(float val)
 
 /*!
  * Swap a double number.
+ * 
  * \param[in]	val					The double to swap.
  * \return							The swapped value.
  */
 SBG_INLINE double sbgSwapDouble(double val)
 {
-	DoubleNint	tmpDouble;
+	SbgDoubleNint	tmpDouble;
 
 	//
 	// We use a union to do the type punning

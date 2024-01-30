@@ -135,7 +135,7 @@ static SbgErrorCode sbgInterfaceSerialWrite(SbgInterface *pInterface, const void
 		if (WriteFile(pSerialDevice, pCurrentBuffer, numBytesLeftToWrite, (LPDWORD)&numBytesWritten, NULL) == false)
 		{
 			//
-			// An error has occured during the write
+			// An error has occurred during the write
 			//
 			sbgGetWindowsErrorMsg(errorMsg, sizeof(errorMsg));
 			SBG_LOG_ERROR(SBG_WRITE_ERROR, "Write failed error: %s", errorMsg);
@@ -400,7 +400,7 @@ SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceSerialCreate(SbgInterface *pInterfac
 			if (PurgeComm(hSerialDevice, PURGE_TXABORT | PURGE_RXABORT | PURGE_TXCLEAR | PURGE_RXCLEAR))
 			{
 				//
-				// Retreives current com state and com timeout
+				// Retrieve current com state and com timeout
 				//
 				if ( (GetCommState(hSerialDevice, &comState)) && (GetCommTimeouts(hSerialDevice, &comTimeOut)) )
 				{

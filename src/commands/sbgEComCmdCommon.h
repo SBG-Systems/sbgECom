@@ -44,7 +44,7 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Defintions                                                         -//
+//- Definitions                                                        -//
 //----------------------------------------------------------------------//
 
 #define SBG_ECOM_DEFAULT_CMD_TIME_OUT	(500)	/*!< Default time out in ms for commands reception. */
@@ -89,9 +89,9 @@ typedef enum _SbgEComAxisDirection
  * \param[in]	maxSize					Data buffer size, in bytes.
  * \param[in]	timeOut					Time-out, in ms.
  * \return								SBG_NO_ERROR if successful,
- *										SBG_NOT_READY if no command message has been received,
+ *										SBG_TIME_OUT if no command message was received within the specified time out (even if timeOut = 0).
+ *										SBG_NOT_READY to indicate the underlying interface is empty (only applicable when timeOut = 0).
  *										SBG_BUFFER_OVERFLOW if the payload of the received frame couldn't fit into the buffer,
- *										SBG_TIME_OUT if no command message was received within the specified time out.
  */
 SbgErrorCode sbgEComReceiveAnyCmd(SbgEComHandle *pHandle, uint8_t *pMsgClass, uint8_t *pMsgId, void *pData, size_t *pSize, size_t maxSize, uint32_t timeOut);
 
@@ -114,9 +114,9 @@ SbgErrorCode sbgEComReceiveAnyCmd(SbgEComHandle *pHandle, uint8_t *pMsgClass, ui
  * \param[out]	pMsgId					Message ID.
  * \param[out]	pPayload				Payload.
  * \param[in]	timeOut					Time-out, in ms.
- * \return								SBG_NO_ERROR if successful,
- *										SBG_NOT_READY if no command message has been received,
- *										SBG_TIME_OUT if no command message was received within the specified time out.
+ * \return								SBG_NO_ERROR if successful.
+ *										SBG_TIME_OUT if no command message was received within the specified time out (even if timeOut = 0).
+ *										SBG_NOT_READY to indicate the underlying interface is empty (only applicable when timeOut = 0).
  */
 SbgErrorCode sbgEComReceiveAnyCmd2(SbgEComHandle *pHandle, uint8_t *pMsgClass, uint8_t *pMsgId, SbgEComProtocolPayload *pPayload, uint32_t timeOut);
 
@@ -164,7 +164,7 @@ SbgErrorCode sbgEComReceiveCmd(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t
  * \param[out]	pPayload				Payload.
  * \param[in]	timeOut					Time-out, in ms.
  * \return								SBG_NO_ERROR if successful,
- *										SBG_NOT_READY if no command message has been received,
+ *										SBG_NOT_READY if no command message has been received 
  *										SBG_TIME_OUT if no command message was received within the specified time out,
  *										any error code reported by an ACK message for the given class and ID.
  */

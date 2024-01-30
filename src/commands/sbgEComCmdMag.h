@@ -4,7 +4,7 @@
  * \author			SBG Systems
  * \date			11 June 2014
  *
- * \brief			Magnetometer aiding module configuration & onboard magnetic calibration commands.
+ * \brief			Magnetometer aiding module configuration & on-board magnetic calibration commands.
  *
  * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
  * \beginlicense	The MIT license
@@ -47,11 +47,11 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Magnetometer definitions										   -//
+//- Magnetometer definitions                                           -//
 //----------------------------------------------------------------------//
 
 /*!
- *	Define if the onboard magnetic calibration should acquiere points for a 3D or 2D calibration.
+ *	Define if the on-board magnetic calibration should acquire points for a 3D or 2D calibration.
  */
 typedef enum _SbgEComMagCalibMode
 {
@@ -74,7 +74,7 @@ typedef enum _SbgEComMagCalibBandwidth
 } SbgEComMagCalibBandwidth;
 
 /*!
- *	General quality indicator of an onboard magnetic calibration.
+ *	General quality indicator of an on-board magnetic calibration.
  */
 typedef enum _SbgEComMagCalibQuality
 {
@@ -85,7 +85,7 @@ typedef enum _SbgEComMagCalibQuality
 } SbgEComMagCalibQuality;
 
 /*!
- *	Confidence indicator on results of an onbard magnetic calibration.
+ *	Confidence indicator on results of an on-bard magnetic calibration.
  */
 typedef enum _SbgEComMagCalibConfidence
 {
@@ -97,7 +97,7 @@ typedef enum _SbgEComMagCalibConfidence
 } SbgEComMagCalibConfidence;
 
 /*!
- *	Status bit masks used to report advanced inforamtion on the onboard magnetic calibration.
+ *	Status bit masks used to report advanced information on the on-board magnetic calibration.
  */
 #define SBG_ECOM_MAG_CALIB_NOT_ENOUGH_POINTS	(0x0001u)	/*!< Not enough valid magnetic points have been acquired. */
 #define SBG_ECOM_MAG_CALIB_TOO_MUCH_DISTORTIONS	(0x0002u)	/*!< Unable to compute a magnetic calibration due to magnetic interferences or incorrect data set distribution. */
@@ -116,7 +116,7 @@ typedef enum _SbgEComMagModelsStdIds
 } SbgEComMagModelsStdId;
 
 //----------------------------------------------------------------------//
-//- Magnetometer configuration										   -//
+//- Magnetometer configuration                                         -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -128,7 +128,7 @@ typedef struct _SbgEComMagRejectionConf
 } SbgEComMagRejectionConf;
 
 /*!
- * Helper structure to retrieve onboard magnetic calibration results.
+ * Helper structure to retrieve on-board magnetic calibration results.
  */
 typedef struct _SbgEComMagCalibResults
 {
@@ -155,7 +155,7 @@ typedef struct _SbgEComMagCalibResults
 } SbgEComMagCalibResults;
 
 //----------------------------------------------------------------------//
-//- Magnetometer commands		                                       -//
+//- Magnetometer commands                                              -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -205,7 +205,7 @@ SbgErrorCode sbgEComCmdMagSetRejection(SbgEComHandle *pHandle, const SbgEComMagR
 SbgErrorCode sbgEComCmdMagSetCalibData(SbgEComHandle *pHandle, const float *pOffset, const float *pMatrix);
 
 //----------------------------------------------------------------------//
-//- Magnetometer onboard calibration commands	                       -//
+//- Magnetometer on-board calibration commands                         -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -227,7 +227,7 @@ SbgErrorCode sbgEComCmdMagStartCalib(SbgEComHandle *pHandle, SbgEComMagCalibMode
  * As soon as the computations are done, the device will answer with quality indicators, status flags and if possible a valid magnetic calibration matrix and offset.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pCalibResults				Pointer on a SbgEComMagCalibResults structure that can hold onboard magnetic calibration results and status.
+ * \param[out]	pCalibResults				Pointer on a SbgEComMagCalibResults structure that can hold on-board magnetic calibration results and status.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdMagComputeCalib(SbgEComHandle *pHandle, SbgEComMagCalibResults *pCalibResults);

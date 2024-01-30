@@ -112,7 +112,7 @@ typedef enum _SbgEComSignalId
 	SBG_ECOM_SIGNAL_ID_GALILEO_E6_A				= 78,
 
 	//
-	// Beidou constellation (100 to 149)
+	// BeiDou constellation (100 to 149)
 	//
 	SBG_ECOM_SIGNAL_ID_BEIDOU_B1IQ				= 100,
 	SBG_ECOM_SIGNAL_ID_BEIDOU_B1I				= 101,

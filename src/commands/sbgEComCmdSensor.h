@@ -4,7 +4,7 @@
  * \author			SBG Systems
  * \date			11 June 2014
  *
- * \brief			Motion profile, aiding assignement & sensor installation commands.
+ * \brief			Motion profile, aiding assignment & sensor installation commands.
  *
  * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
  * \beginlicense	The MIT license
@@ -47,7 +47,7 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Sensor definitions												   -//
+//- Sensor definitions                                                 -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -100,7 +100,7 @@ typedef enum _SbgEComMotionProfileStdIds
 	SBG_ECOM_MOTION_PROFILE_MARINE				= 3,		/*!< Used in marine and underwater applications */
 	SBG_ECOM_MOTION_PROFILE_AIRPLANE			= 4,		/*!< For fixed wings aircraft */
 	SBG_ECOM_MOTION_PROFILE_HELICOPTER			= 5,		/*!< For rotary wing aircraft */
-	SBG_ECOM_MOTION_PROFILE_PEDESTRIAN			= 6,		/*!< Pedestrian applications using foot odometry */
+	SBG_ECOM_MOTION_PROFILE_PEDESTRIAN			= 6,		/*!< Pedestrian applications using foot odometer */
 	SBG_ECOM_MOTION_PROFILE_UAV_ROTARY_WING		= 7,		/*!< For rotary wing UAVs that have low dynamics */
 	SBG_ECOM_MOTION_PROFILE_HEAVY_MACHINERY		= 8,		/*!< For vibrating applications with low dynamics and no specific travel direction */
 	SBG_ECOM_MOTION_PROFILE_STATIC				= 9,		/*!< Static motion profile that delivers stable results for 27/7 operations. */

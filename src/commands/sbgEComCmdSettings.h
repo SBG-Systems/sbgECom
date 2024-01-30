@@ -44,11 +44,11 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Settings action definition										   -//
+//- Settings action definition                                         -//
 //----------------------------------------------------------------------//
 
 /*!
- * Defintion of all the settings actions available.
+ * Definition of all the settings actions available.
  */
 typedef enum _SbgEComSettingsAction
 {

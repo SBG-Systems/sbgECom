@@ -10,7 +10,7 @@
 #include "sbgEComCmdMag.h"
 
 //----------------------------------------------------------------------//
-//- Magnetometer commands		                                       -//
+//- Magnetometer commands                                              -//
 //----------------------------------------------------------------------//
 
 SbgErrorCode sbgEComCmdMagSetModelId(SbgEComHandle *pHandle, SbgEComMagModelsStdId modelId)
@@ -248,7 +248,7 @@ SbgErrorCode sbgEComCmdMagSetRejection(SbgEComHandle *pHandle, const SbgEComMagR
 }
 
 //----------------------------------------------------------------------//
-//- Magnetometer onboard calibration commands	                       -//
+//- Magnetometer on-board calibration commands                         -//
 //----------------------------------------------------------------------//
 
 SbgErrorCode sbgEComCmdMagStartCalib(SbgEComHandle *pHandle, SbgEComMagCalibMode mode, SbgEComMagCalibBandwidth bandwidth)
@@ -266,7 +266,7 @@ SbgErrorCode sbgEComCmdMagStartCalib(SbgEComHandle *pHandle, SbgEComMagCalibMode
 	errorCode = sbgStreamBufferInitForWrite(&outputStream, outputBuffer, sizeof(outputBuffer));
 
 	//
-	// Write the calibration mode and bandwith
+	// Write the calibration mode and bandwidth
 	//
 	sbgStreamBufferWriteUint8LE(&outputStream, (uint8_t)mode);
 	sbgStreamBufferWriteUint8LE(&outputStream, (uint8_t)bandwidth);
@@ -347,7 +347,7 @@ SbgErrorCode sbgEComCmdMagComputeCalib(SbgEComHandle *pHandle, SbgEComMagCalibRe
 		if (errorCode == SBG_NO_ERROR)
 		{
 			//
-			// Try to read the device answer for 5 s because the onboard magnetic computation can take some time
+			// Try to read the device answer for 5 s because the on-board magnetic computation can take some time
 			//
 			errorCode = sbgEComReceiveCmd2(pHandle, SBG_ECOM_CLASS_LOG_CMD_0, SBG_ECOM_CMD_COMPUTE_MAG_CALIB, &receivedPayload, 5000);
 

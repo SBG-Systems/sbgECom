@@ -15,7 +15,7 @@ The library is written and maintained by SBG Systems SAS. You can contact the su
 
 # Documentation
 
-You can access the full online sbgECom Doxygen documentation [here](https://developer.sbg-systems.com/sbgECom/3.2).  
+You can access the full online sbgECom Doxygen documentation [here](https://developer.sbg-systems.com/sbgECom/4.0).  
 You should also read the SBG Systems [Support Center](https://support.sbg-systems.com) to quickly start using and integrating your products.  
 Please also have a look at the [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) documentation that is used to configure High Performance INS products.
 
@@ -27,16 +27,20 @@ The library has been designed to be easily ported to any platform by just provid
 
 # Building sbgECom Library
 The sbgECom library and code examples are very easy to compile on any platform using CMake.  
-The library has no third party library dependencies making it very easy to build.
+The sbgECom library and code samples have no third party library dependencies.
+
+However, if you would like to build sbgECom CLI tools such as the `sbgBasicLogger` or `sbgInsRestApi` there is a dependency on Argtable3.
 
 SBG Systems doesn't provide the sbgECom as a pre-compiled library for obvious and good reasons.
 
 ## Dependencies
-SBG Systems has validated the following toolchain:
+SBG Systems has validated the following tool-chain and libraries:
 - \>= CMake 3.0
 - \>= GNU GCC 8 (any platform)
 - \>= AppleClang 13 (Mac OS X)
 - \>= Visual Studio 2015 or MSBuild equivalent (Windows)
+- \>= Argtable3 (to build sbgECom tools)
+- \>= Git (to fetch Argtable3)
 
 ## Building sbgECom
 To build the sbgECom static library, the C example and the command line tools go to the sbgECom library folder and type the following commands:
@@ -47,6 +51,9 @@ cmake --build build
 ```
 
 You should find the sbgECom static library, examples and tools binaries in the `build/Debug` folder.
+
+> **Disable Deprecated Macros**
+> Make sure to add `-DUSE_DEPRECATED_MACROS=OFF` to disable support of deprecated defines, macros and enum values.
 
 # Code Examples
 SBG Systems provides several and simple C code examples to quickly use the sbgECom library.
@@ -108,6 +115,7 @@ The `bin/tools` directory contains pre-compiled 64 bits binaries for Windows, Li
 ## sbgBasicLogger
 Simply parse sbgECom logs from a serial or ethernet interface and write log content to CSV like files.
 This tool can also read sbgECom logs from a binary file making it very interesting to convert ELLIPSE binary streams to easy to use text files.
+It can also extract RAW GNSS data stream as well as real time differential correction (RTCM) stream to binary files.
 
 ## sbgEComApi 
 Easily access sbgInsRest API configuration over a serial or UDP interface. You can execute GET and POST queries using simple to use command lines arguments.

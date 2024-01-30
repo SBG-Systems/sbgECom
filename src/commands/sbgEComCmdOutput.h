@@ -44,11 +44,11 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Public definitions												   -//
+//- Public definitions                                                 -//
 //----------------------------------------------------------------------//
 
 /*!
- * List of ouput ports available.
+ * List of output ports available.
  */
 typedef enum _SbgEComOutputPort
 {
@@ -101,7 +101,7 @@ typedef enum _SbgEComOutputMonitoringPoint
 //----------------------------------------------------------------------//
 
 /*!
- * Retrieve the configuration of one the message on one of the output interfaces.
+ * Retrieve the configuration of one message for an output interfaces.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	outputPort					The output port of the device for the log concerned.
@@ -113,7 +113,7 @@ typedef enum _SbgEComOutputMonitoringPoint
 SbgErrorCode sbgEComCmdOutputGetConf(SbgEComHandle *pHandle, SbgEComOutputPort outputPort, SbgEComClass classId, SbgEComMsgId msgId, SbgEComOutputMode *pMode);
 
 /*!
- * Set the configuration of one the message on one of the output interfaces.
+ * Set the configuration of one message for an output interfaces.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	outputPort					The output port of the device for the log concerned.
@@ -125,7 +125,7 @@ SbgErrorCode sbgEComCmdOutputGetConf(SbgEComHandle *pHandle, SbgEComOutputPort o
 SbgErrorCode sbgEComCmdOutputSetConf(SbgEComHandle *pHandle, SbgEComOutputPort outputPort, SbgEComClass classId, SbgEComMsgId msgId, SbgEComOutputMode mode);
 
 /*!
- * Retrieve the enable of one of the output class message on one of the output interfaces.
+ * Retrieve if a whole message class is enabled or not for an output interface.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	outputPort					The output port.
@@ -136,7 +136,7 @@ SbgErrorCode sbgEComCmdOutputSetConf(SbgEComHandle *pHandle, SbgEComOutputPort o
 SbgErrorCode sbgEComCmdOutputClassGetEnable(SbgEComHandle *pHandle, SbgEComOutputPort outputPort, SbgEComClass classId, bool *pEnable);
 
 /*!
- * Set the enable of one of the output class message on one of the output interfaces.
+ * Set if a whole message class is enabled or not for an output interface.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	outputPort					The output port.
@@ -147,7 +147,7 @@ SbgErrorCode sbgEComCmdOutputClassGetEnable(SbgEComHandle *pHandle, SbgEComOutpu
 SbgErrorCode sbgEComCmdOutputClassSetEnable(SbgEComHandle *pHandle, SbgEComOutputPort outputPort, SbgEComClass classId, bool enable);
 
 /*!
- * Retrieve the configuration of one the message on the CAN interface.
+ * Retrieve the configuration of one message for the CAN interface.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	internalId					The internal message id.
@@ -159,7 +159,7 @@ SbgErrorCode sbgEComCmdOutputClassSetEnable(SbgEComHandle *pHandle, SbgEComOutpu
 SbgErrorCode sbgEComCmdCanOutputGetConf(SbgEComHandle *pHandle, SbgECanMessageId internalId, SbgEComOutputMode *pMode, uint32_t *pUserId, bool *pExtended);
 
 /*!
- * Set the configuration of one the message on the CAN interface
+ * Set the configuration of one message for the CAN interface.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	internalId					The internal message id.
@@ -171,21 +171,21 @@ SbgErrorCode sbgEComCmdCanOutputGetConf(SbgEComHandle *pHandle, SbgECanMessageId
 SbgErrorCode sbgEComCmdCanOutputSetConf(SbgEComHandle *pHandle, SbgECanMessageId internalId, SbgEComOutputMode mode, uint32_t userId, bool extended);
 
 /*!
- * Retrieve the NMEA talker id of one of the output interfaces.
+ * Retrieve the NMEA talker id for an output interface.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	outputPort					The output port of the device for the log concerned.
- * \param[out]	pNmeaTalkerId				A 2-char array to contain the nmea talker id.
+ * \param[out]	pNmeaTalkerId				A 2-char array to contain the NMEA talker id.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdOutputGetNmeaTalkerId(SbgEComHandle *pHandle, SbgEComOutputPort outputPort, char *pNmeaTalkerId);
 
 /*!
- * Set the NMEA talker id of one of the output interfaces.
+ * Set the NMEA talker id for an output interface.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
  * \param[in]	outputPort					The output port of the device for the log concerned.
- * \param[out]	pNmeaTalkerId				A 2-char array containint the new nmea talker id.
+ * \param[out]	pNmeaTalkerId				A 2-char array containing the new NMEA talker id.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdOutputSetNmeaTalkerId(SbgEComHandle *pHandle, SbgEComOutputPort outputPort, const char *pNmeaTalkerId);

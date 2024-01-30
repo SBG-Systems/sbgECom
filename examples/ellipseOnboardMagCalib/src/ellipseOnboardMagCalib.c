@@ -46,7 +46,7 @@
 //----------------------------------------------------------------------//
 
 /*!
- * Retursn the last char entered by the user just before the user presses the enter key.
+ * Returns the last char entered by the user just before the user presses the enter key.
  * 
  * \return									The key code entered by the user just before he has pressed the 'enter' key
  *											or -1 if only 'enter' has been pressed.
@@ -116,10 +116,10 @@ static SbgEComMagCalibMode askCalibrationMode(void)
 }
 
 /*!
- *	Display magnetic calibration results on the console.
+ * Display magnetic calibration results on the console.
  * 
- *	\param[in]	mode							Define which magnetic calibration type has been performed. It could be 3D or 2D
- *	\param[in]	pMagCalibResults				Pointer on a read only magnetic calibration results structure.
+ * \param[in]	mode							Define which magnetic calibration type has been performed. It could be 3D or 2D
+ * \param[in]	pMagCalibResults				Pointer on a read only magnetic calibration results structure.
  */
 static void displayMagCalibResults(SbgEComMagCalibMode mode, const SbgEComMagCalibResults *pMagCalibResults)
 {
@@ -259,7 +259,7 @@ static SbgErrorCode getAndPrintProductInfo(SbgEComHandle *pECom)
 	assert(pECom);
 
 	//
-	// Get device inforamtions
+	// Get device information
 	//
 	errorCode = sbgEComCmdGetInfo(pECom, &deviceInfo);
 
@@ -276,7 +276,7 @@ static SbgErrorCode getAndPrintProductInfo(SbgEComHandle *pECom)
 		sbgVersionToStringEncoded(deviceInfo.hardwareRev, hwRevisionStr, sizeof(hwRevisionStr));
 		sbgVersionToStringEncoded(deviceInfo.firmwareRev, fmwVersionStr, sizeof(fmwVersionStr));
 
-		printf("      Serial Number: %0.9"PRIu32"\n",	deviceInfo.serialNumber);
+		printf("      Serial Number: %09"PRIu32"\n",	deviceInfo.serialNumber);
 		printf("       Product Code: %s\n",				deviceInfo.productCode);
 		printf("  Hardware Revision: %s\n",				hwRevisionStr);
 		printf("   Firmware Version: %s\n",				fmwVersionStr);
@@ -301,7 +301,7 @@ static SbgErrorCode getAndPrintProductInfo(SbgEComHandle *pECom)
  * \param[in]	mode					2D or 3D magnetic calibration mode.
  * \param[in]	apply					Set to true to compute and then apply the magnetic calibration
  *										Set to false to just compute and display the magnetic calibration results.
- * \return								SBG_NO_ERROR if a valid magnetic calibration has been computed (and optionnaly applied).
+ * \return								SBG_NO_ERROR if a valid magnetic calibration has been computed (and optionally applied).
  */
 static SbgErrorCode computeMagneticCalibration(SbgEComHandle *pHandle, SbgEComMagCalibMode mode, bool apply)
 {
@@ -315,9 +315,6 @@ static SbgErrorCode computeMagneticCalibration(SbgEComHandle *pHandle, SbgEComMa
 	//
 	errorCode = sbgEComCmdMagComputeCalib(pHandle, &magCalibResults);
 
-	//
-	// Make sure that we were able to get magnetic calibration results
-	//
 	if (errorCode == SBG_NO_ERROR)
 	{
 		//
@@ -332,44 +329,48 @@ static SbgErrorCode computeMagneticCalibration(SbgEComHandle *pHandle, SbgEComMa
 				//
 				errorCode = sbgEComCmdMagSetCalibData(pHandle, magCalibResults.offset, magCalibResults.matrix);
 
-				//
-				// Make sure that the new magnetic calibration data has been updated
-				//
 				if (errorCode == SBG_NO_ERROR)
 				{
-					printf("The new magnetic calibration has been applied.\n");
+					//
+					// Magnetic calibration applied, save and reboot device to use it
+					//
+					errorCode = sbgEComCmdSettingsAction(pHandle, SBG_ECOM_SAVE_SETTINGS);
 
-					//
-					// Display the magnetic calibration status
-					//
-					displayMagCalibResults(mode, &magCalibResults);
+					if (errorCode == SBG_NO_ERROR)
+					{
+						//
+						// Successfully saved & applied magnetic calibration, display results
+						//
+						printf("The magnetic calibration has been saved and applied.\n");
+						displayMagCalibResults(mode, &magCalibResults);
+					}
+					else
+					{
+						SBG_LOG_ERROR(errorCode, "Unable to save new magnetic calibration");
+					}
 				}
 				else
 				{
-					fprintf(stderr, "ellipseOnboardMagCalib: Unable to upload new magnetic calibration data.\n");
+					SBG_LOG_ERROR(errorCode, "Unable to apply new magnetic calibration.");
 				}
 			}
 			else
 			{
-				printf("A new magnetic calibration solution has been computed.\n");
-
 				//
 				// Display the magnetic calibration status
 				//
+				printf("A new magnetic calibration solution has been computed but not applied.\n");
 				displayMagCalibResults(mode, &magCalibResults);
 			}
 		}
 		else
 		{
-			//
-			// Unable to compute a valid magnetic calibration
-			//
-			fprintf(stderr, "ellipseOnboardMagCalib: Unable to compute a valid magnetic calibration.\n");
+			SBG_LOG_ERROR(errorCode, "Computed magnetic calibration is invalid. Please retry.");
 		}
 	}
 	else
 	{
-		fprintf(stderr, "ellipseOnboardMagCalib: Unable to get onboard magnetic calibration results.\n");
+		SBG_LOG_ERROR(errorCode, "Unable to compute magnetic calibration.");
 	}
 
 	return errorCode;
@@ -400,7 +401,7 @@ static SbgErrorCode ellipseOnBoardMagCalibProcess(SbgInterface *pInterface)
 	//
 	if (errorCode == SBG_NO_ERROR)
 	{
-		printf("Welcome to the ELLIPSE onboard magnetic calibration example.\n");
+		printf("Welcome to the ELLIPSE on-board magnetic calibration example.\n");
 		printf("sbgECom version %s\n\n", SBG_E_COM_VERSION_STR);
 
 		//
@@ -447,9 +448,9 @@ static SbgErrorCode ellipseOnBoardMagCalibProcess(SbgInterface *pInterface)
 
 				printf(	"Please rotate the device slowly...\n"
 						"\n"
-						"You can compute as many magnetic calibration as you want wihtout loosing already acquiered points:\n"
+						"You can compute as many magnetic calibration as you want without loosing already acquired points:\n"
 						"  1) Compute a magnetic calibration but don't apply it\n"
-						"  2) Compute and apply a magnetic calibration then quit\n"
+						"  2) Compute and apply a magnetic calibration then save and reboot the device\n"
 						"  3) Stop the current acquisition and quit\n"
 						"\n"
 						"Please enter your choice 1, 2 or 3 and press enter : ");
@@ -481,11 +482,11 @@ static SbgErrorCode ellipseOnBoardMagCalibProcess(SbgInterface *pInterface)
 		}
 		else
 		{
-			SBG_LOG_ERROR(errorCode, "Unable to start the onboard magnetic calibration");
+			SBG_LOG_ERROR(errorCode, "Unable to start the on-board magnetic calibration");
 		}
 
 		//
-		// Close the sbgEcom library
+		// Close the sbgECom library
 		//
 		sbgEComClose(&comHandle);
 	}
@@ -541,13 +542,13 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			SBG_LOG_ERROR(errorCode, "unable to open serial interface");
+			SBG_LOG_ERROR(errorCode, "Unable to open serial interface");
 			exitCode = EXIT_FAILURE;
 		}
 	}
 	else
 	{
-		printf("Invalid input arguments, usage: pulseMinimal SERIAL_DEVICE SERIAL_BAUDRATE\n");
+		SBG_LOG_ERROR(SBG_ERROR, "Invalid input arguments, usage: pulseMinimal SERIAL_DEVICE SERIAL_BAUDRATE");
 		exitCode = EXIT_FAILURE;
 	}
 	

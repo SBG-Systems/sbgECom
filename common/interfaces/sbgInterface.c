@@ -25,9 +25,6 @@ void sbgInterfaceZeroInit(SbgInterface *pInterface)
 {
 	assert(pInterface);
 
-	//
-	// Make sure the whole struct is zero init
-	//
 	memset(pInterface, 0x00, sizeof(*pInterface));
 }
 

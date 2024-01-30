@@ -23,7 +23,7 @@
 
 
 /*!
- *	Returns the right unix baud rate const according to a baud rate value.
+ *	Returns the right Unix baud rate const according to a baud rate value.
  *
  *	\param[in] baudRate		The baud rate value (ie 115200).
  *	\return					The Unix baud rate constant.
@@ -33,7 +33,7 @@ static uint32_t sbgInterfaceSerialGetBaudRateConst(uint32_t baudRate)
 	uint32_t baudRateConst;
 
 	//
-	// Create the right baud rate value for unix platforms
+	// Create the right baud rate value for Unix platforms
 	//
 	switch (baudRate)
 	{
@@ -141,14 +141,14 @@ static SbgErrorCode sbgInterfaceSerialDestroy(SbgInterface *pInterface)
 		//
 		// Get the internal serial handle
 		//
-		pSerialHandle = (int*)pInterface->handle;
+		pSerialHandle = (int *)pInterface->handle;
 		
 		//
 		// Close the port com
 		//
 		close((*pSerialHandle));
 		SBG_FREE(pSerialHandle);
-		pInterface->handle = NULL;
+		sbgInterfaceZeroInit(pInterface);
 
 		return SBG_NO_ERROR;
 	}
@@ -212,7 +212,7 @@ static SbgErrorCode sbgInterfaceSerialFlush(SbgInterface *pInterface, uint32_t f
 }
 
 /*!
- * Change the serial interface baud rate immediatly.
+ * Change the serial interface baud rate immediately.
  * 
  * \param[in]	handle				Valid handle on an initialized interface.
  * \param[in]	baudRate			The new baudrate to apply in bps.
@@ -321,7 +321,7 @@ static SbgErrorCode sbgInterfaceSerialWrite(SbgInterface *pInterface, const void
 			else
 			{
 				//
-				// An error has occured during the write
+				// An error has occurred during the write
 				//
 				fprintf(stderr, "sbgDeviceWrite: Unable to write to our device: %s\n", strerror(errno));
 				return SBG_WRITE_ERROR;
@@ -443,7 +443,7 @@ SbgErrorCode sbgInterfaceSerialCreate(SbgInterface *pInterface, const char *devi
 		if (fcntl((*pSerialHandle), F_SETFL, O_NONBLOCK) != -1)
 		{
 			//
-			// Retreive current options
+			// Retrieve current options
 			//
 			if (tcgetattr((*pSerialHandle), &options) != -1)
 			{

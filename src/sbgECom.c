@@ -1,6 +1,11 @@
-﻿#include "sbgECom.h"
+﻿// sbgCommonLib headers
+#include <sbgCommon.h>
+#include <interfaces/sbgInterface.h>
 #include <streamBuffer/sbgStreamBuffer.h>
+
+// Local headers
 #include "commands/sbgEComCmdCommon.h"
+#include "sbgECom.h"
 
 //----------------------------------------------------------------------//
 //- Public methods                                                     -//
@@ -50,7 +55,7 @@ SbgErrorCode sbgEComClose(SbgEComHandle *pHandle)
 SbgErrorCode sbgEComHandleOneLog(SbgEComHandle *pHandle)
 {
 	SbgErrorCode		errorCode = SBG_NO_ERROR;
-	SbgBinaryLogData	logData;
+	SbgEComLogUnion		logData;
 	uint8_t				receivedMsg;
 	uint8_t				receivedMsgClass;
 	size_t				payloadSize;
@@ -76,7 +81,7 @@ SbgErrorCode sbgEComHandleOneLog(SbgEComHandle *pHandle)
 			//
 			// The received frame is a binary log one
 			//
-			errorCode = sbgEComBinaryLogParse((SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsg, payloadData, payloadSize, &logData);
+			errorCode = sbgEComLogParse((SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsg, payloadData, payloadSize, &logData);
 
 			//
 			// Test if the incoming log has been parsed successfully
@@ -97,7 +102,7 @@ SbgErrorCode sbgEComHandleOneLog(SbgEComHandle *pHandle)
 				//
 				// Clean up resources allocated during parsing, if any.
 				//
-				sbgEComBinaryLogCleanup(&logData, (SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsg);
+				sbgEComLogCleanup(&logData, (SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsg);
 			}
 			else
 			{
@@ -240,7 +245,7 @@ void sbgEComErrorToString(SbgErrorCode errorCode, char errorMsg[256])
 			strcpy(errorMsg, "SBG_DEVICE_NOT_FOUND: A device couldn't be founded or opened.");
 			break;
 		case SBG_OPERATION_CANCELLED:
-			strcpy(errorMsg, "SBG_OPERATION_CANCELLED: An operation has been cancelled by a user.");
+			strcpy(errorMsg, "SBG_OPERATION_CANCELLED: An operation has been canceled by a user.");
 			break;
 		case SBG_NOT_CONTINUOUS_FRAME:
 			strcpy(errorMsg, "SBG_NOT_CONTINUOUS_FRAME: We have received a frame that isn't a continuous one.");

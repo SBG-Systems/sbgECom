@@ -70,7 +70,7 @@ typedef struct _SbgEComOdoRejectionConf
 
 /*!
  * CAN odometer channels definition
- * A channel is an inforamtion that can be decoded / used by the device.
+ * A channel is an information that can be decoded / used by the device.
  */
 typedef enum _SbgEComCmdOdoCanChannel
 {
@@ -166,7 +166,7 @@ SbgErrorCode sbgEComCmdOdoSetRejection(SbgEComHandle *pHandle, const SbgEComOdoR
  * Retrieve the CAN odometer configuration for a specific CAN information channel
  *
  * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	canChannel					The CAN channel to retreive associated DBC configuration.
+ * \param[in]	canChannel					The CAN channel to retrieve associated DBC configuration.
  * \param[out]	pOdoCanConf					Struct to hold configuration of the CAN odometer.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */

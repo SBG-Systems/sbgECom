@@ -55,8 +55,8 @@ extern "C" {
 #include "sbgECanId.h"
 #include "sbgEComIds.h"
 #include "commands/sbgEComCmd.h"
+#include "logs/sbgEComLog.h"
 #include "protocol/sbgEComProtocol.h"
-#include "binaryLogs/sbgEComBinaryLogs.h"
 #include "sbgEComVersion.h"
 #include "sbgEComGetVersion.h"
 

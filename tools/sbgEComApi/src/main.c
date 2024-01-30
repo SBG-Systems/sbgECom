@@ -24,6 +24,8 @@
 #include <sbgCommon.h>
 #include <interfaces/sbgInterface.h>
 #include <interfaces/sbgInterfaceSerial.h>
+#include <interfaces/sbgInterfaceUdp.h>
+#include <network/sbgNetwork.h>
 #include <string/sbgString.h>
 
 // sbgECom headers
@@ -146,7 +148,7 @@ static int convertStatusCodeToExitCode(uint16_t statusCode)
  *
  * \param[in]	pDesc						Exit code descriptor.
  */
-static void print_exit_code_mapping(const ExitCodeDesc *pDesc)
+static void printExitCodeMapping(const ExitCodeDesc *pDesc)
 {
 	printf("  %3u: %3u %s\n", pDesc->exitCode, pDesc->statusCode, pDesc->pMessage);
 }
@@ -154,17 +156,17 @@ static void print_exit_code_mapping(const ExitCodeDesc *pDesc)
 /*!
  * Print help about exit codes.
  */
-static void print_exit_code_help(void)
+static void printExitCodeHelp(void)
 {
 	printf("Exit codes :\n");
 
 	for (size_t i = 0; i < SBG_ARRAY_SIZE(gExitCodeDescs); i++)
 	{
-		print_exit_code_mapping(&gExitCodeDescs[i]);
+		printExitCodeMapping(&gExitCodeDescs[i]);
 	}
 
-	printf("If an error occurs and is unrelated to the status code, or if the status code is unknown,\n");
-	printf("return EXIT_FAILURE.\n");
+	puts("");
+	printf("EXIT_FAILURE for a general error unrelated to the status code or if the status code is unknown.\n\n");
 }
 
 /*!
@@ -431,10 +433,17 @@ int main(int argc, char **argv)
 
 	struct arg_lit						*pHelpArg;
 	struct arg_lit						*pVersionArg;
+
+	struct arg_str						*pUdpAddrArg;
+	struct arg_int						*pUdpPortInArg;
+	struct arg_int						*pUdpPortOutArg;
+
 	struct arg_str						*pSerialDeviceArg;
 	struct arg_int						*pSerialBaudrateArg;
+
 	struct arg_int						*pNrAttemptsArg;
 	struct arg_int						*pTimeoutArg;
+
 	struct arg_lit						*pGetMethodArg;
 	struct arg_lit						*pPostMethodArg;
 	struct arg_str						*pPathArg;
@@ -452,18 +461,25 @@ int main(int argc, char **argv)
 	{
 		pHelpArg			= arg_lit0(		NULL,	"help",									"display this help and exit"),
 		pVersionArg			= arg_lit0(		NULL,	"version",								"display version info and exit"),
-		pSerialDeviceArg	= arg_str1(		"s",	"serial-device",	"SERIAL_DEVICE",	"open a serial interface"),
-		pSerialBaudrateArg	= arg_int1(		"r",	"serial-baudrate",	"SERIAL_BAUDRATE",	"serial baudrate"),
+		
+		pUdpAddrArg			= arg_str0(		"a",	"addr-ip",			"IP address",		"open an UDP interface"),
+		pUdpPortInArg		= arg_int0(		"I",	"udp-port-in",		"UDP port in",		"UDP port to receive data from (local)"),
+		pUdpPortOutArg		= arg_int0(		"O",	"udp-port-out",		"UDP port out",		"UDP port to send data to (remote)"),
+
+		pSerialDeviceArg	= arg_str0(		"s",	"serial-device",	"SERIAL_DEVICE",	"open a serial interface"),
+		pSerialBaudrateArg	= arg_int0(		"r",	"serial-baudrate",	"SERIAL_BAUDRATE",	"serial baudrate"),
+
 		pNrAttemptsArg		= arg_int0(		"n",	"nr-attempts",		"NR_ATTEMPTS",		"number of transaction attempts"),
 		pTimeoutArg			= arg_int0(		"t",	"timeout",			"TIMEOUT",			"reply time-out, in seconds"),
+
 		pGetMethodArg		= arg_lit0(		"g",	"method-get",							"use the GET method (default)"),
 		pPostMethodArg		= arg_lit0(		"p",	"method-post",							"use the POST method"),
-		pQueryArg			= arg_str0(		"q",	"query",			"QUERY",			"query string, format=pretty&delta=true, format and delta options are optionnal"),
+		pQueryArg			= arg_str0(		"q",	"query",			"QUERY",			"query string, format=pretty&delta=true, format and delta options are optional"),
 		pBodyArg			= arg_str0(		"b",	"body",				"BODY",				"body (POST method only)"),
 		pBodyFileArg		= arg_file0(	"B",	"body-file",		"BODY_FILE",		"file containing the body (POST method only)"),
 		pPrintStatus		= arg_lit0(		"S",	"print-status",							"print the status code on the output stream"),
 		pOutputFileArg		= arg_file0(	"o",	"output-file",		"OUTPUT_FILE",		"output file"),
-		pPathArg			= arg_str1(		NULL,	NULL,				"PATH",				"path"),
+		pPathArg			= arg_str1(		NULL,	NULL,				"PATH",				"GET or POST request path endpoint"),
 
 		pEndArg				= arg_end(20),
 	};
@@ -479,9 +495,16 @@ int main(int argc, char **argv)
 		if (pHelpArg->count != 0)
 		{
 			printf("Usage: %s", PROGRAM_NAME);
-			arg_print_syntax(stdout, argTable, "\n");
+			arg_print_syntax(stdout, argTable, "\n\n");
+			
+
 			printf("Access a RESTful SBG ECom server.\n\n");
-			arg_print_glossary(stdout, argTable, "  %-25s %s\n");
+			printf("    Serial example: %s -s <SERIAL-PORT> -r <BAUDRATE> api/v1/settings -g\n", PROGRAM_NAME);
+			printf("    UDP example:    %s -a <IP_ADDR> -I <UDP_PORT_IN> -O <UDP_PORT_OUT> api/v1/settings -g\n", PROGRAM_NAME);
+
+			puts("");
+			
+			arg_print_glossary(stdout, argTable, "  %-50s %s\n");
 
 			puts("");
 			printf("BODY or BODY_FILE may only be provided when using the POST method.\n");
@@ -490,10 +513,10 @@ int main(int argc, char **argv)
 			printf("If provided, BODY_FILE may not contain binary data.\n");
 
 			puts("");
-			printf("PATH is a URI path component.\n");
+			printf("PATH is a URI path component such as api/v1/settings\n");
 
 			puts("");
-			print_exit_code_help();
+			printExitCodeHelp();
 		}
 		else if (pVersionArg->count != 0)
 		{
@@ -519,11 +542,46 @@ int main(int argc, char **argv)
 
 			if (exitCode == EXIT_SUCCESS)
 			{
-				if ((pSerialDeviceArg->count != 0) && (pSerialBaudrateArg->count != 0))
+				bool				hasSerialConf	= false;
+				bool				hasUdpConf		= false;
+				
+				//
+				// Can't open at the same time a serial and UDP interface so check it
+				//
+				if ( (pSerialDeviceArg->count != 0) && (pSerialBaudrateArg->count != 0) )
+				{
+					hasSerialConf = true;
+				}
+
+				if ( (pUdpAddrArg->count != 0) && (pUdpPortInArg->count != 0) && (pUdpPortOutArg->count != 0) )
+				{
+					hasUdpConf = true;
+				}
+
+				if ( (hasSerialConf && !hasUdpConf) || (!hasSerialConf && hasUdpConf) )
 				{
 					SbgErrorCode		 errorCode;
 
-					errorCode = sbgInterfaceSerialCreate(&ecomInterface, pSerialDeviceArg->sval[0], pSerialBaudrateArg->ival[0]);
+					if (hasSerialConf)
+					{
+						errorCode = sbgInterfaceSerialCreate(&ecomInterface, pSerialDeviceArg->sval[0], pSerialBaudrateArg->ival[0]);
+					}
+					else if (hasUdpConf)
+					{
+						errorCode = sbgInterfaceUdpCreate(&ecomInterface, sbgNetworkIpFromString(pUdpAddrArg->sval[0]), pUdpPortOutArg->ival[0], pUdpPortInArg->ival[0]);
+
+						if (errorCode == SBG_NO_ERROR)
+						{
+							//
+							// Enable connected mode to only send/receive commands to the designed host
+							//
+							sbgInterfaceUdpSetConnectedMode(&ecomInterface, true);
+						}
+					}
+					else
+					{
+						errorCode = SBG_INVALID_PARAMETER;
+					}
 
 					if (errorCode == SBG_NO_ERROR)
 					{
@@ -676,9 +734,14 @@ int main(int argc, char **argv)
 					}
 					else
 					{
-						SBG_LOG_ERROR(errorCode, "unable to open serial interface");
+						SBG_LOG_ERROR(errorCode, "unable to open the serial or UDP interface");
 						exitCode = EXIT_FAILURE;
 					}
+				}
+				else if (hasSerialConf && hasUdpConf)
+				{
+					SBG_LOG_ERROR(SBG_ERROR, "please select either a serial or an UDP interface no both");
+					exitCode	= EXIT_FAILURE;
 				}
 				else
 				{

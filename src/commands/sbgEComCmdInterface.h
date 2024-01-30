@@ -44,7 +44,7 @@ extern "C" {
 #endif
 
 //----------------------------------------------------------------------//
-//- Serial interface definitions									   -//
+//- Serial interface definitions                                       -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -78,7 +78,7 @@ typedef enum _SbgEComPortMode
 } SbgEComPortMode;
 
 //----------------------------------------------------------------------//
-//- Serial interface configuration									   -//
+//- Serial interface configuration                                     -//
 //----------------------------------------------------------------------//
 
 /*!
@@ -91,7 +91,7 @@ typedef struct _SbgEComInterfaceConf
 } SbgEComInterfaceConf;
 
 //----------------------------------------------------------------------//
-//- CAN interface definitions										   -//
+//- CAN interface definitions                                          -//
 //----------------------------------------------------------------------//
 
 /*!

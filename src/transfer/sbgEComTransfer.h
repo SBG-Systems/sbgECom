@@ -51,7 +51,7 @@ extern "C" {
 #define SBG_ECOM_TRANSFER_PACKET_SIZE		(512u)			/*!< Max packet size transmitted in a single frame */
 
 //----------------------------------------------------------------------//
-//- Communication protocol structs and definitions                     -//
+//- Communication protocol struct and definitions                      -//
 //----------------------------------------------------------------------//
 
 /*!

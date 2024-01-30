@@ -185,7 +185,7 @@ SBG_INLINE uint16_t sbgStreamBufferReadUint16LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE int32_t sbgStreamBufferReadInt24LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToInt32	value;
+	SbgUint8ToInt32		value;
 
 	assert(pHandle);
 
@@ -251,7 +251,7 @@ SBG_INLINE int32_t sbgStreamBufferReadInt24LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE uint32_t sbgStreamBufferReadUint24LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToUint32	value;
+	SbgUint8ToUint32	value;
 
 	assert(pHandle);
 
@@ -459,7 +459,7 @@ SBG_INLINE uint32_t sbgStreamBufferReadUint32LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE int64_t sbgStreamBufferReadInt40LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToInt64	value;
+	SbgUint8ToInt64		value;
 
 	assert(pHandle);
 
@@ -529,7 +529,7 @@ SBG_INLINE int64_t sbgStreamBufferReadInt40LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE int64_t sbgStreamBufferReadUint40LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToUint64	value;
+	SbgUint8ToUint64	value;
 
 	assert(pHandle);
 
@@ -599,7 +599,7 @@ SBG_INLINE int64_t sbgStreamBufferReadUint40LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE int64_t sbgStreamBufferReadInt48LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToInt64	value;
+	SbgUint8ToInt64		value;
 
 	assert(pHandle);
 
@@ -671,7 +671,7 @@ SBG_INLINE int64_t sbgStreamBufferReadInt48LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE uint64_t sbgStreamBufferReadUint48LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToUint64	value;
+	SbgUint8ToUint64	value;
 
 	assert(pHandle);
 
@@ -743,7 +743,7 @@ SBG_INLINE uint64_t sbgStreamBufferReadUint48LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE int64_t sbgStreamBufferReadInt56LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToInt64	value;
+	SbgUint8ToInt64		value;
 
 	assert(pHandle);
 
@@ -817,7 +817,7 @@ SBG_INLINE int64_t sbgStreamBufferReadInt56LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE uint64_t sbgStreamBufferReadUint56LE(SbgStreamBuffer *pHandle)
 {
-	Uint8ToUint64	value;
+	SbgUint8ToUint64	value;
 
 	assert(pHandle);
 
@@ -1076,7 +1076,7 @@ SBG_INLINE size_t sbgStreamBufferReadSizeT64LE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE float sbgStreamBufferReadFloatLE(SbgStreamBuffer *pHandle)
 {
-	FloatNint floatInt;
+	SbgFloatNint	floatInt;
 
 	assert(pHandle);
 
@@ -1123,7 +1123,7 @@ SBG_INLINE float sbgStreamBufferReadFloatLE(SbgStreamBuffer *pHandle)
  */
 SBG_INLINE double sbgStreamBufferReadDoubleLE(SbgStreamBuffer *pHandle)
 {
-	DoubleNint doubleInt;
+	SbgDoubleNint		doubleInt;
 
 	assert(pHandle);
 
@@ -1772,7 +1772,7 @@ SBG_INLINE SbgErrorCode sbgStreamBufferWriteSizeT64LE(SbgStreamBuffer *pHandle, 
  */
 SBG_INLINE SbgErrorCode sbgStreamBufferWriteFloatLE(SbgStreamBuffer *pHandle, float value)
 {
-	FloatNint floatInt;
+	SbgFloatNint	floatInt;
 
 	assert(pHandle);
 
@@ -1804,7 +1804,7 @@ SBG_INLINE SbgErrorCode sbgStreamBufferWriteFloatLE(SbgStreamBuffer *pHandle, fl
  */
 SBG_INLINE SbgErrorCode sbgStreamBufferWriteDoubleLE(SbgStreamBuffer *pHandle, double value)
 {
-	DoubleNint doubleInt;
+	SbgDoubleNint	doubleInt;
 
 	assert(pHandle);
 

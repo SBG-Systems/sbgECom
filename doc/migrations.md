@@ -1,9 +1,77 @@
 # Migrations
 These pages help you easily migrate your code from previous sbgECom major versions.
 
+## From sbgECom v3.x
+
+sbgECom v4.x is a major improvement over sbgECom v3.x in term of features, code quality and organization.  
+SBG Systems always tries to minimize breaking changes between sbgECom versions but is also committed to avoid technical debts. 
+
+The macro SBG_ECOM_USE_DEPRECATED_MACROS can be set to maximize backward compatibility and reduce existing code base rework.
+
+However, SBG Systems recommend to update existing code base and drop usage of legacy / deprecated definitions and methods.
+
+### Unified code namespace
+
+sbgECom namespace conventions were not aligned with SBG Systems quality standards and an evolution was needed. 
+
+Most sbgECom binary logs struct, enum and function definitions have been updated to comply with strict namespace.  
+The legacy names have been kept and indicated to be deprecated to avoid breaking changes.
+
+Almost all the source files located in the `src/logs` directory have been reworked.
+
+Legacy sbgECom v3 style:
+
+```c
+SbgErrorCode sbgEComBinaryLogParseEkfEulerData(SbgStreamBuffer *pInputStream, SbgLogEkfEulerData *pOutputData);
+```
+
+New sbgECom v4 style:
+
+```c
+SbgErrorCode sbgEComLogEkfEulerReadFromStream(SbgEComLogEkfEuler *pLogData, SbgStreamBuffer *pStreamBuffer);
+```
+
+### Breaking change for SBG_ECOM_CMD_API_GET
+
+The SBG_ECOM_CMD_API_GET command introduced in sbgECom v3 and only used for High Performance INS were using the ID **46**.  
+However, the command SBG_ECOM_CMD_GNSS_1_INSTALLATION used for ELLIPSE was also using ID 46 resulting in a conflict.
+
+To solve this issue, the command SBG_ECOM_CMD_API_GET ID has been updated to **48** and you must update your code.  
+This new command ID is used by High Performance INS firmware 5.x and above.
+
+> SBG_ECOM_CMD_API_GET command ID 46 changed to 48 is a breaking change that requires code update if used.
+
+### SBG_ECOM_LOG_GPS#_SAT code
+In sbgECom v3.x, the list of satellites and signals were dynamically allocated using malloc/free.  
+This has been replaced by a static allocation as the SbgEComLogSatList struct is smaller than existing SbgEComLogUnion union size.   
+The new static struct size is 1993 bytes and the current SbgEComLogUnion size is 4086 bytes.  
+
+As a result, the `sbgEComLogSatListConstruct` and `sbgEComLogSatListAdd` methods have been updated.  
+The `sbgEComLogSatListDestroy` has been removed as no more memory release is needed.
+
+The `SbgEComLogSatList` struct has been updated:
+ - `pSatData` has been replaced by `satData`
+ - `satDataArraySize` has been removed
+
+The `SbgEComLogSatEntry`struct has been updated:
+ - `pSignalData` has been replaced by `signalData`
+ - `signalDataArraySize` has been removed
+
+Please update your code to reflect these changes. The protocol itself has not changed.
+
+### Deprecated SBG_ECOM_LOG_IMU_DATA log
+
+The log SBG_ECOM_LOG_IMU_DATA is now considered to be deprecated and will be removed in future firmware and sbgECom updates.  
+Please use the log SBG_ECOM_LOG_IMU_SHORT to get high rate, unfiltered and straight IMU data.
+
+Please also checkout SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY and SBG_ECOM_LOG_EKF_ROT_ACCEL_NED logs to get un-biased, earth rotation free 
+and gravity free vehicle (body) or navigation measurements.
+
+These two new logs are for now, only available for High Performance INS such as the EKinox Micro.
+
 ## From sbgECom v1.x
 The sbgECom version 2.x change the C API even if the low level sbgECom protocol API remains backward compatible.  
-In otherwords, a C code written with sbgECom version 1.x will not compile directly with sbgECom versions 2.x and higher.  
+In otherworld, a C code written with sbgECom version 1.x will not compile directly with sbgECom versions 2.x and higher.  
 But your old C code using sbgECom versions 1.x will still be able to correctly setup and configure your ELLIPSE product.  
 
 ### GNSS module

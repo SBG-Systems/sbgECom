@@ -61,21 +61,7 @@
 #define SBG_MAX_UINT_56					(72057594037927935ull)
 
 //----------------------------------------------------------------------//
-//- DEPRECATED: Scalar types definitions                               -//
-//----------------------------------------------------------------------//
-SBG_DEPRECATED_TYPEDEF(typedef unsigned char			uint8);		//  8 bits
-SBG_DEPRECATED_TYPEDEF(typedef unsigned short			uint16);	// 16 bits
-SBG_DEPRECATED_TYPEDEF(typedef unsigned int				uint32);	// 32 bits
-SBG_DEPRECATED_TYPEDEF(typedef unsigned long long int	uint64);	// 64 bits
-
-SBG_DEPRECATED_TYPEDEF(typedef signed char				int8);		//  8 bits
-SBG_DEPRECATED_TYPEDEF(typedef signed short				int16);		// 16 bits
-SBG_DEPRECATED_TYPEDEF(typedef signed int				int32);		// 32 bits
-SBG_DEPRECATED_TYPEDEF(typedef signed long long int		int64);		// 64 bits
-
-
-//----------------------------------------------------------------------//
-//- Misc types definitions                                             -//
+//- Global typedef                                                     -//
 //----------------------------------------------------------------------//
 typedef uint32_t						sbgIpAddress;					/*!< Define an IP v4 address stored in 4 bytes. The format is A.B.C.D, each component is 8 bits and stored in Big Endian. */
 
@@ -86,94 +72,85 @@ typedef uint32_t						sbgIpAddress;					/*!< Define an IP v4 address stored in 4
 /*!
  * Used to get a uint32_t from a uint8_t array.
  */
-typedef union _Uint8PtrToUint32Ptr
+typedef union _SbgUint8PtrToUint32Ptr
 {
 	uint8_t		*m_pointerUint8;				/*!< Set the address used to access the uint32_t. */
 	uint32_t	*m_pointerUint32;				/*!< Store the unint32 value. */
-} Uint8PtrToUint32Ptr;
+} SbgUint8PtrToUint32Ptr;
 
 /*!
  * Union used to convert a buffer or 2 unit8 two's complement values to a int16_t
  */
-typedef union _Uint8ToInt16
+typedef union _SbgUint8ToInt16
 {
 	int16_t		value;
 	uint8_t		buffer[2];
-} Uint8ToInt16;
+} SbgUint8ToInt16;
 
 /*!
  * Union used to convert a buffer or 2 unit8 values to a uint16_t
  */
-typedef union _Uint8ToUint16
+typedef union _SbgUint8ToUint16
 {
 	uint16_t	value;
 	uint8_t		buffer[2];
-} Uint8ToUint16;
+} SbgUint8ToUint16;
 
 /*!
  * Union used to convert a buffer or 4 unit8 two's complement values to a int32_t
  */
-typedef union _Uint8ToInt32
+typedef union _SbgUint8ToInt32
 {
 	int32_t		value;
 	uint8_t		buffer[4];
-} Uint8ToInt32;
+} SbgUint8ToInt32;
 
 /*!
  * Union used to convert a buffer or 4 unit8 values to a uint32_t
  */
-typedef union _Uint8ToUint32
+typedef union _SbgUint8ToUint32
 {
 	uint32_t	value;
 	uint8_t		buffer[4];
-} Uint8ToUint32;
+} SbgUint8ToUint32;
 
 /*!
  * Union used to convert a buffer or 8 unit8 two's complement values to a int64_t
  */
-typedef union _Uint8ToInt64
+typedef union _SbgUint8ToInt64
 {
 	int64_t		value;
 	uint8_t		buffer[8];
-} Uint8ToInt64;
+} SbgUint8ToInt64;
 
 /*!
  * Union used to convert a buffer or 8 unit8 values to a uint64_t
  */
-typedef union _Uint8ToUint64
+typedef union _SbgUint8ToUint64
 {
 	uint64_t	value;
 	uint8_t		buffer[8];
-} Uint8ToUint64;
+} SbgUint8ToUint64;
 
 /*!
  * Union that allows type punning (access to a floating point number bits)
  */
-typedef union _FloatNint
+typedef union _SbgFloatNint
 {
 	float		valF;
 	int32_t		valI;
 	uint32_t	valU;
-} FloatNint;
+} SbgFloatNint;
 
 /*!
  * Union that allows type punning (access to a double number bits)
  */
-typedef union _DoubleNint
+typedef union _SbgDoubleNint
 {
 	double		valF;
 	uint64_t	valU;
 	int64_t		valI;
-} DoubleNint;
-
-/*!
- * Structure that splits a 64bits
- */
-typedef struct _Split64
-{
-	uint32_t	high;
-	uint32_t	low;
-} Split64;
+} SbgDoubleNint;
 
 /*!
  * Set of 3 int32_t
@@ -191,4 +168,29 @@ typedef struct _Split64
 	 int64_t	v[3];
  } SbgVector3ll;
 
-#endif	/* SBG_TYPES_H */
+//----------------------------------------------------------------------//
+//- DEPRECATED: types definitions                                      -//
+//----------------------------------------------------------------------//
+#ifdef SBG_COMMON_USE_DEPRECATED
+	SBG_DEPRECATED_TYPEDEF(typedef unsigned char			uint8);
+	SBG_DEPRECATED_TYPEDEF(typedef unsigned short			uint16);
+	SBG_DEPRECATED_TYPEDEF(typedef unsigned int				uint32);
+	SBG_DEPRECATED_TYPEDEF(typedef unsigned long long int	uint64);
+
+	SBG_DEPRECATED_TYPEDEF(typedef signed char				int8);
+	SBG_DEPRECATED_TYPEDEF(typedef signed short				int16);
+	SBG_DEPRECATED_TYPEDEF(typedef signed int				int32);
+	SBG_DEPRECATED_TYPEDEF(typedef signed long long int		int64);
+
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgUint8PtrToUint32Ptr	Uint8PtrToUint32Ptr);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgUint8ToInt16			Uint8ToInt16);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgUint8ToUint16			Uint8ToUint16);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgUint8ToInt32			Uint8ToInt32);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgUint8ToUint32			Uint8ToUint32);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgUint8ToInt64			Uint8ToInt64);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgUint8ToUint64			Uint8ToUint64);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgFloatNint				FloatNint);
+	SBG_DEPRECATED_TYPEDEF(typedef union _SbgDoubleNint				DoubleNint);
+#endif
+
+#endif	// SBG_TYPES_H

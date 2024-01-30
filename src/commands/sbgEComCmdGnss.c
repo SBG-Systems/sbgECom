@@ -32,7 +32,7 @@ static SbgErrorCode sbgEComCmdGnssSetModelId(SbgEComHandle *pHandle, SbgEComGnss
  * Retrieve GNSS error model id.
  *
  * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pModelId					Retreived model id.
+ * \param[out]	pModelId					Retrieved model id.
  * \param[in]	cmdId						The command identifier to get parameters for a specific GNSS module.
  * \return									SBG_NO_ERROR if the command has been executed successfully.
  */

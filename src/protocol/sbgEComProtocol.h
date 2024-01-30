@@ -76,6 +76,29 @@ extern "C" {
 #define SBG_ECOM_RX_TIME_OUT					(450)					/*!< Default time out for new frame reception. */
 
 //----------------------------------------------------------------------//
+//- Callbacks definitions                                              -//
+//----------------------------------------------------------------------//
+
+/*!
+ * Forward declaration.
+ */
+typedef struct _SbgEComProtocol SbgEComProtocol;
+
+/*!
+ * Function called each time a valid sbgECom frame is received.
+ * 
+ * This callback is used to intercept a valid and full sbgECom frame to easily
+ * intercept and store raw stream.
+ *
+ * \param[in]	pProtocol								sbgECom protocol handle instance.
+ * \param[in]	msgClass								Received frame message class.
+ * \param[in]	msgId									Received frame message id.
+ * \param[out]	pReceivedFrame							Stream buffer initialized for read operations on the whole frame data.
+ * \param[in]	pUserArg								Optional user supplied argument.
+ */
+typedef void (*SbgEComProtocolFrameCb)(SbgEComProtocol *pProtocol, uint8_t msgClass, uint8_t msgId, SbgStreamBuffer *pReceivedFrame, void *pUserArg);
+
+//----------------------------------------------------------------------//
 //- Structure definitions                                              -//
 //----------------------------------------------------------------------//
 
@@ -97,13 +120,19 @@ typedef struct _SbgEComProtocolPayload
  *
  * The member variables related to large transfers are valid if and only if the large buffer is valid.
  */
-typedef struct _SbgEComProtocol
+struct _SbgEComProtocol
 {
 	SbgInterface						*pLinkedInterface;							/*!< Associated interface used by the protocol to read/write bytes. */
 	uint8_t								 rxBuffer[SBG_ECOM_MAX_BUFFER_SIZE];		/*!< The reception buffer. */
 	size_t								 rxBufferSize;								/*!< The current reception buffer size in bytes. */
 	size_t								 discardSize;								/*!< Number of bytes to discard on the next receive attempt. */
 	uint8_t								 nextLargeTxId;								/*!< Transfer ID of the next large send. */
+
+	//
+	// Raw stream sbgECom frame reception callback
+	//
+	SbgEComProtocolFrameCb				 pReceiveFrameCb;							/*!< Optional callback used to intercept any received sbgECom frame. */
+	void								*pUserArg;									/*!< Optional user supplied argument for the callback. */
 
 	//
 	// Member variables related to large transfer reception.
@@ -115,7 +144,7 @@ typedef struct _SbgEComProtocol
 	uint8_t								 transferId;								/*!< ID of the current large transfer. */
 	uint16_t							 pageIndex;									/*!< Expected page index of the next frame. */
 	uint16_t							 nrPages;									/*!< Number of pages in the current transfer. */
-} SbgEComProtocol;
+};
 
 //----------------------------------------------------------------------//
 //- Public methods (SbgEComProtocolPayload)                            -//
@@ -171,17 +200,17 @@ void *sbgEComProtocolPayloadMoveBuffer(SbgEComProtocolPayload *pPayload);
 /*!
  * Initialize the protocol system used to communicate with the product and return the created handle.
  *
- * \param[in]	pProtocol				Pointer on an allocated protocol structure to initialize.
- * \param[in]	pInterface				Interface to use for read/write operations.
- * \return								SBG_NO_ERROR if we have initialised the protocol system.
+ * \param[in]	pProtocol						Protocol instance to construct.
+ * \param[in]	pInterface						Interface to use for read/write operations.
+ * \return										SBG_NO_ERROR if we have initialized the protocol system.
  */
 SbgErrorCode sbgEComProtocolInit(SbgEComProtocol *pProtocol, SbgInterface *pInterface);
 
 /*!
  * Close the protocol system.
  *
- * \param[in]	pProtocol				A valid protocol handle to close.
- * \return								SBG_NO_ERROR if we have closed and released the protocol system.
+ * \param[in]	pProtocol						A valid protocol instance.
+ * \return										SBG_NO_ERROR if we have closed and released the protocol system.
  */
 SbgErrorCode sbgEComProtocolClose(SbgEComProtocol *pProtocol);
 
@@ -192,7 +221,7 @@ SbgErrorCode sbgEComProtocolClose(SbgEComProtocol *pProtocol);
  * 
  * WARNING: This method is blocking for 100ms and actively tries to read incoming data.
  * 
- * \param[in]	pProtocol						A valid SbgEComProtocol handle.
+ * \param[in]	pProtocol						A valid protocol instance.
  * \return										SBG_NO_ERROR if the incoming data has been purged successfully.
  */
 SbgErrorCode sbgEComProtocolPurgeIncoming(SbgEComProtocol *pProtocol);
@@ -203,27 +232,27 @@ SbgErrorCode sbgEComProtocolPurgeIncoming(SbgEComProtocol *pProtocol);
  * If the size is SBG_ECOM_MAX_PAYLOAD_SIZE or less, the data is sent in a single frame. Otherwise,
  * is it fragmented into multiple extended frames, each sent in order, which may block.
  *
- * \param[in]	pProtocol				A valid protocol handle.
- * \param[in]	msgClass				Message class.
- * \param[in]	msg						Message ID.
- * \param[in]	pData					Data buffer.
- * \param[in]	size					Data buffer size, in bytes.
- * \return								SBG_NO_ERROR if the frame has been sent.
+ * \param[in]	pProtocol						A valid protocol instance.
+ * \param[in]	msgClass						Message class.
+ * \param[in]	msg								Message ID.
+ * \param[in]	pData							Data buffer.
+ * \param[in]	size							Data buffer size, in bytes.
+ * \return										SBG_NO_ERROR if the frame has been sent.
  */
 SbgErrorCode sbgEComProtocolSend(SbgEComProtocol *pProtocol, uint8_t msgClass, uint8_t msg, const void *pData, size_t size);
 
 /*!
  * Receive a frame.
  *
- * \param[in]	pProtocol				A valid protocol handle.
- * \param[out]	pMsgClass				Message class, may be NULL.
- * \param[out]	pMsgId					Message ID, may be NULL.
- * \param[out]	pData					Data buffer.
- * \param[out]	pSize					Number of bytes received.
- * \param[in]	maxSize					Data buffer size, in bytes.
- * \return								SBG_NO_ERROR if successful,
- *										SBG_NOT_READY if no complete frame has been received,
- *										SBG_BUFFER_OVERFLOW if the payload of the received frame couldn't fit into the data buffer.
+ * \param[in]	pProtocol						A valid protocol instance.
+ * \param[out]	pMsgClass						Message class, may be NULL.
+ * \param[out]	pMsgId							Message ID, may be NULL.
+ * \param[out]	pData							Data buffer.
+ * \param[out]	pSize							Number of bytes received.
+ * \param[in]	maxSize							Data buffer size, in bytes.
+ * \return										SBG_NO_ERROR if successful,
+ *												SBG_NOT_READY if no complete frame has been received,
+ *												SBG_BUFFER_OVERFLOW if the payload of the received frame couldn't fit into the data buffer.
  */
 SbgErrorCode sbgEComProtocolReceive(SbgEComProtocol *pProtocol, uint8_t *pMsgClass, uint8_t *pMsgId, void *pData, size_t *pSize, size_t maxSize);
 
@@ -239,14 +268,28 @@ SbgErrorCode sbgEComProtocolReceive(SbgEComProtocol *pProtocol, uint8_t *pMsgCla
  * Because the payload buffer may directly refer to the protocol work buffer on return, it is only valid until
  * the next attempt to receive a frame, with any of the receive functions.
  *
- * \param[in]	pProtocol				A valid protocol handle.
- * \param[out]	pMsgClass				Message class, may be NULL.
- * \param[out]	pMsgId					Message ID, may be NULL.
- * \param[out]	pPayload				Payload.
- * \return								SBG_NO_ERROR if successful,
- *										SBG_NOT_READY if no complete frame has been received.
+ * \param[in]	pProtocol						A valid protocol instance.
+ * \param[out]	pMsgClass						Message class, may be NULL.
+ * \param[out]	pMsgId							Message ID, may be NULL.
+ * \param[out]	pPayload						Payload.
+ * \return										SBG_NO_ERROR if successful,
+ *												SBG_NOT_READY if no complete frame has been received.
  */
 SbgErrorCode sbgEComProtocolReceive2(SbgEComProtocol *pProtocol, uint8_t *pMsgClass, uint8_t *pMsgId, SbgEComProtocolPayload *pPayload);
+
+/*!
+ * Define the optional function called each time a valid sbgECom frame is received.
+ * 
+ * This callback is useful to intercept raw sbgECom frames at a low level.
+ * You can call this method with NULL parameters to uninstall the callback.
+ * 
+ * EXPERIMENTAL: This handler is still experimental and API may change in next sbgECom versions.
+ * 
+ * \param[in]	pHandle							A valid protocol instance.
+ * \param[in]	pOnFrameReceivedCb				Function to call each time a valid sbgECom frame is received.
+ * \param[in]	pUserArg						Optional user argument that will be passed to the callback method.
+ */
+void sbgEComProtocolSetOnFrameReceivedCb(SbgEComProtocol *pProtocol, SbgEComProtocolFrameCb pOnFrameReceivedCb, void *pUserArg);
 
 /*!
  * Initialize an output stream for an sbgECom frame generation.
@@ -255,12 +298,12 @@ SbgErrorCode sbgEComProtocolReceive2(SbgEComProtocol *pProtocol, uint8_t *pMsgCl
  *
  * Only standard frames may be sent with this function.
  *
- * \param[in]	pOutputStream			Pointer to an allocated and initialized output stream.
- * \param[in]	msgClass				Message class.
- * \param[in]	msg						Message ID.
- * \param[out]	pStreamCursor			The initial output stream cursor that thus points to the begining of the generated message.
- *										This value should be passed to sbgEComFinalizeFrameGeneration for correct operations.
- * \return								SBG_NO_ERROR in case of good operation.
+ * \param[in]	pOutputStream					Pointer to an allocated and initialized output stream.
+ * \param[in]	msgClass						Message class.
+ * \param[in]	msg								Message ID.
+ * \param[out]	pStreamCursor					The initial output stream cursor that thus points to the beginning of the generated message.
+ *												This value should be passed to sbgEComFinalizeFrameGeneration for correct operations.
+ * \return										SBG_NO_ERROR in case of good operation.
  */
 SbgErrorCode sbgEComStartFrameGeneration(SbgStreamBuffer *pOutputStream, uint8_t msgClass, uint8_t msg, size_t *pStreamCursor);
 
@@ -270,10 +313,10 @@ SbgErrorCode sbgEComStartFrameGeneration(SbgStreamBuffer *pOutputStream, uint8_t
  * At return, the output stream buffer should point at the end of the generated message.
  * You can thus easily create consecutive SBG_ECOM_LOGS with these methods.
  *
- * \param[in]	pOutputStream			Pointer to an allocated and initialized output stream.
- * \param[in]	streamCursor			Position in the stream buffer of the generated message first byte.
- *										This value is returned by sbgEComStartFrameGeneration and is mandatory for correct operations.
- * \return								SBG_NO_ERROR in case of good operation.
+ * \param[in]	pOutputStream					Pointer to an allocated and initialized output stream.
+ * \param[in]	streamCursor					Position in the stream buffer of the generated message first byte.
+ *												This value is returned by sbgEComStartFrameGeneration and is mandatory for correct operations.
+ * \return										SBG_NO_ERROR in case of good operation.
  */
 SbgErrorCode sbgEComFinalizeFrameGeneration(SbgStreamBuffer *pOutputStream, size_t streamCursor);
 

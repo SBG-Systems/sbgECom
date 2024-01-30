@@ -66,7 +66,7 @@ typedef enum _SbgDebugLogType
  *	\param[in]	errorCode						The error code that has thrown this error.
  *	\param[in]	format							String litteral for the associated error message (you can use printf like string formating).
  */
-#define SBG_LOG_ERROR_CALL(errorCode, format, ...)		sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__FUNCTION__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_ERROR, errorCode, format, ##__VA_ARGS__)
+#define SBG_LOG_ERROR_CALL(errorCode, format, ...)		sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_ERROR, errorCode, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_ERROR == 1
 	#define	SBG_LOG_ERROR								SBG_LOG_ERROR_CALL
@@ -79,7 +79,7 @@ typedef enum _SbgDebugLogType
  *	\param[in]	errorCode						The error code that has thrown this warning.
  *	\param[in]	format							String litteral for the associated warning message (you can use printf like string formating).
  */
-#define SBG_LOG_WARNING_CALL(errorCode, format, ...)	sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__FUNCTION__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_WARNING, errorCode, format, ##__VA_ARGS__)
+#define SBG_LOG_WARNING_CALL(errorCode, format, ...)	sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_WARNING, errorCode, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_WARNING == 1
 	#define	SBG_LOG_WARNING								SBG_LOG_WARNING_CALL
@@ -91,7 +91,7 @@ typedef enum _SbgDebugLogType
  *	Log an information message.
  *	\param[in]	format							String litteral for the information message (you can use printf like string formating).
  */
-#define SBG_LOG_INFO_CALL(format, ...)					sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__FUNCTION__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_INFO, SBG_NO_ERROR, format, ##__VA_ARGS__)
+#define SBG_LOG_INFO_CALL(format, ...)					sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_INFO, SBG_NO_ERROR, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_INFO == 1
 	#define	SBG_LOG_INFO								SBG_LOG_INFO_CALL
@@ -103,7 +103,7 @@ typedef enum _SbgDebugLogType
  *	Log an information message only in debug mode
  *	\param[in]	format							String litteral for the information message (you can use printf like string formating).
  */
-#define SBG_LOG_DEBUG_CALL(format, ...)					sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__FUNCTION__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_DEBUG, SBG_NO_ERROR, format, ##__VA_ARGS__)
+#define SBG_LOG_DEBUG_CALL(format, ...)					sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_DEBUG, SBG_NO_ERROR, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_DEBUG == 1
 	#define	SBG_LOG_DEBUG								SBG_LOG_DEBUG_CALL

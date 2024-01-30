@@ -90,7 +90,7 @@ SbgErrorCode sbgEComEthernetGetConf(SbgEComHandle *pHandle, SbgEComEthernetConf 
 	for (trial = 0; trial < pHandle->numTrials; trial++)
 	{
 		//
-		// Send the command with no payload to retreive the network configuration
+		// Send the command with no payload to retrieve the network configuration
 		//
 		errorCode = sbgEComProtocolSend(&pHandle->protocolHandle, SBG_ECOM_CLASS_LOG_CMD_0, SBG_ECOM_CMD_ETHERNET_CONF, NULL, 0);
 
@@ -145,7 +145,7 @@ SbgErrorCode sbgEComEthernetSetConf(SbgEComHandle *pHandle, const SbgEComEtherne
 {
 	SbgErrorCode		errorCode = SBG_NO_ERROR;
 	uint32_t			trial;
-	uint8_t				outputBuffer[SBG_ECOM_MAX_BUFFER_SIZE];
+	uint8_t				outputBuffer[24];
 	SbgStreamBuffer		outputStream;
 
 	assert(pHandle);
@@ -224,7 +224,7 @@ SbgErrorCode sbgEComEthernetInfo(SbgEComHandle *pHandle, SbgEComEthernetConf *pE
 	for (trial = 0; trial < pHandle->numTrials; trial++)
 	{
 		//
-		// Send the command with no payload to retreive the network configuration
+		// Send the command with no payload to retrieve the network configuration
 		//
 		errorCode = sbgEComProtocolSend(&pHandle->protocolHandle, SBG_ECOM_CLASS_LOG_CMD_0, SBG_ECOM_CMD_ETHERNET_INFO, NULL, 0);
 

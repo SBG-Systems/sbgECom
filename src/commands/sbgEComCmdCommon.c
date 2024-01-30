@@ -91,15 +91,15 @@ SbgErrorCode sbgEComReceiveAnyCmd2(SbgEComHandle *pHandle, uint8_t *pMsgClass, u
 			{
 				if (pHandle->pReceiveLogCallback)
 				{
-					SbgBinaryLogData		 logData;
+					SbgEComLogUnion			 logData;
 
-					errorCode = sbgEComBinaryLogParse((SbgEComClass)receivedMsgClass, receivedMsgId, sbgEComProtocolPayloadGetBuffer(pPayload), sbgEComProtocolPayloadGetSize(pPayload), &logData);
+					errorCode = sbgEComLogParse((SbgEComClass)receivedMsgClass, receivedMsgId, sbgEComProtocolPayloadGetBuffer(pPayload), sbgEComProtocolPayloadGetSize(pPayload), &logData);
 
 					if (errorCode == SBG_NO_ERROR)
 					{
 						pHandle->pReceiveLogCallback(pHandle, (SbgEComClass)receivedMsgClass, receivedMsgId, &logData, pHandle->pUserArg);						
 
-						sbgEComBinaryLogCleanup(&logData, (SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsgId);
+						sbgEComLogCleanup(&logData, (SbgEComClass)receivedMsgClass, (SbgEComMsgId)receivedMsgId);
 					}
 				}
 			}
@@ -118,9 +118,12 @@ SbgErrorCode sbgEComReceiveAnyCmd2(SbgEComHandle *pHandle, uint8_t *pMsgClass, u
 				break;
 			}
 		}
-
+		
 		if (timeOut > 0)
 		{
+			//
+			// Only sleep if the Rx buffer is empty, otherwise we should retry ASAP to drain it
+			//
 			if (errorCode == SBG_NOT_READY)
 			{
 				sbgSleep(1);
@@ -136,7 +139,15 @@ SbgErrorCode sbgEComReceiveAnyCmd2(SbgEComHandle *pHandle, uint8_t *pMsgClass, u
 		}
 		else
 		{
-			errorCode = SBG_NOT_READY;
+			if (errorCode == SBG_NO_ERROR)
+			{
+				errorCode = SBG_TIME_OUT;
+			}
+			else
+			{
+				errorCode = SBG_NOT_READY;
+			}
+			
 			break;
 		}
 	}
@@ -227,9 +238,8 @@ SbgErrorCode sbgEComReceiveCmd2(SbgEComHandle *pHandle, uint8_t msgClass, uint8_
 				if ((errorCode == SBG_NO_ERROR) && (ackMsgClass == msgClass) && (ackMsgId == msgId))
 				{
 					//
-					// If a successful ACK is expected, the caller should instead explicitely wait for
-					// it. As a result, consider receiving a "successful ACK" instead of an actual message
-					// with the requested class/ID an error.
+					// If a successful ACK is expected, the caller should instead explicitly wait for it.
+					// Receiving a successful ACK that corresponds to the requested class/message is thus an error!
 					//
 					if (ackErrorCode != SBG_NO_ERROR)
 					{
@@ -248,11 +258,7 @@ SbgErrorCode sbgEComReceiveCmd2(SbgEComHandle *pHandle, uint8_t msgClass, uint8_
 		{
 			sbgSleep(1);
 		}
-		else
-		{
-			break;
-		}
-
+		
 		now = sbgGetTime();
 
 		if ((now - start) >= timeOut)
@@ -281,13 +287,10 @@ SbgErrorCode sbgEComWaitForAck(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t
 	sbgEComProtocolPayloadConstruct(&receivedPayload);
 
 	//
-	// Try to receive the ACK
+	// Try to receive the ACK and discard any other received log
 	//
 	errorCode = sbgEComReceiveCmd2(pHandle, SBG_ECOM_CLASS_LOG_CMD_0, SBG_ECOM_CMD_ACK, &receivedPayload, timeOut);
 
-	//
-	// Test if an ACK frame has been received
-	//
 	if (errorCode == SBG_NO_ERROR)
 	{
 		//
@@ -303,7 +306,7 @@ SbgErrorCode sbgEComWaitForAck(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t
 			sbgStreamBufferInitForRead(&inputStream, sbgEComProtocolPayloadGetBuffer(&receivedPayload), sbgEComProtocolPayloadGetSize(&receivedPayload));
 
 			//
-			// The ACK frame contains the ack message ID and class, and a uint16_t for the return error code
+			// The ACK frame contains the ACK message ID and class, and a uint16_t for the return error code
 			// We make sure that the ACK is for the correct command
 			//
 			ackMsg		= sbgStreamBufferReadUint8LE(&inputStream);
@@ -311,25 +314,18 @@ SbgErrorCode sbgEComWaitForAck(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t
 
 			if ((ackMsg == msg) && (ackClass == msgClass))
 			{
-				//
-				// Parse the error code and return it
-				//
 				errorCode = (SbgErrorCode)sbgStreamBufferReadUint16LE(&inputStream);
 			}
 			else
 			{
-				//
-				// We have received an ACK but not for this frame!
-				//
 				errorCode = SBG_INVALID_FRAME;
+				SBG_LOG_WARNING(errorCode, "received ACK mismatch. expecting %#"PRIx8":%#"PRIx8" got %#"PRIx8":%#"PRIx8, msgClass, msg, ackClass, ackMsg);
 			}
 		}
 		else
 		{
-			//
-			// The ACK is invalid
-			//
 			errorCode = SBG_INVALID_FRAME;
+			SBG_LOG_WARNING(errorCode, "payload size is invalid for an ACK.");
 		}
 	}
 
