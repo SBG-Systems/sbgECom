@@ -247,7 +247,7 @@ static SbgErrorCode sbgInterfaceSerialChangeBaudrate(SbgInterface *pInterface, u
 		//
 		if ( (cfsetispeed(&options, baudRateConst) == -1)  || (cfsetospeed(&options, baudRateConst) == -1) )
 		{
-			fprintf(stderr, "sbgInterfaceSerialChangeBaudrate: Unable to set speed.\n");
+			SBG_LOG_ERROR(SBG_ERROR, "Unable to set speed.");
 			return SBG_ERROR;
 		}
 			
@@ -260,13 +260,13 @@ static SbgErrorCode sbgInterfaceSerialChangeBaudrate(SbgInterface *pInterface, u
 		}
 		else
 		{
-			fprintf(stderr, "sbgInterfaceSerialChangeBaudrate: tcsetattr fails.\n");
+			SBG_LOG_ERROR(SBG_ERROR, "tcsetattr fails.");
 			return SBG_ERROR;
 		}
 	}
 	else
 	{
-		fprintf(stderr, "sbgInterfaceSerialChangeBaudrate: tcgetattr fails.\n");
+		SBG_LOG_ERROR(SBG_ERROR, "tcgetattr fails.");
 		return SBG_ERROR;
 	}
 }
@@ -323,7 +323,7 @@ static SbgErrorCode sbgInterfaceSerialWrite(SbgInterface *pInterface, const void
 				//
 				// An error has occurred during the write
 				//
-				fprintf(stderr, "sbgDeviceWrite: Unable to write to our device: %s\n", strerror(errno));
+				SBG_LOG_ERROR(SBG_WRITE_ERROR, "Unable to write to our device: %s", strerror(errno));
 				return SBG_WRITE_ERROR;
 			}
 		}
@@ -509,27 +509,27 @@ SbgErrorCode sbgInterfaceSerialCreate(SbgInterface *pInterface, const char *devi
 					}
 					else
 					{
-						fprintf(stderr, "sbgInterfaceSerialCreate: tcsetattr fails.\n");
+						SBG_LOG_ERROR(SBG_ERROR, "tcsetattr fails.");
 					}
 				}
 				else
 				{
-					fprintf(stderr, "sbgInterfaceSerialCreate: Unable to set speed.\n");
+					SBG_LOG_ERROR(SBG_ERROR, "Unable to set speed.");
 				}
 			}
 			else
 			{
-				fprintf(stderr, "sbgInterfaceSerialCreate: tcgetattr fails.\n");
+				SBG_LOG_ERROR(SBG_ERROR, "tcgetattr fails.");
 			}
 		}
 		else
 		{
-			fprintf(stderr, "sbgInterfaceSerialCreate: fcntl fails\n");
+			SBG_LOG_ERROR(SBG_ERROR, "fcntl fails.");
 		}
 	}
 	else
 	{
-		fprintf(stderr, "sbgInterfaceSerialCreate: Unable to open the com port: %s\n", deviceName);
+		SBG_LOG_ERROR(SBG_DEVICE_NOT_FOUND, "Unable to open the com port: %s", deviceName);
 	}
 			
 	//
