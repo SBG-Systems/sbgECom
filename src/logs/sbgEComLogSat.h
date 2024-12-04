@@ -1,13 +1,13 @@
 ﻿/*!
- * \file			sbgEComLogSat.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			1 March 2022
+ * \file            sbgEComLogSat.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            1 March 2022
  *
- * \brief			Parse space vehicles in view information log.
+ * \brief           Parse space vehicles in view information log.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,12 +51,12 @@ extern "C" {
 /*!
  * Maximum number of satellites in a satellite group.
  */
-#define SBG_ECOM_SAT_MAX_NR_SATELLITES						(64)
+#define SBG_ECOM_SAT_MAX_NR_SATELLITES                      (64)
 
 /*!
  * Maximum number of signals per satellite.
  */
-#define SBG_ECOM_SAT_MAX_NR_SIGNALS							(8)
+#define SBG_ECOM_SAT_MAX_NR_SIGNALS                         (8)
 
 //----------------------------------------------------------------------//
 //- Enumeration definitions                                            -//
@@ -73,12 +73,12 @@ extern "C" {
  */
 typedef enum _SbgEComSatTrackingStatus
 {
-	SBG_ECOM_SAT_TRACKING_STATUS_UNKNOWN			= 0,							/*!< Unknown tracking status such as no signal / idle. */
-	SBG_ECOM_SAT_TRACKING_STATUS_SEARCHING			= 1,							/*!< Signal is being searched and can't be used yet. */
-	SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_UNKNOWN	= 2,							/*!< Signal is tracked but don't know if used or not in the solution. */
-	SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_NOT_USED	= 3,							/*!< Signal is tracked and is not used in the solution. */
-	SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_REJECTED	= 4,							/*!< Signal is tracked and is rejected from the solution. */
-	SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_USED		= 5,							/*!< Signal is tracked and used in the solution. */
+    SBG_ECOM_SAT_TRACKING_STATUS_UNKNOWN            = 0,                            /*!< Unknown tracking status such as no signal / idle. */
+    SBG_ECOM_SAT_TRACKING_STATUS_SEARCHING          = 1,                            /*!< Signal is being searched and can't be used yet. */
+    SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_UNKNOWN   = 2,                            /*!< Signal is tracked but don't know if used or not in the solution. */
+    SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_NOT_USED  = 3,                            /*!< Signal is tracked and is not used in the solution. */
+    SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_REJECTED  = 4,                            /*!< Signal is tracked and is rejected from the solution. */
+    SBG_ECOM_SAT_TRACKING_STATUS_TRACKING_USED      = 5,                            /*!< Signal is tracked and used in the solution. */
 } SbgEComSatTrackingStatus;
 
 /*!
@@ -90,9 +90,9 @@ typedef enum _SbgEComSatTrackingStatus
  */
 typedef enum _SbgEComSatHealthStatus
 {
-	SBG_ECOM_SAT_HEALTH_STATUS_UNKNOWN				= 0,							/*!< Don't know the satellite or the signal health status. */
-	SBG_ECOM_SAT_HEALTH_STATUS_HEALTHY				= 1,							/*!< The satellite or the signal is healthy and can be used. */
-	SBG_ECOM_SAT_HEALTH_STATUS_UNHEALTHY			= 2,							/*!< The satellite or the signal is not healthy and can't be used. */
+    SBG_ECOM_SAT_HEALTH_STATUS_UNKNOWN              = 0,                            /*!< Don't know the satellite or the signal health status. */
+    SBG_ECOM_SAT_HEALTH_STATUS_HEALTHY              = 1,                            /*!< The satellite or the signal is healthy and can be used. */
+    SBG_ECOM_SAT_HEALTH_STATUS_UNHEALTHY            = 2,                            /*!< The satellite or the signal is not healthy and can't be used. */
 } SbgEComSatHealthStatus;
 
 /*!
@@ -104,9 +104,9 @@ typedef enum _SbgEComSatHealthStatus
  */
 typedef enum _SbgEComSatElevationStatus
 {
-	SBG_ECOM_SAT_ELEVATION_STATUS_UNKNOWN			= 0,							/*!< Don't know if the satellite elevation is setting or rising. */
-	SBG_ECOM_SAT_ELEVATION_STATUS_SETTING			= 1,							/*!< The satellite elevation is setting. */
-	SBG_ECOM_SAT_ELEVATION_STATUS_RISING			= 2,							/*!< The satellite elevation is rising */
+    SBG_ECOM_SAT_ELEVATION_STATUS_UNKNOWN           = 0,                            /*!< Don't know if the satellite elevation is setting or rising. */
+    SBG_ECOM_SAT_ELEVATION_STATUS_SETTING           = 1,                            /*!< The satellite elevation is setting. */
+    SBG_ECOM_SAT_ELEVATION_STATUS_RISING            = 2,                            /*!< The satellite elevation is rising */
 } SbgEComSatElevationStatus;
 
 //----------------------------------------------------------------------//
@@ -120,9 +120,9 @@ typedef enum _SbgEComSatElevationStatus
  */
 typedef struct _SbgEComLogSatSignal
 {
-	SbgEComSignalId						 id;										/*!< Signal ID. */
-	uint8_t								 flags;										/*!< Flags. */
-	uint8_t								 snr;										/*!< Signal-to-noise ratio, in dB. */
+    SbgEComSignalId                      id;                                        /*!< Signal ID. */
+    uint8_t                              flags;                                     /*!< Flags. */
+    uint8_t                              snr;                                       /*!< Signal-to-noise ratio, in dB. */
 } SbgEComLogSatSignal;
 
 /*!
@@ -146,12 +146,12 @@ typedef struct _SbgEComLogSatSignal
  */
 typedef struct _SbgEComLogSatEntry
 {
-	uint8_t 							id;											/*!< Satellite ID. */
-	int8_t								elevation;									/*!< Elevation, in degrees [-90; +90], valid if and only if the elevation is known. */
-	uint16_t							azimuth;									/*!< Azimuth, in degrees [0; 359], valid if and only if the elevation is known. */
-	uint16_t							flags;										/*!< Flags. */
-	size_t								nrSignals;									/*!< Number of signals. */
-	SbgEComLogSatSignal					signalData[SBG_ECOM_SAT_MAX_NR_SIGNALS];	/*!< Signal data array. */
+    uint8_t                             id;                                         /*!< Satellite ID. */
+    int8_t                              elevation;                                  /*!< Elevation, in degrees [-90; +90], valid if and only if the elevation is known. */
+    uint16_t                            azimuth;                                    /*!< Azimuth, in degrees [0; 359], valid if and only if the elevation is known. */
+    uint16_t                            flags;                                      /*!< Flags. */
+    size_t                              nrSignals;                                  /*!< Number of signals. */
+    SbgEComLogSatSignal                 signalData[SBG_ECOM_SAT_MAX_NR_SIGNALS];    /*!< Signal data array. */
 } SbgEComLogSatEntry;
 
 /*!
@@ -159,10 +159,10 @@ typedef struct _SbgEComLogSatEntry
  */
 typedef struct _SbgEComLogSatList
 {
-	uint32_t							timeStamp;									/*!< Time since the sensor power up, in us. */
-	uint32_t							reserved;									/*!< Reserved for future use. */
-	size_t								nrSatellites;								/*!< Number of satellites. */
-	SbgEComLogSatEntry					satData[SBG_ECOM_SAT_MAX_NR_SATELLITES];	/*!< Satellite data array. */
+    uint32_t                            timeStamp;                                  /*!< Time since the sensor power up, in us. */
+    uint32_t                            reserved;                                   /*!< Reserved for future use. */
+    size_t                              nrSatellites;                               /*!< Number of satellites. */
+    SbgEComLogSatEntry                  satData[SBG_ECOM_SAT_MAX_NR_SATELLITES];    /*!< Satellite data array. */
 } SbgEComLogSatList;
 
 //----------------------------------------------------------------------//
@@ -172,48 +172,48 @@ typedef struct _SbgEComLogSatList
 /*!
  * Get a signal id as a read only C string.
  * 
- * \param[in]	pSignalData					Signal data.
- * \return									Signal id as a read only C string.
+ * \param[in]   pSignalData                 Signal data.
+ * \return                                  Signal id as a read only C string.
  */
 const char *sbgEComLogSatSignalGetSignalIdAsStr(const SbgEComLogSatSignal *pSignalData);
 
 /*! 
  * Returns true if the SNR value is valid.
  *
- * \param[in]	pSignalData					Signal data.
- * \return									true if the SNR value is valid.
+ * \param[in]   pSignalData                 Signal data.
+ * \return                                  true if the SNR value is valid.
  */
 bool sbgEComLogSatSignalSnrIsValid(const SbgEComLogSatSignal *pSignalData);
 
 /*!
  * Get the health status of signal data.
  *
- * \param[in]	pSignalData					Signal data.
- * \return									Health status.
+ * \param[in]   pSignalData                 Signal data.
+ * \return                                  Health status.
  */
 SbgEComSatHealthStatus sbgEComLogSatSignalGetHealthStatus(const SbgEComLogSatSignal *pSignalData);
 
 /*!
  * Get the health status of signal data as a read only C string.
  *
- * \param[in]	pSignalData					Signal data.
- * \return									Health status as a read only C string.
+ * \param[in]   pSignalData                 Signal data.
+ * \return                                  Health status as a read only C string.
  */
 const char *sbgEComLogSatSignalGetHealthStatusAsStr(const SbgEComLogSatSignal *pSignalData);
 
 /*!
  * Get the tracking status of signal data.
  *
- * \param[in]	pSignalData					Signal data.
- * \return									Tracking status.
+ * \param[in]   pSignalData                 Signal data.
+ * \return                                  Tracking status.
  */
 SbgEComSatTrackingStatus sbgEComLogSatSignalGetTrackingStatus(const SbgEComLogSatSignal *pSignalData);
 
 /*!
  * Get the tracking status of signal data as a read only C string.
  *
- * \param[in]	pSignalData					Signal data.
- * \return									Tracking status as a read only C string.
+ * \param[in]   pSignalData                 Signal data.
+ * \return                                  Tracking status as a read only C string.
  */
 const char *sbgEComLogSatSignalGetTrackingStatusAsStr(const SbgEComLogSatSignal *pSignalData);
 
@@ -227,13 +227,13 @@ const char *sbgEComLogSatSignalGetTrackingStatusAsStr(const SbgEComLogSatSignal 
  * The health and tracking statuses of the satellite data are updated according to their respective
  * priority rules.
  *
- * \param[in]	pSatData					Satellite data.
- * \param[in]	id							Signal ID.
- * \param[in]	healthStatus				Health status.
- * \param[in]	trackingStatus				Tracking status.
- * \param[in]	snrValid					Set to true if the SNR value is valid.
- * \param[in]	snr							Signal-to-noise ratio, in dB.
- * \return									Signal data, NULL if an error occurs.
+ * \param[in]   pSatData                    Satellite data.
+ * \param[in]   id                          Signal ID.
+ * \param[in]   healthStatus                Health status.
+ * \param[in]   trackingStatus              Tracking status.
+ * \param[in]   snrValid                    Set to true if the SNR value is valid.
+ * \param[in]   snr                         Signal-to-noise ratio, in dB.
+ * \return                                  Signal data, NULL if an error occurs.
  */
 SbgEComLogSatSignal *sbgEComLogSatEntryAdd(SbgEComLogSatEntry *pSatData, SbgEComSignalId id, SbgEComSatHealthStatus healthStatus, SbgEComSatTrackingStatus trackingStatus, bool snrValid, uint8_t snr);
 
@@ -244,73 +244,73 @@ SbgEComLogSatSignal *sbgEComLogSatEntryAdd(SbgEComLogSatEntry *pSatData, SbgECom
 /*!
  * Get signal data from satellite data.
  *
- * \param[in]	pSatData					Satellite data.
- * \param[in]	id							Signal ID.
- * \return									Signal data, NULL if not found.
+ * \param[in]   pSatData                    Satellite data.
+ * \param[in]   id                          Signal ID.
+ * \return                                  Signal data, NULL if not found.
  */
 SbgEComLogSatSignal *sbgEComLogSatEntryGet(SbgEComLogSatEntry *pSatData, SbgEComSignalId id);
 
 /*!
  * Get the constellation ID of satellite data.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Constellation ID.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Constellation ID.
  */
 SbgEComConstellationId sbgEComLogSatEntryGetConstellationId(const SbgEComLogSatEntry *pSatData);
 
 /*!
  * Get the constellation ID of satellite data as a read only C string.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Constellation ID as a read only C string.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Constellation ID as a read only C string.
  */
 const char *sbgEComLogSatEntryGetConstellationIdAsStr(const SbgEComLogSatEntry *pSatData);
 
 /*!
  * Get the elevation status of satellite data.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Elevation status.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Elevation status.
  */
 SbgEComSatElevationStatus sbgEComLogSatEntryGetElevationStatus(const SbgEComLogSatEntry *pSatData);
 
 /*!
  * Get the elevation status of satellite data as a read only C string.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Elevation status as a read only C string.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Elevation status as a read only C string.
  */
 const char *sbgEComLogSatEntryGetElevationStatusAsStr(const SbgEComLogSatEntry *pSatData);
 
 /*!
  * Get the health status of satellite data.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Health status.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Health status.
  */
 SbgEComSatHealthStatus sbgEComLogSatEntryGetHealthStatus(const SbgEComLogSatEntry *pSatData);
 
 /*!
  * Get the health status of satellite data as a read only C string.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Health status as a read only C string.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Health status as a read only C string.
  */
 const char *sbgEComLogSatEntryGetHealthStatusAsStr(const SbgEComLogSatEntry *pSatData);
 
 /*!
  * Get the tracking status of satellite data.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Tracking status.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Tracking status.
  */
 SbgEComSatTrackingStatus sbgEComLogSatEntryGetTrackingStatus(const SbgEComLogSatEntry *pSatData);
 
 /*!
  * Get the tracking status of satellite data as a read only C string.
  *
- * \param[in]	pSatData					Satellite data.
- * \return									Tracking status as a read only C string.
+ * \param[in]   pSatData                    Satellite data.
+ * \return                                  Tracking status as a read only C string.
  */
 const char *sbgEComLogSatEntryGetTrackingStatusAsStr(const SbgEComLogSatEntry *pSatData);
 
@@ -321,41 +321,41 @@ const char *sbgEComLogSatEntryGetTrackingStatusAsStr(const SbgEComLogSatEntry *p
 /*!
  * Satellite list constructor.
  *
- * \param[in]	pSatList					Satellite list instance.
- * \param[in]	timeStamp					Time stamp, in us.
+ * \param[in]   pSatList                    Satellite list instance.
+ * \param[in]   timeStamp                   Timestamp, in us.
  */
 void sbgEComLogSatListConstruct(SbgEComLogSatList *pSatList, uint32_t timeStamp);
 
 /*!
  * Add a satellite entry to the list of satellites.
  *
- * \param[in]	pSatList					Satellite list instance.
- * \param[in]	id							Satellite ID.
- * \param[in]	elevation					Elevation, in degrees.
- * \param[in]	azimuth						Azimuth, in degrees.
- * \param[in]	constellationId				Constellation ID.
- * \param[in]	elevationStatus				Elevation status.
- * \param[in]	healthStatus				Health status.
- * \param[in]	trackingStatus				Tracking status.
- * \return									Satellite data, NULL if an error occurs.
+ * \param[in]   pSatList                    Satellite list instance.
+ * \param[in]   id                          Satellite ID.
+ * \param[in]   elevation                   Elevation, in degrees.
+ * \param[in]   azimuth                     Azimuth, in degrees.
+ * \param[in]   constellationId             Constellation ID.
+ * \param[in]   elevationStatus             Elevation status.
+ * \param[in]   healthStatus                Health status.
+ * \param[in]   trackingStatus              Tracking status.
+ * \return                                  Satellite data, NULL if an error occurs.
  */
 SbgEComLogSatEntry *sbgEComLogSatListAdd(SbgEComLogSatList *pSatList, uint8_t id, int8_t elevation, uint16_t azimuth, SbgEComConstellationId constellationId, SbgEComSatElevationStatus elevationStatus, SbgEComSatHealthStatus healthStatus, SbgEComSatTrackingStatus trackingStatus);
 
 /*!
  * Parse data for the SBG_ECOM_LOG_GPS#_SAT message and fill the corresponding structure.
  * 
- * \param[out]	pSatList					Satellite list instance.
- * \param[in]	pStreamBuffer				Input stream buffer to read the log from.
- * \return									SBG_NO_ERROR if a valid log has been read from the stream buffer.
+ * \param[out]  pSatList                    Satellite list instance.
+ * \param[in]   pStreamBuffer               Input stream buffer to read the log from.
+ * \return                                  SBG_NO_ERROR if a valid log has been read from the stream buffer.
  */
 SbgErrorCode sbgEComLogSatListReadFromStream(SbgEComLogSatList *pSatList, SbgStreamBuffer *pStreamBuffer);
 
 /*!
  * Write data for the SBG_ECOM_LOG_GPS#_SAT message to the output stream buffer from the provided structure.
  *
- * \param[in]	pSatList					Satellite list instance.
- * \param[out]	pStreamBuffer				Output stream buffer to write the log to.
- * \return									SBG_NO_ERROR if the log has been written to the stream buffer.
+ * \param[in]   pSatList                    Satellite list instance.
+ * \param[out]  pStreamBuffer               Output stream buffer to write the log to.
+ * \return                                  SBG_NO_ERROR if the log has been written to the stream buffer.
  */
 SbgErrorCode sbgEComLogSatListWriteToStream(const SbgEComLogSatList *pSatList, SbgStreamBuffer *pStreamBuffer);
 
@@ -366,9 +366,9 @@ SbgErrorCode sbgEComLogSatListWriteToStream(const SbgEComLogSatList *pSatList, S
 /*!
  * Get a satellite entry from its ID.
  *
- * \param[in]	pSatList					Satellite list instance.
- * \param[in]	id							Satellite ID.
- * \return									Satellite data, NULL if not found.
+ * \param[in]   pSatList                    Satellite list instance.
+ * \param[in]   id                          Satellite ID.
+ * \return                                  Satellite data, NULL if not found.
  */
 SbgEComLogSatEntry *sbgEComLogSatListGet(SbgEComLogSatList *pSatList, uint8_t id);
 
@@ -376,9 +376,9 @@ SbgEComLogSatEntry *sbgEComLogSatListGet(SbgEComLogSatList *pSatList, uint8_t id
 //- DEPRECATED - Used for backward compatibility                       -//
 //----------------------------------------------------------------------//
 
-SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogSatSignal	SbgLogSatSignalData);
-SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogSatEntry	SbgLogSatData);
-SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogSatList	SbgLogSatGroupData);
+SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogSatSignal  SbgLogSatSignalData);
+SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogSatEntry   SbgLogSatData);
+SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogSatList    SbgLogSatGroupData);
 
 SBG_DEPRECATED(SbgErrorCode sbgEComBinaryLogParseSatGroupData(SbgStreamBuffer *pStreamBuffer, SbgEComLogSatList *pSatList));
 SBG_DEPRECATED(SbgErrorCode sbgEComBinaryLogWriteSatGroupData(SbgStreamBuffer *pStreamBuffer, const SbgEComLogSatList *pSatList));

@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComLogAutomotive.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			22 April 2020
+ * \file            sbgEComLogAutomotive.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            22 April 2020
  *
- * \brief			Parse dedicated automotive measurements logs.
+ * \brief           Parse dedicated automotive measurements logs.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,9 +48,9 @@ extern "C" {
 /*!
  * Automotive data status mask definitions
  */
-#define SBG_ECOM_AUTO_DATA_TRACK_VALID					(0x1u << 0)		/*!< Set to 1 if the track angle is valid. */
-#define SBG_ECOM_AUTO_DATA_SLIP_VALID					(0x1u << 1)		/*!< Set to 1 if the slip angle is valid. */
-#define SBG_ECOM_AUTO_DATA_CURVATURE_VALID				(0x1u << 2)		/*!< Set to 1 if the curvature radius is valid. */
+#define SBG_ECOM_AUTO_DATA_TRACK_VALID                  (0x1u << 0)     /*!< Set to 1 if the track angle is valid. */
+#define SBG_ECOM_AUTO_DATA_SLIP_VALID                   (0x1u << 1)     /*!< Set to 1 if the slip angle is valid. */
+#define SBG_ECOM_AUTO_DATA_CURVATURE_VALID              (0x1u << 2)     /*!< Set to 1 if the curvature radius is valid. */
 
 //----------------------------------------------------------------------//
 //- Log structure definitions                                          -//
@@ -61,10 +61,10 @@ extern "C" {
  */
 typedef struct _SbgEComLogAutomotive
 {
-	uint8_t				 status;					/*!< Status bit mask. */
-	float				 trackAngle;				/*!< Track angle, in rad. */
-	float				 slipAngle;					/*!< Slip angle, in rad. */
-	float				 curvatureRadius;			/*!< Curvature radius, in m, always positive. */
+    uint8_t              status;                    /*!< Status bit mask. */
+    float                trackAngle;                /*!< Track angle, in rad. */
+    float                slipAngle;                 /*!< Slip angle, in rad. */
+    float                curvatureRadius;           /*!< Curvature radius, in m, always positive. */
 } SbgEComLogAutomotive;
 
 //----------------------------------------------------------------------//

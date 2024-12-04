@@ -1,13 +1,13 @@
 ﻿/*!
- * \file			sbgEComLogOdometer.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			25 February 2013
+ * \file            sbgEComLogOdometer.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            25 February 2013
  *
- * \brief			Parse received odometer/DMI velocity measurement logs.
+ * \brief           Parse received odometer/DMI velocity measurement logs.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,8 +48,8 @@ extern "C" {
 /*!
  * Odometer / velocity status mask definitions.
  */
-#define SBG_ECOM_ODO_REAL_MEAS				(0x0001 << 0)			/*!< Set to 1 if this log comes from a real pulse measurement or from a timeout. */
-#define SBG_ECOM_ODO_TIME_SYNC				(0x0001 << 1)			/*!< Set to 1 if the velocity information is correctly time synchronized. */
+#define SBG_ECOM_ODO_REAL_MEAS              (0x0001 << 0)           /*!< Set to 1 if this log comes from a real pulse measurement or from a timeout. */
+#define SBG_ECOM_ODO_TIME_SYNC              (0x0001 << 1)           /*!< Set to 1 if the velocity information is correctly time synchronized. */
 
 //----------------------------------------------------------------------//
 //- Log structure definitions                                          -//
@@ -60,9 +60,9 @@ extern "C" {
  */
 typedef struct _SbgEComLogOdometer
 {
-	uint32_t	timeStamp;				/*!< Time in us since the sensor power up. */
-	uint16_t	status;					/*!< Odometer velocity status bitmask. */
-	float		velocity;				/*!< Velocity in m.s^-1 in the odometer direction. */
+    uint32_t    timeStamp;              /*!< Time in us since the sensor power up. */
+    uint16_t    status;                 /*!< Odometer velocity status bitmask. */
+    float       velocity;               /*!< Velocity in m.s^-1 in the odometer direction. */
 } SbgEComLogOdometer;
 
 //----------------------------------------------------------------------//
@@ -72,18 +72,18 @@ typedef struct _SbgEComLogOdometer
 /*!
  * Parse data for the SBG_ECOM_LOG_ODO_VEL message and fill the corresponding structure.
  * 
- * \param[out]	pLogData					Log structure instance to fill.
- * \param[in]	pStreamBuffer				Input stream buffer to read the log from.
- * \return									SBG_NO_ERROR if a valid log has been read from the stream buffer.
+ * \param[out]  pLogData                    Log structure instance to fill.
+ * \param[in]   pStreamBuffer               Input stream buffer to read the log from.
+ * \return                                  SBG_NO_ERROR if a valid log has been read from the stream buffer.
  */
 SbgErrorCode sbgEComLogOdometerReadFromStream(SbgEComLogOdometer *pLogData, SbgStreamBuffer *pStreamBuffer);
 
 /*!
  * Write data for the SBG_ECOM_LOG_ODO_VEL message to the output stream buffer from the provided structure.
  *
- * \param[in]	pLogData					Log structure instance to write.
- * \param[out]	pStreamBuffer				Output stream buffer to write the log to.
- * \return									SBG_NO_ERROR if the log has been written to the stream buffer.
+ * \param[in]   pLogData                    Log structure instance to write.
+ * \param[out]  pStreamBuffer               Output stream buffer to write the log to.
+ * \return                                  SBG_NO_ERROR if the log has been written to the stream buffer.
  */
 SbgErrorCode sbgEComLogOdometerWriteToStream(const SbgEComLogOdometer *pLogData, SbgStreamBuffer *pStreamBuffer);
 

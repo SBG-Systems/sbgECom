@@ -14,10 +14,10 @@
 
 uint32_t sbgEComGetVersion(void)
 {
-	return SBG_E_COM_VERSION;
+    return SBG_E_COM_VERSION;
 }
 
 const char *sbgEComGetVersionAsString(void)
 {
-	return SBG_E_COM_VERSION_STR;
+    return SBG_E_COM_VERSION_STR;
 }

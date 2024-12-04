@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComCmdSettings.h
- * \ingroup			commands
- * \author			SBG Systems
- * \date			11 June 2014
+ * \file            sbgEComCmdSettings.h
+ * \ingroup         commands
+ * \author          SBG Systems
+ * \date            11 June 2014
  *
- * \brief			Import/export/save settings commands.
+ * \brief           Import/export/save settings commands.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,9 +52,9 @@ extern "C" {
  */
 typedef enum _SbgEComSettingsAction
 {
-	SBG_ECOM_REBOOT_ONLY 				= 0,		/*!< Only reboot the device. */
-	SBG_ECOM_SAVE_SETTINGS				= 1,		/*!< Save the settings to non-volatile memory and then reboot the device. */
-	SBG_ECOM_RESTORE_DEFAULT_SETTINGS	= 2			/*!< Restore default settings, save them to non-volatile memory and reboot the device. */
+    SBG_ECOM_REBOOT_ONLY                = 0,        /*!< Only reboot the device. */
+    SBG_ECOM_SAVE_SETTINGS              = 1,        /*!< Save the settings to non-volatile memory and then reboot the device. */
+    SBG_ECOM_RESTORE_DEFAULT_SETTINGS   = 2         /*!< Restore default settings, save them to non-volatile memory and reboot the device. */
 } SbgEComSettingsAction;
 
 //----------------------------------------------------------------------//
@@ -65,13 +65,13 @@ typedef enum _SbgEComSettingsAction
  * Send a command to execute a specific system action to reboot/save/restore default settings.
  *
  * Execute one of the available settings action:
- *	- SBG_ECOM_REBOOT_ONLY : Only reboot the device.
- *	- SBG_ECOM_SAVE_SETTINGS : Save the settings to non-volatile memory and then reboot the device.
- *	- SBG_ECOM_RESTORE_DEFAULT_SETTINGS : Restore default settings, save them to non-volatile memory and reboot the device.
+ *  - SBG_ECOM_REBOOT_ONLY : Only reboot the device.
+ *  - SBG_ECOM_SAVE_SETTINGS : Save the settings to non-volatile memory and then reboot the device.
+ *  - SBG_ECOM_RESTORE_DEFAULT_SETTINGS : Restore default settings, save them to non-volatile memory and reboot the device.
  * 
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	action						One of the available SbgEComSettingsAction.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[in]   action                      One of the available SbgEComSettingsAction.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdSettingsAction(SbgEComHandle *pHandle, SbgEComSettingsAction action);
 
@@ -80,21 +80,21 @@ SbgErrorCode sbgEComCmdSettingsAction(SbgEComHandle *pHandle, SbgEComSettingsAct
  * 
  * The device will reboot automatically to use the new settings.
  * 
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	pBuffer						Read only buffer containing the settings.
- * \param[in]	size						Size of the buffer.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[in]   pBuffer                     Read only buffer containing the settings.
+ * \param[in]   size                        Size of the buffer.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdImportSettings(SbgEComHandle *pHandle, const void *pBuffer, size_t size);
 
 /*!
  * Retrieve a complete set of settings from the device as a buffer.
  * 
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	pBuffer						Allocated buffer that can hold the received settings.
- * \param[out]	pSize						The number of bytes that have been stored into pBuffer.
- * \param[in]	maxSize						The maximum buffer size in bytes that can be stored into pBuffer.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[in]   pBuffer                     Allocated buffer that can hold the received settings.
+ * \param[out]  pSize                       The number of bytes that have been stored into pBuffer.
+ * \param[in]   maxSize                     The maximum buffer size in bytes that can be stored into pBuffer.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdExportSettings(SbgEComHandle *pHandle, void *pBuffer, size_t *pSize, size_t maxSize);
 

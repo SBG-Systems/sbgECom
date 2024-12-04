@@ -1,4 +1,6 @@
 // STL headers
+#include <fstream>
+#include <iostream>
 #include <unordered_map>
 #include <memory>
 
@@ -34,8 +36,12 @@ m_context(settings)
 	{
 		throw std::runtime_error("unable to init sbgECom library");
 	}
-	
+
 	sbgEComSetReceiveLogCallback(&m_ecomHandle, onSbgEComLogReceived, this);
+
+	sbgEComSessionInfoCtxConstruct(&m_ecomSessionInfoCtx);
+
+	m_sessionInfoFileId = 0;
 }
 
 CLoggerManager::~CLoggerManager()
@@ -127,7 +133,6 @@ void CLoggerManager::openInterface()
 
 SbgErrorCode CLoggerManager::onSbgEComLogReceived(SbgEComHandle *pHandle, SbgEComClass msgClass, SbgEComMsgId msgId, const SbgEComLogUnion *pLogData, void *pUserArg)
 {
-	SbgErrorCode	 errorCode = SBG_NO_ERROR;
 	CLoggerManager		*pLogManager;
 
 	assert(pHandle);
@@ -135,9 +140,17 @@ SbgErrorCode CLoggerManager::onSbgEComLogReceived(SbgEComHandle *pHandle, SbgECo
 	assert(pUserArg);
 
 	pLogManager = static_cast<CLoggerManager*>(pUserArg);
-	pLogManager->processLog(msgClass, msgId, *pLogData);
+	
+	if ((msgClass == SBG_ECOM_CLASS_LOG_ECOM_0) && (msgId == SBG_ECOM_LOG_SESSION_INFO))
+	{
+		pLogManager->processSessionInformation(&pLogData->sessionInfoData);
+	}
+	else
+	{
+		pLogManager->processLog(msgClass, msgId, *pLogData);
+	}
 
-	return errorCode;
+	return SBG_NO_ERROR;
 }
 
 void CLoggerManager::processLog(SbgEComClass msgClass, SbgEComMsgId msgId, const SbgEComLogUnion &logData)
@@ -149,6 +162,43 @@ void CLoggerManager::processLog(SbgEComClass msgClass, SbgEComMsgId msgId, const
 	catch (std::out_of_range &)
 	{
 		SBG_LOG_WARNING(SBG_ERROR, "Unknown log %u:%u", msgClass, msgId);
+	}
+}
+
+void CLoggerManager::processSessionInformation(const SbgEComLogSessionInfo *pSessionInfoData)
+{
+	SbgErrorCode						 errorCode;
+
+	assert(pSessionInfoData);
+
+	errorCode = sbgEComSessionInfoCtxProcess(&m_ecomSessionInfoCtx, pSessionInfoData->pageIndex, pSessionInfoData->nrPages, pSessionInfoData->buffer, pSessionInfoData->size);
+
+	if (errorCode == SBG_NO_ERROR)
+	{
+		std::string							 string;
+
+		string = sbgEComSessionInfoCtxGetString(&m_ecomSessionInfoCtx);
+
+		if (string != m_ecomSessionInfoString)
+		{
+			m_ecomSessionInfoString = string;
+
+			if (m_context.getSettings().getWriteToConsole())
+			{
+				std::cout << "session information received, size:" << m_ecomSessionInfoString.length() << "\n";
+			}
+
+			if (m_context.getSettings().getWriteToFile())
+			{
+				std::ofstream						outFile;
+
+				outFile.open(m_context.getSettings().getBasePath() + "sessionInfo_" + std::to_string(m_sessionInfoFileId) + ".json", std::ofstream::out | std::ofstream::trunc);
+				outFile << m_ecomSessionInfoString;
+				outFile.close();
+
+				m_sessionInfoFileId++;
+			}
+		}
 	}
 }
 

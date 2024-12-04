@@ -1,12 +1,12 @@
 /*!
- * \file			loggerContext.h
- * \author			SBG Systems
- * \date			March 06, 2023
+ * \file            loggerContext.h
+ * \author          SBG Systems
+ * \date            March 06, 2023
  *
- * \brief			Define the logger context such as current UTC time.
+ * \brief           Define the logger context such as current UTC time.
  *
- * \copyright		Copyright (C) 2023, SBG Systems SAS. All rights reserved.
- * \beginlicense	Proprietary license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    Proprietary license
  *
  * This source code is intended for use only by SBG Systems SAS and
  * those that have explicit written permission to use it from
@@ -39,103 +39,103 @@
 
 namespace sbg
 {
-	/*!
-	 * Logger shared context between all log handlers.
-	 * Used to share logger settings and convert time stamp to absolute time.
-	 */
-	class CLoggerContext
-	{
-	public:
-		//----------------------------------------------------------------------//
-		//- Constructor / destructor                                           -//
-		//----------------------------------------------------------------------//
+    /*!
+     * Logger shared context between all log handlers.
+     * Used to share logger settings and convert timestamp to absolute time.
+     */
+    class CLoggerContext
+    {
+    public:
+        //----------------------------------------------------------------------//
+        //- Constructor / destructor                                           -//
+        //----------------------------------------------------------------------//
 
-		/*!
-		 * Default constructor.
-		 * 
-		 * \param[in]	settings						Logger settings to set.
-		 */
-		CLoggerContext(const CLoggerSettings &settings);
+        /*!
+         * Default constructor.
+         * 
+         * \param[in]   settings                        Logger settings to set.
+         */
+        CLoggerContext(const CLoggerSettings &settings);
 
-		//----------------------------------------------------------------------//
-		//- Getters/settings                                                   -//
-		//----------------------------------------------------------------------//
+        //----------------------------------------------------------------------//
+        //- Getters/settings                                                   -//
+        //----------------------------------------------------------------------//
 
-		/*!
-		 * Returns the logger settings instance (read only).
-		 * 
-		 * \return										logger settings reference.
-		 */
-		const CLoggerSettings &getSettings() const;
+        /*!
+         * Returns the logger settings instance (read only).
+         * 
+         * \return                                      logger settings reference.
+         */
+        const CLoggerSettings &getSettings() const;
 
-		/*!
-		 * Update the UTC time with a newly received information.
-		 * 
-		 * \param[in]	utcTime							New UTC time information.
-		 */
-		void setUtcTime(const SbgEComLogUtc &utcTime);
+        /*!
+         * Update the UTC time with a newly received information.
+         * 
+         * \param[in]   utcTime                         New UTC time information.
+         */
+        void setUtcTime(const SbgEComLogUtc &utcTime);
 
-		/*!
-		 * Returns true if at least one valid UTC time information has been set.
-		 *
-		 * \return										true if a valid UTC time information is available.
-		 */
-		bool isUtcTimeValid() const;
+        /*!
+         * Returns true if at least one valid UTC time information has been set.
+         *
+         * \return                                      true if a valid UTC time information is available.
+         */
+        bool isUtcTimeValid() const;
 
-		/*!
-		 * Returns for the selected time mode a header string.
-		 * 
-		 * \return										time header.
-		 */
-		std::string getTimeColTitle() const;
+        /*!
+         * Returns for the selected time mode a header string.
+         * 
+         * \return                                      time header.
+         */
+        std::string getTimeColTitle() const;
 
-		/*!
-		 * Returns for the selected time mode a header string.
-		 * 
-		 * \return										time header.
-		 */
-		std::string getTimeUnit() const;
+        /*!
+         * Returns for the selected time mode a header string.
+         * 
+         * \return                                      time header.
+         */
+        std::string getTimeUnit() const;
 
-		/*!
-		 * Convert the INS time stamp in us to a ISO 8601 time.
-		 * 
-		 * \param[in]	timeStampUs						Time stamp in us to convert.
-		 * \return										Corresponding time using ISO 8601 format.
-		 */
-		std::string fmtTime(uint32_t timeStampUs) const;
+        /*!
+         * Convert the INS timestamp in us to a ISO 8601 time.
+         * 
+         * \param[in]   timeStampUs                     Timestamp in us to convert.
+         * \return                                      Corresponding time using ISO 8601 format.
+         */
+        std::string fmtTime(uint32_t timeStampUs) const;
 
-		/*!
-		 * Convert a status unsigned integer to a string according to selected output format/
-		 *
-		 * Status can be either output using decimal or hexadecimal format.
-		 * 
-		 * \param[in]	value							The status unsigned value to convert.
-		 * \param[in]	width							Optional number of digits to use for hexadecimal format.
-		 * \return										Status formatted as a string.
-		 */
-		template <typename T>
-		std::string fmtStatus(T value, size_t width = sizeof(T)*2) const
-		{	
-			std::stringstream		outputStr;
+        /*!
+         * Convert a status unsigned integer to a string according to selected output format/
+         *
+         * Status can be either output using decimal or hexadecimal format.
+         * 
+         * \param[in]   value                           The status unsigned value to convert.
+         * \param[in]   width                           Optional number of digits to use for hexadecimal format.
+         * \return                                      Status formatted as a string.
+         */
+        template <typename T>
+        std::string fmtStatus(T value, size_t width = sizeof(T)*2) const
+        {   
+            std::stringstream       outputStr;
 
-			if (getSettings().getStatusFormat() == CLoggerSettings::StatusFormat::Hexadecimal)
-			{
-				outputStr.fill('0');
-				outputStr << "0x"<< std::noshowbase << std::hex << std::setw(width) << value;
-			}
-			else
-			{
-				outputStr << static_cast<uint32_t>(value);
-			}
+            if (getSettings().getStatusFormat() == CLoggerSettings::StatusFormat::Hexadecimal)
+            {
+                outputStr.fill('0');
+                outputStr << "0x"<< std::noshowbase << std::hex << std::setw(width) << value;
+            }
+            else
+            {
+                outputStr << static_cast<uint32_t>(value);
+            }
 
-			return outputStr.str();
-		}
+            return outputStr.str();
+        }
 
-	private:
-		CLoggerSettings					m_settings;							/*!< Logger settings. */
-		SbgEComLogUtc					m_lastUtcTime;						/*!< Last received UTC time if any. */
-		bool							m_utcTimeIsValid	{false};		/*!< Set to true as soon as one valid UTC time has been received. It never goes back to false. */
-	};
+    private:
+        CLoggerSettings                 m_settings;                         /*!< Logger settings. */
+        SbgEComLogUtc                   m_lastUtcTime;                      /*!< Last received UTC time if any. */
+        bool                            m_utcTimeIsValid    {false};        /*!< Set to true as soon as one valid UTC time has been received. It never goes back to false. */
+    };
 };
 
 #endif // SBG_LOGGER_SETTINGS_H

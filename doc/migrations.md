@@ -1,6 +1,225 @@
 # Migrations
 These pages help you easily migrate your code from previous sbgECom major versions.
 
+## ELLIPSE Firmware v3
+
+ELLIPSE firmware v3 is a complete rewrite from scratch over firmware v2.  
+This new firmware brings massive performance and reliability improvements for VG, AHRS and INS operating modes as well as magnetic heading and heave accuracy.
+
+This new firmware also improve the user experience with the new [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) configuration API already used by High Performance INS products.
+
+Finally, the new firmware v3 is only available for ELLIPSE hardware generation 3 thanks to a more powerful CPU and more available RAM.
+ELLIPSE v1 and v2 are not concerned by this new firmware with only maintenance support on firmware branch v2.x.
+
+### New Features
+
+The main new features or changes introduced by the firmware v3 are:
+  - Latest generation INS filter algorithms
+  - Latest generation heave filters
+  - New magnetic heading aiding implementation
+  - New on-board magnetic field hard/soft iron compensation routines
+  - New [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) configuration API
+  - New settings streaming over serial interface
+  - Up to 1 kHz output rate for IMU data
+  - Up to 2 Mbit/s serial interface baudrates
+  - New configuration, operating modes and more
+
+### Compatibility
+
+The firmware v3 introduces the new [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) as the preferred method to configure the device.
+However, the legacy sbgECom configuration commands are still supported to ease firmware migration.
+
+For most users, existing sbgECom implementations should work with new ELLIPSE firmware v3 without requiring code modifications.
+However minor compatibility issues might arose between the ELLIPSE firmware v3 and previous sbgECom versions (before v5).
+
+When possible, ELLIPSE firmware v3 new features and options have been added to the legacy sbgECom configuration commands.  
+It should help users benefits from the new features and improvements brought by the ELLIPSE firmware v3 with limited code updates.
+
+> [!NOTE]
+> Even if sbgECom legacy configuration commands have been extended to support some ELLIPSE v3 new features and options, SBG Systems recommends migrating to the new [sbgInsRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) configuration API.
+
+### Serial Interface
+
+The ELLIPSE firmware v3 allow up to 1 kHz IMU output on serial interface as well as settings streaming.
+To better support high throughput, the maximum allowable baudrate has been increased from 921600 bps to 2 Mbit/s.
+
+> [!WARNING]
+> Make sure your hardware and cables are able to cope with such high baudrates.
+
+### Precise Mechanical Installation
+
+Starting with ELLIPSE firmware v3, all lever arms and alignment configurations are treated as precisely measured and entered.  
+In previous firmware versions (v2), the system refined these parameters online, which came at the cost of reliability and accuracy.
+
+This online estimation feature has been disabled in firmware v3 to ensure more repeatable and robust performance.  
+The following parameters are affected:
+- GNSS primary lever arm
+- GNSS secondary lever arm (HDT)
+- DVL lever arm
+
+However, accurately measuring lever arms and alignment parameters during initial product setup can be challenging.  
+To simplify this process, SBG Systems has developed a free software, the **Qinertia Lever Arm Estimation** tool.
+
+The Qinertia Lever Arm Estimation tool uses forward/backward post-processing to deliver highly accurate and repeatable estimations.  
+For detailed instructions, please refer to the specific documentation available on the [Support Center](https://support.sbg-systems.com).
+
+### Magnetometers
+
+#### External Magnetometer
+
+ELLIPSE firmware v3 adds a new option to accept external magnetometer modules.  
+The command `SBG_ECOM_CMD_AIDING_ASSIGNMENT` has been updated accordingly and `SBG_ECOM_MAG_MODEL_ECOM_NORMAL` model has been added.
+
+#### Error Model
+
+The integration of magnetometers within the AHRS/INS solution and their rejection handling has been completely reworked.
+As a result, the magnetic error mode `SBG_ECOM_MAG_MODEL_NOISY_MAG_TOLERANT` is no longer relevant.
+
+The updated magnetometer interference rejection and mitigation algorithm provides improved accuracy, even in magnetically disturbed environments, without sacrificing heading robustness.
+
+#### 2D/3D Magnetic Calibration
+
+The new magnetometer implementation requires the AHRS/INS filter to know if the magnetic field has been calibrated using a 2D or 3D procedure.  
+This new settings is available through the sbgInsRestApi at `api/v1/settings/aiding/magnetometers/calibrationMode` endpoint.
+
+Legacy sbgECom configuration command `SBG_ECOM_CMD_SET_MAG_CALIB` has been extended to include the 2D/3D calibration mode information.  
+The new method `sbgEComCmdMagSetCalibData2` has been introduced to provide the mode information.
+
+## From sbgECom v4.x
+
+sbgECom v5.x brings several modifications and improvements to support ELLIPSE Firmware v3.
+This new version also includes several new outputs, fields as well as deprecates some enums or definitions.
+
+The sbgECom library and protocol documentation has been also completely rewritten.
+This guide should help you update your code base to latest sbgECom 5.x for the new ELLIPSE firmware v3.
+
+> [!WARNING]
+> The sbgECom v4.x supports latest ELLIPSE running firmware v3, HPINS and PULSE products.  
+> For ELLIPSE running firmware v2 or earlier, it is recommended to use sbgECom v3.x.
+
+### Documentation
+
+This version introduce a new unified sbgECom protocol and library documentation.
+This documentation supersede the previous [Firmware Reference Manual](https://support.sbg-systems.com/sc/dev/latest/firmware-documentation) PDF.
+
+The new documentation focuses only on latest products and firmware and doesn't cover ELLIPSE v1/v2 anymore.  
+You should use the previous Firmware Reference Manual for these products.
+
+### New DVL model
+
+ELLIPSE firmware v3 now supports a new DVL mode: `SBG_ECOM_DVL_MODEL_NORTEK`
+
+### Output Event Triggers
+
+ELLIPSE firmware v3 introduces new Sync Out trigger options to support up to 1 kHz output rates.  
+To ease migration to firmware v3, the following new definitions have been added to legacy sbgECom configuration commands:
+  - `SBG_ECOM_SYNC_OUT_MODE_DIV_5`: Trigger a Sync Out pulse at 40 Hz
+  - `SBG_ECOM_SYNC_OUT_MODE_DIV_100`: Trigger a Sync Out pulse at 2 Hz
+  - `SBG_ECOM_SYNC_OUT_MODE_1_MS`: Trigger a Sync Out pulse at 1000 Hz
+  - `SBG_ECOM_SYNC_OUT_MODE_2_MS`: Trigger a Sync Out pulse at 500 Hz
+  - `SBG_ECOM_SYNC_OUT_MODE_4_MS`: Trigger a Sync Out pulse at 250 Hz
+
+> [!WARNING]
+> These new trigger enum values are only supported starting with ELLIPSE firmware v3.
+
+### Output Message Triggers
+
+ELLIPSE firmware v3 introduces new Output Message trigger options to support up to 1 kHz output rates.  
+To ease migration to firmware v3, the following new definitions have been added to legacy sbgECom configuration commands:
+  - `SBG_ECOM_OUTPUT_MODE_DIV_100`: Output a message at 2 Hz
+  - `SBG_ECOM_SYNC_OUT_MODE_1_MS`: Output a message at 1000 Hz
+  - `SBG_ECOM_SYNC_OUT_MODE_2_MS`: Output a message at 500 Hz
+  - `SBG_ECOM_SYNC_OUT_MODE_4_MS`: Output a message at 250 Hz
+
+> [!WARNING]
+> These new trigger enum values are only supported starting with ELLIPSE firmware v3.
+
+### NMEA Output From GNSS
+
+A new output message class `SBG_ECOM_CLASS_LOG_NMEA_GNSS` has been added to support NMEA messages from the internal GNSS receiver instead of from the INS filter.  
+The following new messages are available in this class:
+  - `SBG_ECOM_LOG_NMEA_GNSS_GGA`
+  - `SBG_ECOM_LOG_NMEA_GNSS_RMC`
+  - `SBG_ECOM_LOG_NMEA_GNSS_HDT`
+  - `SBG_ECOM_LOG_NMEA_GNSS_VTG`
+
+These definitions have been added to support this new feature using the legacy sbgECom configuration commands.  
+Of course, SBG Systems recommends using the sbgInsRestApi for new code implementations.
+
+### Magnetometers Aiding
+
+To support external magnetometers aiding, a reserved field has been used in the `SBG_ECOM_CMD_AIDING_ASSIGNMENT` command payload to define the new magnetometer module assignment.  
+However, in sbgECom before 4.0 and before, this field was set to zero resulting in a Port A assignment instead of internal.
+
+> [!WARNING]
+> The command `SBG_ECOM_CMD_AIDING_ASSIGNMENT` might create compatibility issues when used with sbgECom 4.x or before.
+
+### Magnetometer Models
+
+The `SBG_ECOM_MAG_MODEL_NOISY_MAG_TOLERANT` error model is not relevant anymore and has been removed.  
+
+The `SBG_ECOM_MAG_MODEL_NORMAL` model has been replaced by `SBG_ECOM_MAG_MODEL_INTERNAL_NORMAL`.
+The `SBG_ECOM_MAG_MODEL_ECOM_NORMAL` has been added to support external magnetometers using the sbgECom protocol ([SBG_ECOM_LOG_MAG](#SBG_ECOM_LOG_MAG) message).
+
+### Magnetometer Calibration
+
+The hard and soft iron calibration module has been improved as well as how the magnetic field is fused in the AHRS/INS filter.  
+
+The command `SBG_ECOM_CMD_SET_MAG_CALIB` has a new field to indicate if the magnetic calibration is a 2D or 3D one.  
+This new field is available with the new `sbgEComCmdMagSetCalibData2` method that supersede `sbgEComCmdMagSetCalibData`.
+
+The command `SBG_ECOM_CMD_START_MAG_CALIB` bandwidth parameter is not used anymore and has no effect.
+The method `sbgEComCmdMagStartCalib` is updated accordingly to reflect this change.
+
+### New Motion Profiles
+
+Two new motion profiles have been added that tunes the INS filter:
+  - `SBG_ECOM_MOTION_PROFILE_OFF_ROAD_VEHICLE`
+  - `SBG_ECOM_MOTION_PROFILE_UNDERWATER`
+
+### New Output Messages
+
+#### SBG_ECOM_LOG_PTP_STATUS
+
+The new [SBG_ECOM_LOG_PTP_STATUS](#SBG_ECOM_LOG_PTP_STATUS) log returns advanced Precise Time Protocol status information for HPINS products.
+When the INS doesn't act as the GrandMaster Clock on the network, this message is used to track the delta time between the INS and an external Grand Master Clock.
+
+#### SBG_ECOM_LOG_SESSION_INFO
+
+Returns in small chunks and continuously the device current configuration and information.  
+Used to retrieve the device configuration from output messages binary stream over any serial or Ethernet interface.
+
+Only available on ELLIPSE firmware v3 and HPINS running firmware 5.3 and above.
+
+The new class `SbgEComSessionInfoCtx` offers a convenient way to reassemble each [SBG_ECOM_LOG_SESSION_INFO](#SBG_ECOM_LOG_SESSION_INFO) chunk and to get the device information and settings as JSON format.
+
+### Updated Output Messages
+
+### SBG_ECOM_LOG_STATUS
+Added new CPU usage in percent field
+
+#### SBG_ECOM_LOG_EFK_EULER and SBG_ECOM_LOG_EFK_QUAT
+Added magDeclination and magInclination information
+New `sbgEComLogEkfEulerGetMagneticHeading` getter to return INS magnetic heading instead of geographic.
+
+### SBG_ECOM_LOG_IMU_SHORT
+Added a high range scale factor for gyroscopes to support rotation rates above 1833°/s
+Transparent if you use the getter `sbgEComLogImuShortGetDeltaAngle` otherwise, please use it.
+
+### Updated Output Triggers
+
+The following messages have new output triggers options and are automatically migrated.
+
+| sbgECom ID                | sbgECom Trigger | RestApi Trigger       |
+|---------------------------|-----------------|-----------------------|
+| SBG_ECOM_LOG_IMU_SHORT    | New Data        | Converted to 200 Hz   |
+| SBG_ECOM_LOG_MAG_CALIB    | 1 Hz to 50 Hz   | Converted to New Data |
+
+### Deprecations
+
+The message [SBG_ECOM_LOG_IMU_DATA](#SBG_ECOM_LOG_IMU_DATA) is deprecated and [SBG_ECOM_LOG_IMU_SHORT](#SBG_ECOM_LOG_IMU_SHORT) should be used instead.
+The message `SBG_ECOM_LOG_FAST_IMU_DATA` has been removed from ELLIPSE firmware v3 and [SBG_ECOM_LOG_IMU_SHORT](#SBG_ECOM_LOG_IMU_SHORT) should be used instead.
+
 ## From sbgECom v3.x
 
 sbgECom v4.x is a major improvement over sbgECom v3.x in term of features, code quality and organization.  
@@ -17,7 +236,7 @@ sbgECom namespace conventions were not aligned with SBG Systems quality standard
 Most sbgECom binary logs struct, enum and function definitions have been updated to comply with strict namespace.  
 The legacy names have been kept and indicated to be deprecated to avoid breaking changes.
 
-Almost all the source files located in the `src/logs` directory have been reworked.
+Almost all the source files located in the `sbgECom/src/logs` directory have been reworked.
 
 Legacy sbgECom v3 style:
 
@@ -108,4 +327,5 @@ The method `sbgEComCmdSensorGetMotionProfileInfo` has been replaced by `sbgEComC
 
 ### Legacy IG-500 sbgCom
 
-sbgECom version 2.x drop the legacy IG-500 support so the methods `sbgEComCmdOutputGetLegacyConf` and `sbgEComCmdOutputSetLegacyConf` are removed. Please update your code to use sbgECom protocol instead.
+sbgECom version 2.x drop the legacy IG-500 support so the methods `sbgEComCmdOutputGetLegacyConf` and `sbgEComCmdOutputSetLegacyConf` are removed.  
+Please update your code to use sbgECom protocol instead.

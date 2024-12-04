@@ -1,14 +1,14 @@
 /*!
- * \file           sbgConfig.h
- * \author         SBG Systems (Raphael Siryani)
- * \date           17 March 2015
+ * \file            sbgConfig.h
+ * \author          SBG Systems
+ * \date            17 March 2015
  *
- * \brief          Header file used to configure the framework.
+ * \brief           Header file used to configure the framework.
  *
  * You can configure for example the logging system.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,12 +41,12 @@
 /*!
  * Windows x86 & x64 support both aligned and unaligned access
  */
-#define SBG_CONFIG_UNALIGNED_ACCESS_AUTH			(0)
+#define SBG_CONFIG_UNALIGNED_ACCESS_AUTH                    (0)
 
 /*!
  * Windows is using little endianess
  */
-#define SBG_CONFIG_BIG_ENDIAN						(0)
+#define SBG_CONFIG_BIG_ENDIAN                               (0)
 
 //----------------------------------------------------------------------//
 //- Logging configuration                                              -//
@@ -56,9 +56,22 @@
  * Enable all error logs
  * Default: Enabled
  */
-#define SBG_CONFIG_ENABLE_LOG_ERROR					(1)
-#define SBG_CONFIG_ENABLE_LOG_WARNING				(1)
-#define SBG_CONFIG_ENABLE_LOG_INFO					(1)
-#define SBG_CONFIG_ENABLE_LOG_DEBUG					(1)
+#define SBG_CONFIG_ENABLE_LOG_ERROR                         (1)
+#define SBG_CONFIG_ENABLE_LOG_WARNING                       (1)
+#define SBG_CONFIG_ENABLE_LOG_INFO                          (1)
+#define SBG_CONFIG_ENABLE_LOG_DEBUG                         (1)
 
-#endif	// SBG_CONFIG_H
+//----------------------------------------------------------------------//
+//- JSON configuration                                                 -//
+//----------------------------------------------------------------------//
+
+/*!
+ * Reallocation increment size when printing a JSON object to a string, in bytes.
+ *
+ * If undefined or set to 0, the standard quadratic strategy is used. Otherwise,
+ * string buffers are reallocated linearly, adding this value to the buffer size
+ * on each reallocation.
+ */
+#define SBG_CONFIG_JSON_PRINT_REALLOC_INC_SIZE              (0)
+
+#endif  // SBG_CONFIG_H

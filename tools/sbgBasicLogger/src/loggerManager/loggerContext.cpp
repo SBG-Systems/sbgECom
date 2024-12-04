@@ -1,9 +1,11 @@
 // STL headers
 #include <algorithm>
+#include <ctime>
+#include <iomanip>
+#include <inttypes.h>
 #include <string>
 #include <stdexcept>
-#include <iomanip>
-#include <ctime>
+#include <type_traits>
 
 // sbgCommonLib headers
 #include <sbgCommon.h>
@@ -67,7 +69,7 @@ std::string CLoggerContext::getTimeUnit() const
 {
 	if (getSettings().getTimeMode() == CLoggerSettings::TimeMode::UtcIso8601)
 	{
-		return "(yyyy-mm-ddThh:mm:ss.sssZ)";
+		return "(yyyy-mm-ddThh:mm:ss.ssssssZ)";
 	}
 	else
 	{
@@ -77,43 +79,63 @@ std::string CLoggerContext::getTimeUnit() const
 
 std::string CLoggerContext::fmtTime(uint32_t timeStampUs) const
 {
-	char				fullTimeStr[sizeof("yyyy-mm-ddThh:mm:ss.sssZ")];
+	char				fullTimeStr[sizeof("yyyy-mm-ddThh:mm:ss.ssssssZ")];
+
+	//
+	// We have to do arithemtics on time_t so make sure it is defined as an integer type
+	//
+	static_assert(std::is_integral<time_t>::value);
 
 	if (getSettings().getTimeMode() == CLoggerSettings::TimeMode::UtcIso8601)
 	{	
 		if (isUtcTimeValid())
 		{
-			char		timeSecStr[sizeof("yyyy-mm-ddThh:mm:ss")];
-			std::tm		utcTime{};
-		
-			utcTime.tm_year = m_lastUtcTime.year-1900;
-			utcTime.tm_mon	= m_lastUtcTime.month-1;
-			utcTime.tm_mday	= m_lastUtcTime.day;
-
-			utcTime.tm_hour	= m_lastUtcTime.hour;
-			utcTime.tm_min	= m_lastUtcTime.minute;
-			utcTime.tm_sec	= m_lastUtcTime.second;
+			char			timeSecStr[sizeof("yyyy-mm-ddThh:mm:ss")];
+			std::tm			utcTimeTm{};
+			uint32_t		remainingUs;
 
 			//
-			// Output standard UTC time only
+			// Convert the latest UTC date time to a time_t to ease date/time arithmetics
 			//
-			utcTime.tm_isdst = 0;
-		
-			//
-			// Apply the offset between the latest UTC time and the current time stamp
-			//
-			std::time_t		utcTimeSecs		= std::mktime(&utcTime);
-			int32_t			elapsedTimeUs	= timeStampUs - m_lastUtcTime.timeStamp;
-			int32_t			elapsedTime		= elapsedTimeUs/1000;
-			int32_t			remainingUs		= elapsedTimeUs - elapsedTime*1000;
+			utcTimeTm.tm_year	= m_lastUtcTime.year-1900;
+			utcTimeTm.tm_mon	= m_lastUtcTime.month-1;
+			utcTimeTm.tm_mday	= m_lastUtcTime.day;
 
-			utcTimeSecs = utcTimeSecs + elapsedTime;
-		
+			utcTimeTm.tm_hour	= m_lastUtcTime.hour;
+			utcTimeTm.tm_min	= m_lastUtcTime.minute;
+			utcTimeTm.tm_sec	= m_lastUtcTime.second;
+
+			utcTimeTm.tm_isdst	= 0;
+
+			//
+			// As the utcTime is only able to represent plain seconds, correct for any residual nanoSecond value
+			//
+			std::time_t		utcTime			= std::mktime(&utcTimeTm);
+			int64_t			utcTimeUs		= utcTime * 1000000;
+			uint32_t		utcTimeStampUs	= (m_lastUtcTime.timeStamp - m_lastUtcTime.nanoSecond/1000);
+			int32_t			elapsedTimeUs	= timeStampUs - utcTimeStampUs;
+			
+			//
+			// Apply the offset between the latest UTC time and the current timestamp
+			//
+			utcTimeUs		= utcTimeUs + elapsedTimeUs;
+			utcTime			= (time_t)(utcTimeUs/1000000);
+			remainingUs		= (uint32_t)(utcTimeUs - (int64_t)utcTime*1000000);
+
 			//
 			// Write ISO 8601 time: yyyy-mm-ddThh:mm:ss.sssZ
 			//
-			std::strftime(timeSecStr, sizeof(timeSecStr), "%FT%T", &utcTime);
-			std::snprintf(fullTimeStr, sizeof(fullTimeStr), "%s.%03" PRId32 "Z", timeSecStr, remainingUs);
+			if (std::strftime(timeSecStr, sizeof(timeSecStr), "%FT%T", std::gmtime(&utcTime)) == 0)
+			{
+				throw std::overflow_error("timeSecStr is too small");
+			}
+
+			int ret = std::snprintf(fullTimeStr, sizeof(fullTimeStr), "%s.%06" PRIu32 "Z", timeSecStr, remainingUs);
+
+			if (ret >= sizeof(fullTimeStr))
+			{
+				throw std::overflow_error("fullTimeStr is too small");
+			}
 		}
 		else
 		{

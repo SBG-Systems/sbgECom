@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComCmdLicense.h
- * \ingroup			commands
- * \author			SBG Systems
- * \date			25 February 2015
+ * \file            sbgEComCmdLicense.h
+ * \ingroup         commands
+ * \author          SBG Systems
+ * \date            25 February 2015
  *
- * \brief			Command used to upload and apply an activation license.
+ * \brief           Command used to upload and apply an activation license.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,10 +52,10 @@ extern "C" {
  * 
  * The device will reboot automatically to use the new license.
  * 
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	pBuffer						Read only buffer containing the license.
- * \param[in]	size						Size of the buffer.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[in]   pBuffer                     Read only buffer containing the license.
+ * \param[in]   size                        Size of the buffer.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdLicenseApply(SbgEComHandle *pHandle, const void *pBuffer, size_t size);
 

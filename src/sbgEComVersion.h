@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComVersion.h
- * \ingroup			main
- * \author			SBG Systems
- * \date			05 February 2013
+ * \file            sbgEComVersion.h
+ * \ingroup         main
+ * \author          SBG Systems
+ * \date            05 February 2013
  *
- * \brief			Header file that contains all versions related information such as change log.
+ * \brief           Header file that contains all versions related information such as change log.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,23 +45,23 @@ extern "C" {
 //- Version definitions                                                -//
 //----------------------------------------------------------------------//
 
-#define SBG_E_COM_VERSION_MAJOR			4
-#define SBG_E_COM_VERSION_MINOR			0
-#define SBG_E_COM_VERSION_REV			1987
-#define SBG_E_COM_VERSION_BUILD			SBG_VERSION_QUALIFIER_STABLE
+#define SBG_E_COM_VERSION_MAJOR         5
+#define SBG_E_COM_VERSION_MINOR         1
+#define SBG_E_COM_VERSION_REV           708
+#define SBG_E_COM_VERSION_BUILD         SBG_VERSION_QUALIFIER_STABLE
 
-#define SBG_E_COM_VERSION				SBG_VERSION_SOFTWARE(SBG_E_COM_VERSION_MAJOR,SBG_E_COM_VERSION_MINOR,SBG_E_COM_VERSION_REV,SBG_E_COM_VERSION_BUILD)
+#define SBG_E_COM_VERSION               SBG_VERSION_SOFTWARE(SBG_E_COM_VERSION_MAJOR,SBG_E_COM_VERSION_MINOR,SBG_E_COM_VERSION_REV,SBG_E_COM_VERSION_BUILD)
 
 /*
  * Backward compatibility macro definitions.
  */
  #ifndef SBG_STR
-	#define SBG_STR(X)		#X
+    #define SBG_STR(X)      #X
 #endif
 #ifndef SBG_ASSTR
-	#define SBG_ASSTR(X)	SBG_STR(X)
+    #define SBG_ASSTR(X)    SBG_STR(X)
 #endif
-#define SBG_E_COM_VERSION_STR			SBG_ASSTR(SBG_E_COM_VERSION_MAJOR) "." SBG_ASSTR(SBG_E_COM_VERSION_MINOR) "." SBG_ASSTR(SBG_E_COM_VERSION_REV) "-stable\0"
+#define SBG_E_COM_VERSION_STR           SBG_ASSTR(SBG_E_COM_VERSION_MAJOR) "." SBG_ASSTR(SBG_E_COM_VERSION_MINOR) "." SBG_ASSTR(SBG_E_COM_VERSION_REV) "-stable\0"
 
 #ifdef __cplusplus
 }

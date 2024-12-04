@@ -11,41 +11,41 @@
 
 SbgErrorCode sbgEComLogDiagReadFromStream(SbgEComLogDiagData *pLogData, SbgStreamBuffer *pStreamBuffer)
 {
-	assert(pLogData);
-	assert(pStreamBuffer);
+    assert(pLogData);
+    assert(pStreamBuffer);
 
-	pLogData->timestamp		= sbgStreamBufferReadUint32LE(pStreamBuffer);
-	pLogData->type			= (SbgDebugLogType)sbgStreamBufferReadUint8(pStreamBuffer);
-	pLogData->errorCode		= (SbgErrorCode)sbgStreamBufferReadUint8(pStreamBuffer);
+    pLogData->timestamp     = sbgStreamBufferReadUint32LE(pStreamBuffer);
+    pLogData->type          = (SbgDebugLogType)sbgStreamBufferReadUint8(pStreamBuffer);
+    pLogData->errorCode     = (SbgErrorCode)sbgStreamBufferReadUint8(pStreamBuffer);
 
-	sbgStreamBufferReadBuffer(pStreamBuffer, pLogData->string, sbgStreamBufferGetSpace(pStreamBuffer));
-	pLogData->string[sizeof(pLogData->string) - 1] = '\0';
+    sbgStreamBufferReadBuffer(pStreamBuffer, pLogData->string, sbgStreamBufferGetSpace(pStreamBuffer));
+    pLogData->string[sizeof(pLogData->string) - 1] = '\0';
 
-	return sbgStreamBufferGetLastError(pStreamBuffer);
+    return sbgStreamBufferGetLastError(pStreamBuffer);
 }
 
 SbgErrorCode sbgEComLogDiagWriteToStream(const SbgEComLogDiagData *pLogData, SbgStreamBuffer *pStreamBuffer)
 {
-	size_t								 length;
+    size_t                               length;
 
-	assert(pLogData);
-	assert(pStreamBuffer);
+    assert(pLogData);
+    assert(pStreamBuffer);
 
-	sbgStreamBufferWriteUint32LE(pStreamBuffer,	pLogData->timestamp);
-	sbgStreamBufferWriteUint8(pStreamBuffer,	pLogData->type);
-	sbgStreamBufferWriteUint8(pStreamBuffer,	pLogData->errorCode);
+    sbgStreamBufferWriteUint32LE(pStreamBuffer, pLogData->timestamp);
+    sbgStreamBufferWriteUint8(pStreamBuffer,    pLogData->type);
+    sbgStreamBufferWriteUint8(pStreamBuffer,    pLogData->errorCode);
 
-	length = strlen(pLogData->string);
+    length = strlen(pLogData->string);
 
-	if (length >= sizeof(pLogData->string))
-	{
-		length = sizeof(pLogData->string) - 1;
-	}
+    if (length >= sizeof(pLogData->string))
+    {
+        length = sizeof(pLogData->string) - 1;
+    }
 
-	sbgStreamBufferWriteBuffer(pStreamBuffer, pLogData->string, length);
-	sbgStreamBufferWriteUint8(pStreamBuffer, 0);
+    sbgStreamBufferWriteBuffer(pStreamBuffer, pLogData->string, length);
+    sbgStreamBufferWriteUint8(pStreamBuffer, 0);
 
-	return sbgStreamBufferGetLastError(pStreamBuffer);
+    return sbgStreamBufferGetLastError(pStreamBuffer);
 }
 
 //----------------------------------------------------------------------//
@@ -54,10 +54,10 @@ SbgErrorCode sbgEComLogDiagWriteToStream(const SbgEComLogDiagData *pLogData, Sbg
 
 SbgErrorCode sbgEComBinaryLogParseDiagData(SbgStreamBuffer *pStreamBuffer, SbgEComLogDiagData *pLogData)
 {
-	return sbgEComLogDiagReadFromStream(pLogData, pStreamBuffer);
+    return sbgEComLogDiagReadFromStream(pLogData, pStreamBuffer);
 }
 
 SbgErrorCode sbgEComBinaryLogWriteDiagData(SbgStreamBuffer *pStreamBuffer, const SbgEComLogDiagData *pLogData)
 {
-	return sbgEComLogDiagWriteToStream(pLogData, pStreamBuffer);
+    return sbgEComLogDiagWriteToStream(pLogData, pStreamBuffer);
 }

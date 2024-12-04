@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComCmd.h
- * \ingroup			commands
- * \author			SBG Systems
- * \date			16 June	2014
+ * \file            sbgEComCmd.h
+ * \ingroup         commands
+ * \author          SBG Systems
+ * \date            16 June 2014
  *
- * \brief			Include all available sbgECom commands.
+ * \brief           Include all available sbgECom commands.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,8 @@
  */
 
 /*!
- * \defgroup	commands Commands
- * \brief		Configuration and action commands mainly for ELLIPSE products.
+ * \defgroup    commands Commands
+ * \brief       Configuration and action commands mainly for ELLIPSE products.
  */
 
 #ifndef SBG_ECOM_CMD_H

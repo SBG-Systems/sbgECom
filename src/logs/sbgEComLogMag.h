@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComLogMag.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			12 March 2013
+ * \file            sbgEComLogMag.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            12 March 2013
  *
- * \brief			Parse magnetic field measurements logs.
+ * \brief           Parse magnetic field measurements logs.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,43 +48,36 @@ extern "C" {
 /*!
  * Log magnetometer data status mask definitions
  */
-#define	SBG_ECOM_MAG_MAG_X_BIT			(0x00000001u << 0)		/*!< Set to 1 if the magnetometer X passes Built In Test. */
-#define	SBG_ECOM_MAG_MAG_Y_BIT			(0x00000001u << 1)		/*!< Set to 1 if the magnetometer Y passes Built In Test. */
-#define	SBG_ECOM_MAG_MAG_Z_BIT			(0x00000001u << 2)		/*!< Set to 1 if the magnetometer Z passes Built In Test. */
+#define SBG_ECOM_MAG_MAG_X_BIT          (0x00000001u << 0)      /*!< Set to 1 if the magnetometer X passes Built In Test. */
+#define SBG_ECOM_MAG_MAG_Y_BIT          (0x00000001u << 1)      /*!< Set to 1 if the magnetometer Y passes Built In Test. */
+#define SBG_ECOM_MAG_MAG_Z_BIT          (0x00000001u << 2)      /*!< Set to 1 if the magnetometer Z passes Built In Test. */
 
-#define	SBG_ECOM_MAG_ACCEL_X_BIT		(0x00000001u << 3)		/*!< Set to 1 if the accelerometer X passes Built In Test. */
-#define	SBG_ECOM_MAG_ACCEL_Y_BIT		(0x00000001u << 4)		/*!< Set to 1 if the accelerometer Y passes Built In Test. */
-#define	SBG_ECOM_MAG_ACCEL_Z_BIT		(0x00000001u << 5)		/*!< Set to 1 if the accelerometer Z passes Built In Test. */
+#define SBG_ECOM_MAG_ACCEL_X_BIT        (0x00000001u << 3)      /*!< Set to 1 if the accelerometer X passes Built In Test. */
+#define SBG_ECOM_MAG_ACCEL_Y_BIT        (0x00000001u << 4)      /*!< Set to 1 if the accelerometer Y passes Built In Test. */
+#define SBG_ECOM_MAG_ACCEL_Z_BIT        (0x00000001u << 5)      /*!< Set to 1 if the accelerometer Z passes Built In Test. */
 
-#define	SBG_ECOM_MAG_MAGS_IN_RANGE		(0x00000001u << 6)		/*!< Set to 1 if all magnetometers are within operating range. */
-#define SBG_ECOM_MAG_ACCELS_IN_RANGE	(0x00000001u << 7)		/*!< Set to 1 if all accelerometers are within operating range. */
+#define SBG_ECOM_MAG_MAGS_IN_RANGE      (0x00000001u << 6)      /*!< Set to 1 if all magnetometers are within operating range. */
+#define SBG_ECOM_MAG_ACCELS_IN_RANGE    (0x00000001u << 7)      /*!< Set to 1 if all accelerometers are within operating range. */
 
-#define SBG_ECOM_MAG_CALIBRATION_OK		(0x00000001u << 8)		/*!< Set to 1 if the magnetometers seems to be calibrated. */
+#define SBG_ECOM_MAG_CALIBRATION_OK     (0x00000001u << 8)      /*!< Set to 1 if the magnetometers seems to be calibrated. */
 
 //----------------------------------------------------------------------//
 //- Log structure definitions                                          -//
 //----------------------------------------------------------------------//
 
 /*!
- * Structure that stores data for the SBG_ECOM_LOG_MAG message.
+ * Represents data from the SBG_ECOM_LOG_MAG message.
+ *
+ * This structure encapsulates the magnetic field data, which is calibrated to correct for soft and hard iron effects. It provides
+ * 3D magnetic field readings intended for use by the INS filter.
  */
 typedef struct _SbgEComLogMag
 {
-	uint32_t	timeStamp;					/*!< Time in us since the sensor power up. */
-	uint16_t	status;						/*!< Magnetometer status bitmask. */
-	float		magnetometers[3];			/*!< X, Y, Z magnetometer data in A.U. */
-	float		accelerometers[3];			/*!< X, Y, Z accelerometers in m.s^-2. */
+    uint32_t    timeStamp;                  /*!< Time in us since the sensor power up. */
+    uint16_t    status;                     /*!< Magnetometer status bitmask. */
+    float       magnetometers[3];           /*!< X, Y, Z magnetometer data in arbitrary units (A.U.). */
+    float       accelerometers[3];          /*!< X, Y, Z accelerometer data in (m/s^2). */
 } SbgEComLogMag;
-
-/*!
- * Structure that stores data for the SBG_ECOM_LOG_MAG_CALIB message.
- */
-typedef struct _SbgEComLogMagCalib
-{
-	uint32_t	timeStamp;					/*!< Time in us since the sensor power up. */
-	uint16_t	reserved;					/*!< Reserved for future use. */
-	uint8_t		magData[16];				/*!< Magnetometers calibration data. */
-} SbgEComLogMagCalib;
 
 //----------------------------------------------------------------------//
 //- Public methods                                                     -//
@@ -93,51 +86,29 @@ typedef struct _SbgEComLogMagCalib
 /*!
  * Parse data for the SBG_ECOM_LOG_MAG message and fill the corresponding structure.
  * 
- * \param[out]	pLogData					Log structure instance to fill.
- * \param[in]	pStreamBuffer				Input stream buffer to read the log from.
- * \return									SBG_NO_ERROR if a valid log has been read from the stream buffer.
+ * \param[out]  pLogData                    Log structure instance to fill.
+ * \param[in]   pStreamBuffer               Input stream buffer to read the log from.
+ * \return                                  SBG_NO_ERROR if a valid log has been read from the stream buffer.
  */
 SbgErrorCode sbgEComLogMagReadFromStream(SbgEComLogMag *pLogData, SbgStreamBuffer *pStreamBuffer);
 
 /*!
  * Write data for the SBG_ECOM_LOG_MAG message to the output stream buffer from the provided structure.
  *
- * \param[in]	pLogData					Log structure instance to write.
- * \param[out]	pStreamBuffer				Output stream buffer to write the log to.
- * \return									SBG_NO_ERROR if the log has been written to the stream buffer.
+ * \param[in]   pLogData                    Log structure instance to write.
+ * \param[out]  pStreamBuffer               Output stream buffer to write the log to.
+ * \return                                  SBG_NO_ERROR if the log has been written to the stream buffer.
  */
 SbgErrorCode sbgEComLogMagWriteToStream(const SbgEComLogMag *pLogData, SbgStreamBuffer *pStreamBuffer);
-
-/*!
- * Parse data for the SBG_ECOM_LOG_MAG_CALIB message and fill the corresponding structure.
- * 
- * \param[out]	pLogData					Log structure instance to fill.
- * \param[in]	pStreamBuffer				Input stream buffer to read the log from.
- * \return									SBG_NO_ERROR if a valid log has been read from the stream buffer.
- */
-SbgErrorCode sbgEComLogMagCalibReadFromStream(SbgEComLogMagCalib *pLogData, SbgStreamBuffer *pStreamBuffer);
-
-/*!
- * Write data for the SBG_ECOM_LOG_MAG_CALIB message to the output stream buffer from the provided structure.
- *
- * \param[in]	pLogData					Log structure instance to write.
- * \param[out]	pStreamBuffer				Output stream buffer to write the log to.
- * \return									SBG_NO_ERROR if the log has been written to the stream buffer.
- */
-SbgErrorCode sbgEComLogMagCalibWriteToStream(const SbgEComLogMagCalib *pLogData, SbgStreamBuffer *pStreamBuffer);
 
 //----------------------------------------------------------------------//
 //- DEPRECATED - Used for backward compatibility                       -//
 //----------------------------------------------------------------------//
 
-SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogMag		SbgLogMag);
-SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogMagCalib	SbgLogMagCalib);
+SBG_DEPRECATED_TYPEDEF(typedef struct _SbgEComLogMag        SbgLogMag);
 
 SBG_DEPRECATED(SbgErrorCode sbgEComBinaryLogParseMagData(SbgStreamBuffer *pStreamBuffer, SbgEComLogMag *pLogData));
 SBG_DEPRECATED(SbgErrorCode sbgEComBinaryLogWriteMagData(SbgStreamBuffer *pStreamBuffer, const SbgEComLogMag *pLogData));
-
-SBG_DEPRECATED(SbgErrorCode sbgEComBinaryLogParseMagCalibData(SbgStreamBuffer *pStreamBuffer, SbgEComLogMagCalib *pLogData));
-SBG_DEPRECATED(SbgErrorCode sbgEComBinaryLogWriteMagCalibData(SbgStreamBuffer *pStreamBuffer, const SbgEComLogMagCalib *pLogData));
 
 #ifdef __cplusplus
 }

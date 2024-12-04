@@ -1,13 +1,13 @@
 /*!
- * \file		sbgCommon.h
- * \ingroup		common
- * \author		SBG Systems
- * \date		March 17, 2015
+ * \file            sbgCommon.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            March 17, 2015
  *
- * \brief		Main header for the SBG Systems common C library.
+ * \brief           Main header for the SBG Systems common C library.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,8 @@
  */
 
 /*!
- * \defgroup	common Common
- * \brief		SBG Systems foundation framework that is common to all C/C++ projects.
+ * \defgroup    common Common
+ * \brief       SBG Systems foundation framework that is common to all C/C++ projects.
  */
 
 #ifndef SBG_COMMON_H
@@ -54,7 +54,7 @@ extern "C" {
  * Default: Support only Aligned access - Disabled
  */
 #ifndef SBG_CONFIG_UNALIGNED_ACCESS_AUTH
-#define SBG_CONFIG_UNALIGNED_ACCESS_AUTH				(0)
+#define SBG_CONFIG_UNALIGNED_ACCESS_AUTH                (0)
 #endif
 
 /*!
@@ -63,7 +63,7 @@ extern "C" {
  * Default: Little Endian - Disabled
  */
 #ifndef SBG_CONFIG_BIG_ENDIAN
-#define SBG_CONFIG_BIG_ENDIAN							(0)
+#define SBG_CONFIG_BIG_ENDIAN                           (0)
 #endif
 
 /*!
@@ -71,7 +71,7 @@ extern "C" {
  * Default: Enabled
  */
 #ifndef SBG_CONFIG_ENABLE_LOG_ERROR
-#define SBG_CONFIG_ENABLE_LOG_ERROR						(1)
+#define SBG_CONFIG_ENABLE_LOG_ERROR                     (1)
 #endif
 
 /*!
@@ -79,7 +79,7 @@ extern "C" {
  * Default: Enabled
  */
 #ifndef SBG_CONFIG_ENABLE_LOG_WARNING
-#define SBG_CONFIG_ENABLE_LOG_WARNING					(1)
+#define SBG_CONFIG_ENABLE_LOG_WARNING                   (1)
 #endif
 
 /*!
@@ -87,7 +87,7 @@ extern "C" {
  * Default: Enabled
  */
 #ifndef SBG_CONFIG_ENABLE_LOG_INFO
-#define SBG_CONFIG_ENABLE_LOG_INFO						(1)
+#define SBG_CONFIG_ENABLE_LOG_INFO                      (1)
 #endif
 
 /*!
@@ -95,7 +95,7 @@ extern "C" {
  * Default: Enabled
  */
 #ifndef SBG_CONFIG_ENABLE_LOG_DEBUG
-#define SBG_CONFIG_ENABLE_LOG_DEBUG						(1)
+#define SBG_CONFIG_ENABLE_LOG_DEBUG                     (1)
 #endif
 
 /*!
@@ -103,7 +103,7 @@ extern "C" {
  * Default: 1024
  */
 #ifndef SBG_CONFIG_LOG_MAX_SIZE
-#define SBG_CONFIG_LOG_MAX_SIZE							((size_t)(1024))
+#define SBG_CONFIG_LOG_MAX_SIZE                         ((size_t)(1024))
 #endif
 
 /*!
@@ -111,7 +111,7 @@ extern "C" {
  * Default: 256
  */
 #ifndef SBG_CONFIG_PATH_MAX_SIZE
-#define SBG_CONFIG_PATH_MAX_SIZE						((size_t)(256))
+#define SBG_CONFIG_PATH_MAX_SIZE                        ((size_t)(256))
 #endif
 
 //----------------------------------------------------------------------//

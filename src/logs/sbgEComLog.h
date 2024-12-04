@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComLog.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			06 February 2013
+ * \file            sbgEComLog.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            06 February 2013
  *
- * \brief			Parse incoming sbgECom logs and store result in an union.
+ * \brief           Parse incoming sbgECom logs and store result in an union.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,8 @@
  */
 
 /*!
- * \defgroup	binaryLogs Binary Logs
- * \brief		All messages and logs that can be output by the device.
+ * \defgroup    binaryLogs Binary Logs
+ * \brief       All messages and logs that can be output by the device.
  */
 
 #ifndef SBG_ECOM_LOG_H
@@ -57,9 +57,12 @@
 #include "sbgEComLogGnssVel.h"
 #include "sbgEComLogImu.h"
 #include "sbgEComLogMag.h"
+#include "sbgEComLogMagCalib.h"
 #include "sbgEComLogOdometer.h"
+#include "sbgEComLogPtp.h"
 #include "sbgEComLogRawData.h"
 #include "sbgEComLogSat.h"
+#include "sbgEComLogSessionInfo.h"
 #include "sbgEComLogShipMotion.h"
 #include "sbgEComLogStatus.h"
 #include "sbgEComLogUsbl.h"
@@ -74,38 +77,40 @@ extern "C" {
 //----------------------------------------------------------------------//
 
 /*!
- *	Union used to store received logs data.
+ *  Union used to store received logs data.
  */
 typedef union _SbgEComLogUnion
 {
-	SbgEComLogStatus				statusData;			/*!< Stores data for the SBG_ECOM_LOG_STATUS message. */
-	SbgEComLogImuLegacy				imuData;			/*!< Stores data for the SBG_ECOM_LOG_IMU_DATA message. */
-	SbgEComLogImuShort				imuShort;			/*!< Stores data for the SBG_ECOM_LOG_IMU_SHORT message. */
-	SbgEComLogEkfEuler				ekfEulerData;		/*!< Stores data for the SBG_ECOM_LOG_EKF_EULER message. */
-	SbgEComLogEkfQuat				ekfQuatData;		/*!< Stores data for the SBG_ECOM_LOG_EKF_QUAT message. */
-	SbgEComLogEkfNav				ekfNavData;			/*!< Stores data for the SBG_ECOM_LOG_EKF_NAV message. */
-	SbgEComLogEkfVelBody			ekfVelBody;			/*!< Stores data for the SBG_ECOM_LOG_EKF_VEL_BODY message. */
-	SbgEComLogEkfRotAccel			ekfRotAccel;		/*!< Stores either SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY or SBG_ECOM_LOG_EKF_ROT_ACCEL_NED. */
-	SbgEComLogShipMotion			shipMotionData;		/*!< Stores data for the SBG_ECOM_LOG_SHIP_MOTION or SBG_ECOM_LOG_SHIP_MOTION_HP message. */
-	SbgEComLogOdometer				odometerData;		/*!< Stores data for the SBG_ECOM_LOG_ODO_VEL message. */
-	SbgEComLogUtc					utcData;			/*!< Stores data for the SBG_ECOM_LOG_UTC_TIME message. */
-	SbgEComLogGnssPos				gpsPosData;			/*!< Stores data for the SBG_ECOM_LOG_GPS_POS message. */
-	SbgEComLogGnssVel				gpsVelData;			/*!< Stores data for the SBG_ECOM_LOG_GPS#_VEL message. */
-	SbgEComLogGnssHdt				gpsHdtData;			/*!< Stores data for the SBG_ECOM_LOG_GPS#_HDT message. */
-	SbgEComLogRawData				gpsRawData;			/*!< Stores data for the SBG_ECOM_LOG_GPS#_RAW message. */
-	SbgEComLogRawData				rtcmRawData;		/*!< Stores data for the SBG_ECOM_LOG_RTCM_RAW message. */
-	SbgEComLogMag					magData;			/*!< Stores data for the SBG_ECOM_LOG_MAG message. */
-	SbgEComLogMagCalib				magCalibData;		/*!< Stores data for the SBG_ECOM_LOG_MAG_CALIB message. */
-	SbgEComLogDvl					dvlData;			/*!< Stores data for the SBG_ECOM_LOG_DVL_BOTTOM_TRACK message. */
-	SbgEComLogAirData				airData;			/*!< Stores data for the SBG_ECOM_LOG_AIR_DATA message. */
-	SbgEComLogUsbl					usblData;			/*!< Stores data for the SBG_ECOM_LOG_USBL message. */
-	SbgEComLogDepth					depthData;			/*!< Stores data for the SBG_ECOM_LOG_DEPTH message */
-	SbgEComLogEvent					eventMarker;		/*!< Stores data for the SBG_ECOM_LOG_EVENT_# message. */
-	SbgEComLogDiagData				diagData;			/*!< Stores data for the SBG_ECOM_LOG_DIAG message. */
-	SbgEComLogSatList				satGroupData;		/*!< Stores data for the SBG_ECOM_LOG_SAT message. */
+    SbgEComLogStatus                statusData;         /*!< Stores data for the SBG_ECOM_LOG_STATUS message. */
+    SbgEComLogImuLegacy             imuData;            /*!< Stores data for the SBG_ECOM_LOG_IMU_DATA message. */
+    SbgEComLogImuShort              imuShort;           /*!< Stores data for the SBG_ECOM_LOG_IMU_SHORT message. */
+    SbgEComLogEkfEuler              ekfEulerData;       /*!< Stores data for the SBG_ECOM_LOG_EKF_EULER message. */
+    SbgEComLogEkfQuat               ekfQuatData;        /*!< Stores data for the SBG_ECOM_LOG_EKF_QUAT message. */
+    SbgEComLogEkfNav                ekfNavData;         /*!< Stores data for the SBG_ECOM_LOG_EKF_NAV message. */
+    SbgEComLogEkfVelBody            ekfVelBody;         /*!< Stores data for the SBG_ECOM_LOG_EKF_VEL_BODY message. */
+    SbgEComLogEkfRotAccel           ekfRotAccel;        /*!< Stores either SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY or SBG_ECOM_LOG_EKF_ROT_ACCEL_NED. */
+    SbgEComLogShipMotion            shipMotionData;     /*!< Stores data for the SBG_ECOM_LOG_SHIP_MOTION or SBG_ECOM_LOG_SHIP_MOTION_HP message. */
+    SbgEComLogOdometer              odometerData;       /*!< Stores data for the SBG_ECOM_LOG_ODO_VEL message. */
+    SbgEComLogPtp                   ptpData;            /*!< Stores data for the SBG_ECOM_LOG_PTP_STATUS message. */
+    SbgEComLogUtc                   utcData;            /*!< Stores data for the SBG_ECOM_LOG_UTC_TIME message. */
+    SbgEComLogGnssPos               gpsPosData;         /*!< Stores data for the SBG_ECOM_LOG_GPS_POS message. */
+    SbgEComLogGnssVel               gpsVelData;         /*!< Stores data for the SBG_ECOM_LOG_GPS#_VEL message. */
+    SbgEComLogGnssHdt               gpsHdtData;         /*!< Stores data for the SBG_ECOM_LOG_GPS#_HDT message. */
+    SbgEComLogRawData               gpsRawData;         /*!< Stores data for the SBG_ECOM_LOG_GPS#_RAW message. */
+    SbgEComLogRawData               rtcmRawData;        /*!< Stores data for the SBG_ECOM_LOG_RTCM_RAW message. */
+    SbgEComLogMag                   magData;            /*!< Stores data for the SBG_ECOM_LOG_MAG message. */
+    SbgEComLogMagCalib              magCalibData;       /*!< Stores data for the SBG_ECOM_LOG_MAG_CALIB message. */
+    SbgEComLogDvl                   dvlData;            /*!< Stores data for the SBG_ECOM_LOG_DVL_BOTTOM_TRACK message. */
+    SbgEComLogAirData               airData;            /*!< Stores data for the SBG_ECOM_LOG_AIR_DATA message. */
+    SbgEComLogUsbl                  usblData;           /*!< Stores data for the SBG_ECOM_LOG_USBL message. */
+    SbgEComLogDepth                 depthData;          /*!< Stores data for the SBG_ECOM_LOG_DEPTH message */
+    SbgEComLogEvent                 eventMarker;        /*!< Stores data for the SBG_ECOM_LOG_EVENT_# message. */
+    SbgEComLogDiagData              diagData;           /*!< Stores data for the SBG_ECOM_LOG_DIAG message. */
+    SbgEComLogSatList               satGroupData;       /*!< Stores data for the SBG_ECOM_LOG_SAT message. */
+    SbgEComLogSessionInfo           sessionInfoData;    /*!< Stores data for the SBG_ECOM_LOG_SESSION_INFO message. */
 
-	/* Fast logs */
-	SbgEComLogImuFastLegacy			fastImuData;		/*!< Stores Fast IMU Data for 1KHz output */
+    /* Fast logs */
+    SbgEComLogImuFastLegacy         fastImuData;        /*!< Stores Fast IMU Data for 1KHz output */
 
 } SbgEComLogUnion;
 
@@ -116,20 +121,20 @@ typedef union _SbgEComLogUnion
 /*!
  * Parse an incoming log and fill the output union.
  *
- * \param[in]	msgClass					Received message class
- * \param[in]	msgId						Received message ID
- * \param[in]	pPayload					Read only pointer on the payload buffer.
- * \param[in]	payloadSize					Payload size in bytes.
- * \param[out]	pLogData					Pointer on the output union that stores parsed data.
+ * \param[in]   msgClass                    Received message class
+ * \param[in]   msgId                       Received message ID
+ * \param[in]   pPayload                    Read only pointer on the payload buffer.
+ * \param[in]   payloadSize                 Payload size in bytes.
+ * \param[out]  pLogData                    Pointer on the output union that stores parsed data.
  */
 SbgErrorCode sbgEComLogParse(SbgEComClass msgClass, SbgEComMsgId msgId, const void *pPayload, size_t payloadSize, SbgEComLogUnion *pLogData);
 
 /*!
  * Clean up resources allocated during parsing, if any.
  *
- * \param[in]	pLogData					Log data.
- * \param[in]	msgClass					Message class.
- * \param[in]	msgId						Message ID.
+ * \param[in]   pLogData                    Log data.
+ * \param[in]   msgClass                    Message class.
+ * \param[in]   msgId                       Message ID.
  */
 void sbgEComLogCleanup(SbgEComLogUnion *pLogData, SbgEComClass msgClass, SbgEComMsgId msgId);
 

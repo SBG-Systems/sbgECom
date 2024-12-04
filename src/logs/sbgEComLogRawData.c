@@ -10,33 +10,33 @@
 
 SbgErrorCode sbgEComLogRawDataReadFromStream(SbgEComLogRawData *pLogData, SbgStreamBuffer *pStreamBuffer)
 {
-	SbgErrorCode	errorCode = SBG_NO_ERROR;
-	size_t			payloadSize;
+    SbgErrorCode    errorCode = SBG_NO_ERROR;
+    size_t          payloadSize;
 
-	assert(pStreamBuffer);
-	assert(pLogData);
+    assert(pStreamBuffer);
+    assert(pLogData);
 
-	payloadSize = sbgStreamBufferGetSize(pStreamBuffer);
+    payloadSize = sbgStreamBufferGetSize(pStreamBuffer);
 
-	if (payloadSize <= SBG_ECOM_RAW_DATA_MAX_BUFFER_SIZE)
-	{
-		errorCode = sbgStreamBufferReadBuffer(pStreamBuffer, pLogData->rawBuffer, payloadSize);
-		pLogData->bufferSize = payloadSize;
-	}
-	else
-	{
-		errorCode = SBG_BUFFER_OVERFLOW;
-	}
+    if (payloadSize <= SBG_ECOM_RAW_DATA_MAX_BUFFER_SIZE)
+    {
+        errorCode = sbgStreamBufferReadBuffer(pStreamBuffer, pLogData->rawBuffer, payloadSize);
+        pLogData->bufferSize = payloadSize;
+    }
+    else
+    {
+        errorCode = SBG_BUFFER_OVERFLOW;
+    }
 
-	return errorCode;
+    return errorCode;
 }
 
 SbgErrorCode sbgEComLogRawDataWriteToStream(const SbgEComLogRawData *pLogData, SbgStreamBuffer *pStreamBuffer)
 {
-	assert(pStreamBuffer);
-	assert(pLogData);
+    assert(pStreamBuffer);
+    assert(pLogData);
 
-	return sbgStreamBufferWriteBuffer(pStreamBuffer, pLogData->rawBuffer, pLogData->bufferSize);
+    return sbgStreamBufferWriteBuffer(pStreamBuffer, pLogData->rawBuffer, pLogData->bufferSize);
 }
 
 //----------------------------------------------------------------------//
@@ -45,10 +45,10 @@ SbgErrorCode sbgEComLogRawDataWriteToStream(const SbgEComLogRawData *pLogData, S
 
 SbgErrorCode sbgEComBinaryLogParseRawData(SbgStreamBuffer *pStreamBuffer, SbgEComLogRawData *pLogData)
 {
-	return sbgEComLogRawDataReadFromStream(pLogData, pStreamBuffer);
+    return sbgEComLogRawDataReadFromStream(pLogData, pStreamBuffer);
 }
 
 SbgErrorCode sbgEComBinaryLogWriteRawData(SbgStreamBuffer *pStreamBuffer, const SbgEComLogRawData *pLogData)
 {
-	return sbgEComLogRawDataWriteToStream(pLogData, pStreamBuffer);
+    return sbgEComLogRawDataWriteToStream(pLogData, pStreamBuffer);
 }

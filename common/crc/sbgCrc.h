@@ -1,13 +1,13 @@
 /*!
- * \file         sbgCrc.h
- * \ingroup      common
- * \author       SBG Systems
- * \date         15 January 2013
+ * \file            sbgCrc.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            15 January 2013
  *
- * \brief        This file provides CRC-32 and CRC-16 methods.
+ * \brief           This file provides CRC-32 and CRC-16 methods.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,76 +52,84 @@ typedef uint32_t SbgCrc32;
 typedef uint16_t SbgCrc16;
 
 //----------------------------------------------------------------------//
-//- 32 bits Ethernet CRC                                               -//
+//- 32 bits CRC methods                                                -//
 //----------------------------------------------------------------------//
 
 /*!
- *	Initialize the 32 bit CRC computation system.
- *	\param[in]	pInstance				Pointer on an allocated but non initialized Crc32 object.
+ * Initialize the 32 bit CRC computation system.
+ * 
+ * \param[in]   pInstance               Pointer on an allocated but non initialized Crc32 object.
  */
 SBG_COMMON_LIB_API void sbgCrc32Initialize(SbgCrc32 *pInstance);
 
 /*!
- *	Compute a 32 bit CRC using an Ethernet polynome.
- *	Warning: the buffer size should be at least 4 bytes long.
- *	\param[in]	pInstance				Read only pointer on a valid Crc32 object.
- *	\param[in]	pData					Read only pointer on the data buffer to compute CRC on.
- *	\param[in]	dataSize				Data size in bytes of the buffer, has to be greater or equals to 4.
+ * Compute a 32 bit CRC using an Ethernet polynome.
+ *
+ * \warning the buffer size should be at least 4 bytes long.
+ *
+ * \param[in]   pInstance               Read only pointer on a valid Crc32 object.
+ * \param[in]   pData                   Read only pointer on the data buffer to compute CRC on.
+ * \param[in]   dataSize                Data size in bytes of the buffer, has to be greater or equals to 4.
  */
 SBG_COMMON_LIB_API void sbgCrc32Update(SbgCrc32 *pInstance, const void *pData, size_t dataSize);
 
 /*!
- *	Returns the computed 32 bit CRC value.
- *	\param[in]	pInstance				Read only pointer on a valid Crc32 object.
- *	\return								The computed CRC.
+ * Returns the computed 32 bit CRC value.
+ * 
+ * \param[in]   pInstance               Read only pointer on a valid Crc32 object.
+ * \return                              The computed CRC.
  */
-SBG_INLINE uint32_t sbgCrc32Get(const SbgCrc32 *pInstance)
-{
-	return *pInstance;
-}
+SBG_COMMON_LIB_API uint32_t sbgCrc32Get(const SbgCrc32 *pInstance);
 
 /*!
- *	Compute a 32 Bit CRC using an Ethernet polynome.
- *	Warning: the buffer size should be at least 4 bytes long.
- *	\param[in]	pData					Read only pointer on the data buffer to compute CRC on.
- *	\param[in]	dataSize				Data size in bytes of the buffer, has to be greater or equals to 4.
- *	\return								The computed CRC.
+ * Compute a 32 bit CRC using an Ethernet polynome and return it.
+ * 
+ * This helper methods calls sbgCrc16Initialize, sbgCrc16Update and sbgCrc16Get at once.
+ * 
+ * \warning the buffer size should be at least 4 bytes long.
+ * 
+ * \param[in]   pData                   Read only pointer on the data buffer to compute CRC on.
+ * \param[in]   dataSize                Data size in bytes of the buffer, has to be greater or equals to 4.
+ * \return                              The computed CRC.
  */
 SBG_COMMON_LIB_API uint32_t sbgCrc32Compute(const void *pData, size_t dataSize);
 
 //----------------------------------------------------------------------//
-//- CRC-16 operations                                                  -//
+//- 16 bits CRC methods                                                -//
 //----------------------------------------------------------------------//
 
 /*!
- *	Initialize the 16 bit CRC computation system.
- *	\param[in]	pInstance				Pointer on an allocated but non initialized Crc16 object.
+ * Initialize the 16 bit CRC computation system.
+ * 
+ * \param[in]   pInstance               Pointer on an allocated but non initialized Crc16 object.
  */
 SBG_COMMON_LIB_API void sbgCrc16Initialize(SbgCrc16 *pInstance);
 
 /*!
- *	Compute a 16 bit CRC using an the polynome 0x8408.
- *	\param[in]	pInstance				Read only pointer on a valid Crc16 object.
- *	\param[in]	pData					Read only pointer on the data buffer to compute CRC on.
- *	\param[in]	dataSize				Data size in bytes of the buffer.
+ * Compute a 16 bit CRC using an the polynome 0x8408.
+ * 
+ * \param[in]   pInstance               Read only pointer on a valid Crc16 object.
+ * \param[in]   pData                   Read only pointer on the data buffer to compute CRC on.
+ * \param[in]   dataSize                Data size in bytes of the buffer.
  */
 SBG_COMMON_LIB_API void sbgCrc16Update(SbgCrc16 *pInstance, const void *pData, size_t dataSize);
 
 /*!
- *	Returns the computed 32 bit CRC value.
- *	\param[in]	pInstance				Read only pointer on a valid Crc16 object.
- *	\return								The computed CRC.
+ * Returns the computed 16 bit CRC value.
+ * 
+ * \param[in]   pInstance               Read only pointer on a valid Crc16 object.
+ * \return                              The computed CRC.
  */
-SBG_INLINE uint16_t sbgCrc16Get(const SbgCrc16 *pInstance)
-{
-	return *pInstance;
-}
+SBG_COMMON_LIB_API uint16_t sbgCrc16Get(const SbgCrc16 *pInstance);
 
 /*!
- *	Compute a 32 Bit CRC using an the polynome 0x8408.
- *	\param[in]	pData					Read only pointer on the data buffer to compute CRC on.
- *	\param[in]	dataSize				Data size in bytes of the buffer.
- *	\return								The computed CRC.
+ * Compute a 16 bit CRC using an the polynome 0x8408 and return it.
+ * 
+ * This helper methods calls sbgCrc16Initialize, sbgCrc16Update and sbgCrc16Get at once.
+ * 
+ * \param[in]   pData                   Read only pointer on the data buffer to compute CRC on.
+ * \param[in]   dataSize                Data size in bytes of the buffer.
+ * \return                              The computed CRC.
  */
 SBG_COMMON_LIB_API uint16_t sbgCrc16Compute(const void *pData, size_t dataSize);
 
@@ -132,4 +140,4 @@ SBG_COMMON_LIB_API uint16_t sbgCrc16Compute(const void *pData, size_t dataSize);
 }
 #endif
 
-#endif /* SBG_CRC_H */
+#endif // SBG_CRC_H

@@ -1,13 +1,13 @@
 /*!
- * \file                sbgInterfaceUdp.h
- * \ingroup             common
- * \author              SBG Systems
- * \date                05 February 2013
+ * \file            sbgInterfaceUdp.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            05 February 2013
  *
- * \brief               This file implements an UDP interface.
+ * \brief           This file implements an UDP interface.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,11 +61,11 @@ extern "C" {
  * You can specify a SBG_IPV4_BROADCAST_ADDR address to send an UDP datagram to all hosts
  * However, you have to allow broadcasted packets with the `sbgInterfaceUdpAllowBroadcast` method.
  *
- * \param[in]	pInterface						Pointer on an allocated interface instance to initialize.
- * \param[in]	remoteAddr						IP address to send data to.
- * \param[in]	remotePort						Ethernet port to send data to.
- * \param[in]	localPort						Ethernet port on which the interface is listening.
- * \return										SBG_NO_ERROR if the interface has been created.
+ * \param[in]   pInterface                      Pointer on an allocated interface instance to initialize.
+ * \param[in]   remoteAddr                      IP address to send data to.
+ * \param[in]   remotePort                      Ethernet port to send data to.
+ * \param[in]   localPort                       Ethernet port on which the interface is listening.
+ * \return                                      SBG_NO_ERROR if the interface has been created.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpCreate(SbgInterface *pInterface, sbgIpAddress remoteAddr, uint32_t remotePort, uint32_t localPort);
 
@@ -74,25 +74,25 @@ SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpCreate(SbgInterface *pInterface, 
  *
  * If connected mode is enabled, the interface only accepts datagrams from remortAddr & remotePort.
  * 
- * \param[in]	pInterface						Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
- * \param[in]	useConnected					Set to true to enable connected mode and false for unconnected.
+ * \param[in]   pInterface                      Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
+ * \param[in]   useConnected                    Set to true to enable connected mode and false for unconnected.
  */
 SBG_COMMON_LIB_API void sbgInterfaceUdpSetConnectedMode(SbgInterface *pInterface, bool useConnected);
 
 /*!
  * Returns if the UDP socket is using or not connected mode.
  * 
- * \param[in]	pInterface						Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
- * \return										true if connected mode is enabled or false otherwise.
+ * \param[in]   pInterface                      Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
+ * \return                                      true if connected mode is enabled or false otherwise.
  */
 SBG_COMMON_LIB_API bool sbgInterfaceUdpGetConnectedMode(const SbgInterface *pInterface);
 
 /*!
  * Define if a socket can send broadcasted packets.
  *
- * \param[in]	pInterface						Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
- * \param[in]	allowBroadcast					Set to true to allow this socket to send broadcasted UDP packets.
- * \return										SBG_NO_ERROR if the allow broadcast status has been changed.
+ * \param[in]   pInterface                      Pointer on a valid UDP interface created using sbgInterfaceUdpCreate.
+ * \param[in]   allowBroadcast                  Set to true to allow this socket to send broadcasted UDP packets.
+ * \return                                      SBG_NO_ERROR if the allow broadcast status has been changed.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceUdpAllowBroadcast(SbgInterface *pInterface, bool allowBroadcast);
 

@@ -1,33 +1,80 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2024-01-30  
-Copyright (C) 2024, SBG Systems SAS. All rights reserved.
+sbgECom C library change log issued on: 2024-12-04  
+Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-The sbgECom 4.0.1987-stable is a major release that supports the latest High Performance INS firmware 5.1 and ELLIPSE firmware 2.5.
+The sbgECom 5.1.708-stable is a major release that supports the following products:
+ - **High Performance INS**: Firmware 5.x and above
+ - **ELLIPSE v3**: Firmware 3.x and above
+ - **ELLIPSE v1/v2**: Firmware 2.6 (legacy support)
 
-This update focuses on advanced GNSS monitoring indicators such as spoofing, jamming, etc.  
-Several new outputs have been added such as SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY or SBG_ECOM_LOG_EKF_VELOCITY_BODY.
+This release introduces support for the **ELLIPSE v3** major firmware update.  
+The ELLIPSE v3 firmware primarily relies on the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) for product configuration.
 
-The sbgBasicLogger console application has been completely rewritten from scratch to offer an powerful but yet easy to use tool.  
-This tool is designed to easily view and convert to CSV like files data from SBG Systems INS.  
-The C++ 14 source code is also available to you can adapt it to your custom needs.
+All new features and capabilities introduced by the ELLIPSE firmware v3 are fully accessible through this [sbgECom](https://developer.sbg-systems.com/sbgECom/) release, alongside the latest version of the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/).
 
-A lot of work has been done to cleanup several parts of the code base and offer a better experience for developers.  
-The backward compatibility has been kept as much as possible but please read the Migration.md file for further information.
+A significant effort has been dedicated to improving the sbgECom logs and protocol documentation.  
+The previously used Firmware Reference Manual PDF has been replaced with an integrated, always up-to-date, Markdown/Doxygen-based documentation system.
+
+Access this new and improved documentation here: [sbgECom Documentation](https://developer.sbg-systems.com/sbgECom/).
+
+Backward compatibility has been maintained as much as possible; however, please review the **Migration.md** file for further details on transitioning to this version.
 
 ## Import Highlights for this release
 
-Please find below, the main improvements and modifications:
- - Support for latest firmware
- - Added EFK based rotation and accelerations outputs
- - Added body velocity output from the INS filter
- - Added GNSS spoofing/jamming/OSNMA indicators
- - Added several GNSS related monitoring data
- - Completely rewritten sbgBasicLogger with a lot of new features
- - General code cleanup and improvements
+Below are the key improvements and modifications in this release:
+ - Support for the new ELLIPSE firmware v3
+ - Support for output rates of up to 1 kHz
+ - Added device info/settings streaming
+ - Completely rewritten sbgECom protocol documentation
+ - General code cleanup and improvements for better maintainability
+
+## Release - 5.1.708-stable
+
+### New Features
+ - SBGECOM-433 - Added SBG_ECOM_FEATURE_IM / OSNMA to report GNSS capabilities
+ - SBGECOM-432 - Doc: Add instruction for the magnetic factory calibration
+ - SBGECOM-426 - Doc: Explain standard/high range scale factor for SBG_ECOM_LOG_IMU_SHORT output
+ - SBGECOM-425 - Add SBG_ECOM_LOG_PTP_STATUS message to report PTP time offset and status
+ - SBGECOM-423 - Returns the CPU usage in the SBG_ECOM_LOG_STATUS message
+ - SBGECOM-422 - Logger: updated EKF euler output to use only degrees instead of radians
+ - SBGECOM-420 - Output: Add magnetic heading/declination/inclination in EKF Euler/Quat logs
+ - SBGECOM-419 - Add proper support for more than 200Hz output logs for ELLIPSE firmware v3
+ - SBGECOM-414 - Add support for up to 1 kHz Sync Out events for ELLIPSE firmware v3
+ - SBGECOM-413 - Add support for new straight GNSS NMEA outputs logs (GGA/RMC/VTG/HDT)
+ - SBGECOM-411 - Add new motion profiles to better support new ELLIPSE firmware v3
+ - SBGECOM-408 - Add a new sbgECom output log with advanced internal INS filter debug data
+ - SBGECOM-407 - Add support for Nortek DVL
+ - SBGECOM-406 - Add SBG_ECOM_SOL_ZARU_USED used in solution bitmask
+ - SBGECOM-402 - Add a new SBG_ECOM_CLASS_LOG_ALL option to disabled/enable all outputs on an interface
+ - SBGECOM-394 - Add SBG_ECOM_LOG_SESSION_INFO message to stream settings & device info
+ - SBGECOM-393 - Added in SBG_ECOM_CMD_SET_MAG_CALIB a field to indicate if the magnetic calibration is 2D or 3D
+ - SBGECOM-381 - Add a high range scale variant for IMU Short output logs
+
+### Improvements
+ - SBGECOM-448 - Improve public CMake build process and documentation
+ - SBGECOM-431 - New sbgEComMinimal example that supports all Serial and Ethernet devices
+ - SBGECOM-429 - Doc: Improved Ship Motion description about output monitoring points
+ - SBGECOM-428 - Doc: Completly reworked documentation with built-in firmware reference manual
+ - SBGECOM-427 - Improved overall doxygen code base documentation
+ - SBGECOM-424 - Updated unix serial interface to report error with SBG_LOG_XXXXX macros
+ - SBGECOM-404 - Doc: Add sbgECom verion to the online URL documentation
+ - SBGECOM-399 - Add new error models for external sbgECom protocol magnetometers support
+ - SBGECOM-305 - Improved documentation for extended sbgECom frame definition
+
+### Bug Fixes
+ - SBGECOM-439 - Fix typo for SGB_CALIB_MAG_NOT_ENOUGH_POINTS
+ - SBGECOM-409 - sbgBasicLogger: Fixed erroneous output times for utcIso8601 mode
+ - SBGECOM-405 - CAN: Fix depth and air data airspeed logs types from integers to float values
+ - SBGECOM-398 - Removed unused SBG_ECOM_SYNC_OUT_MODE_EVENT_IN_# definitions
+ - SBGECOM-391 - sbgBasicLogger: Fixed invalid GNSS#_HDT output for numSvTracked, numSvUsed fields
+
+### Removed Features
+ - SBGECOM-430 - Magnetometer: Remove robust magnetic model (not relevant anymore)
+ - SBGECOM-410 - Doc: Indicate all 'preciseInstallation' fields to be deprecated
 
 ## Release - 4.0.1987-stable
 
@@ -314,7 +361,7 @@ Please find below, the main improvements and modifications:
  - SBGECOM-20 - Better error checking for sbgStreamBuffer with new method sbgStreamBufferGetLastError 
  - SBGECOM-22 - Added UTC & Clock status to the binary log SbgLogUtcData 
  - SBGECOM-23 - Added Solution status to the binary log SbgLogEkfEuler, SbgLogEkfQuat, SbgLogEkfNav 
- - SBGECOM-24 - Added time stamp to the log SBG_ECOM_LOG_MAG_CALIB
+ - SBGECOM-24 - Added timestamp to the log SBG_ECOM_LOG_MAG_CALIB
 
 ## Release - 1.2
 

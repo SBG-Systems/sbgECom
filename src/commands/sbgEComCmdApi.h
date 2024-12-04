@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComCmdApi.h
- * \ingroup			commands
- * \author			SBG Systems
- * \date			October 14, 2020
+ * \file            sbgEComCmdApi.h
+ * \ingroup         commands
+ * \author          SBG Systems
+ * \date            October 14, 2020
  *
- * \brief			REST API related commands.
+ * \brief           REST API related commands.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,9 +57,9 @@ extern "C" {
  */
 typedef struct _SbgEComCmdApiReply
 {
-	SbgEComProtocolPayload				 payload;									/*!< Payload. */
-	uint16_t							 statusCode;								/*!< Status code. */
-	const char							*pContent;									/*!< Content. */
+    SbgEComProtocolPayload               payload;                                   /*!< Payload. */
+    uint16_t                             statusCode;                                /*!< Status code. */
+    const char                          *pContent;                                  /*!< Content. */
 } SbgEComCmdApiReply;
 
 //----------------------------------------------------------------------//
@@ -69,22 +69,22 @@ typedef struct _SbgEComCmdApiReply
 /*!
  * REST API reply constructor.
  *
- * \param[in]	pReply						REST API reply.
+ * \param[in]   pReply                      REST API reply.
  */
 void sbgEComCmdApiReplyConstruct(SbgEComCmdApiReply *pReply);
 
 /*!
  * REST API reply destructor.
  *
- * \param[in]	pReply						REST API reply.
+ * \param[in]   pReply                      REST API reply.
  */
 void sbgEComCmdApiReplyDestroy(SbgEComCmdApiReply *pReply);
 
 /*!
  * Check if a reply indicates successful command execution.
  *
- * \param[in]	pReply						REST API reply.
- * \return									True if the reply indicates successful command execution.
+ * \param[in]   pReply                      REST API reply.
+ * \return                                  True if the reply indicates successful command execution.
  */
 bool sbgEComCmdApiReplySuccessful(const SbgEComCmdApiReply *pReply);
 
@@ -93,11 +93,11 @@ bool sbgEComCmdApiReplySuccessful(const SbgEComCmdApiReply *pReply);
  *
  * The reply must be destroyed before the next attempt to receive data, either logs or command replies.
  *
- * \param[in]	pHandle						ECom handle.
- * \param[in]	pPath						URI path component.
- * \param[in]	pQuery						Query string, may be NULL.
- * \param[out]	pReply						Reply.
- * \return									SBG_NO_ERROR if successful.
+ * \param[in]   pHandle                     ECom handle.
+ * \param[in]   pPath                       URI path component.
+ * \param[in]   pQuery                      Query string, may be NULL.
+ * \param[out]  pReply                      Reply.
+ * \return                                  SBG_NO_ERROR if successful.
  */
 SbgErrorCode sbgEComCmdApiGet(SbgEComHandle *pHandle, const char *pPath, const char *pQuery, SbgEComCmdApiReply *pReply);
 
@@ -106,12 +106,12 @@ SbgErrorCode sbgEComCmdApiGet(SbgEComHandle *pHandle, const char *pPath, const c
  *
  * The reply must be destroyed before the next attempt to receive data, either logs or command replies.
  *
- * \param[in]	pHandle						ECom handle.
- * \param[in]	pPath						URI path component.
- * \param[in]	pQuery						Query string, may be NULL.
- * \param[in]	pBody						Body, may be NULL.
- * \param[out]	pReply						Reply.
- * \return									SBG_NO_ERROR if successful.
+ * \param[in]   pHandle                     ECom handle.
+ * \param[in]   pPath                       URI path component.
+ * \param[in]   pQuery                      Query string, may be NULL.
+ * \param[in]   pBody                       Body, may be NULL.
+ * \param[out]  pReply                      Reply.
+ * \return                                  SBG_NO_ERROR if successful.
  */
 SbgErrorCode sbgEComCmdApiPost(SbgEComHandle *pHandle, const char *pPath, const char *pQuery, const char *pBody, SbgEComCmdApiReply *pReply);
 

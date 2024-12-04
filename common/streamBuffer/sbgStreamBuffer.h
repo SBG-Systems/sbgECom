@@ -1,13 +1,13 @@
 /*!
- * \file           sbgStreamBuffer.h
- * \ingroup        common
- * \author         SBG Systems
- * \date           02 January 2013
+ * \file            sbgStreamBuffer.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            02 January 2013
  *
- * \brief          Used to read/write data from/to a memory buffer stream.
+ * \brief           Used to read/write data from/to a memory buffer stream.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,4 +50,4 @@ extern "C" {
 }
 #endif
 
-#endif /* SBG_STREAM_BUFFER_H */
+#endif // SBG_STREAM_BUFFER_H 

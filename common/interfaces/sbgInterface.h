@@ -1,16 +1,16 @@
 /*!
- * \file         sbgInterface.h
- * \ingroup      common
- * \author       SBG Systems
- * \date         10 December 2012
+ * \file            sbgInterface.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            10 December 2012
  *
- * \brief        This file implements the base interface for all Serial and Ethernet ports.
+ * \brief           This file implements the base interface for all Serial and Ethernet ports.
  *
  * An interface is used to provide a common API for both serial and Ethernet ports.
  * An interface can be opened/closed and some data can be written or read from it.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,24 +50,24 @@ extern "C" {
 //- Constant definitions                                               -//
 //----------------------------------------------------------------------//
 
-#define SBG_IF_NAME_MAX_SIZE		(48)			/*!< Maximum size in bytes for the interface name string */
+#define SBG_IF_NAME_MAX_SIZE        (48)            /*!< Maximum size in bytes for the interface name string */
 
 /*!
  * Type values reserved for standard interface types.
  */
-#define SBG_IF_TYPE_UNKNOW			(0)				/*!< The interface type is not defined. */
-#define SBG_IF_TYPE_SERIAL			(1)				/*!< The interface is a serial com port. */
-#define SBG_IF_TYPE_ETH_UDP			(2)				/*!< The interface is an UDP one. */
-#define SBG_IF_TYPE_ETH_TCP_IP		(3)				/*!< The interface is an TCP/IP one. */
-#define SBG_IF_TYPE_FILE			(4)				/*!< The interface is a file. */
-#define SBG_IF_TYPE_LAST_RESERVED	(999)			/*!< Last reserved value for standard types. */
+#define SBG_IF_TYPE_UNKNOW          (0)             /*!< The interface type is not defined. */
+#define SBG_IF_TYPE_SERIAL          (1)             /*!< The interface is a serial com port. */
+#define SBG_IF_TYPE_ETH_UDP         (2)             /*!< The interface is an UDP one. */
+#define SBG_IF_TYPE_ETH_TCP_IP      (3)             /*!< The interface is an TCP/IP one. */
+#define SBG_IF_TYPE_FILE            (4)             /*!< The interface is a file. */
+#define SBG_IF_TYPE_LAST_RESERVED   (999)           /*!< Last reserved value for standard types. */
 
 //
 // Flags for the flush operation.
 //
-#define SBG_IF_FLUSH_INPUT			((uint32_t)1 << 0)							/*!< Flush input data flag. */
-#define SBG_IF_FLUSH_OUTPUT			((uint32_t)1 << 1)							/*!< Flush output data flag. */
-#define SBG_IF_FLUSH_ALL			(SBG_IF_FLUSH_INPUT | SBG_IF_FLUSH_OUTPUT)	/*!< Flag combination to flush both input and output data. */
+#define SBG_IF_FLUSH_INPUT          ((uint32_t)1 << 0)                          /*!< Flush input data flag. */
+#define SBG_IF_FLUSH_OUTPUT         ((uint32_t)1 << 1)                          /*!< Flush output data flag. */
+#define SBG_IF_FLUSH_ALL            (SBG_IF_FLUSH_INPUT | SBG_IF_FLUSH_OUTPUT)  /*!< Flag combination to flush both input and output data. */
 
 //----------------------------------------------------------------------//
 //- Predefinitions                                                     -//
@@ -90,8 +90,8 @@ typedef void* SbgInterfaceHandle;
 /*!
  * Method to implement that close and destroy an interface.
  *
- * \param[in]	pInterface								Interface instance.
- * \return												SBG_NO_ERROR if the interface has been closed successfully.
+ * \param[in]   pInterface                              Interface instance.
+ * \return                                              SBG_NO_ERROR if the interface has been closed successfully.
  */
 typedef SbgErrorCode (*SbgInterfaceDestroyFunc)(SbgInterface *pInterface);
 
@@ -101,10 +101,10 @@ typedef SbgErrorCode (*SbgInterfaceDestroyFunc)(SbgInterface *pInterface);
  * This method should return an error only if all bytes were not written successfully.
  * If you try to write zero byte, the method shouldn't return any error.
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	pBuffer									Pointer on an allocated buffer that contains the data to write
- * \param[in]	bytesToWrite							Number of bytes we would like to write (can be zero).
- * \return												SBG_NO_ERROR if exactly bytesToWrite have been written successfully.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   pBuffer                                 Pointer on an allocated buffer that contains the data to write
+ * \param[in]   bytesToWrite                            Number of bytes we would like to write (can be zero).
+ * \return                                              SBG_NO_ERROR if exactly bytesToWrite have been written successfully.
  */
 typedef SbgErrorCode (*SbgInterfaceWriteFunc)(SbgInterface *pInterface, const void *pBuffer, size_t bytesToWrite);
 
@@ -115,11 +115,11 @@ typedef SbgErrorCode (*SbgInterfaceWriteFunc)(SbgInterface *pInterface, const vo
  * If no byte is read at all or less bytes than bytesToRead, this method returns SBG_NO_ERROR.
  * You have to check pReadBytes field to know the number of bytes actually read.
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	pBuffer									Pointer on an allocated buffer that can hold at least bytesToRead bytes of data.
- * \param[out]	pReadBytes								Returns the number of bytes actually read (can be zero and up to bytesToRead).
- * \param[in]	bytesToRead								Maximum number of bytes to try to read on the interface.
- * \return												SBG_NO_ERROR if zero or some bytes have been read successfully.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   pBuffer                                 Pointer on an allocated buffer that can hold at least bytesToRead bytes of data.
+ * \param[out]  pReadBytes                              Returns the number of bytes actually read (can be zero and up to bytesToRead).
+ * \param[in]   bytesToRead                             Maximum number of bytes to try to read on the interface.
+ * \return                                              SBG_NO_ERROR if zero or some bytes have been read successfully.
  */
 typedef SbgErrorCode (*SbgInterfaceReadFunc)(SbgInterface *pInterface, void *pBuffer, size_t *pReadBytes, size_t bytesToRead);
 
@@ -131,9 +131,9 @@ typedef SbgErrorCode (*SbgInterfaceReadFunc)(SbgInterface *pInterface, void *pBu
  *
  * WARNING: The method has no action if not applicable for a type of interface
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	flags									Combination of the SBG_IF_FLUSH_INPUT and SBG_IF_FLUSH_OUTPUT flags.
- * \return												SBG_NO_ERROR if successful.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   flags                                   Combination of the SBG_IF_FLUSH_INPUT and SBG_IF_FLUSH_OUTPUT flags.
+ * \return                                              SBG_NO_ERROR if successful.
  */
 typedef SbgErrorCode (*SbgInterfaceFlushFunc)(SbgInterface *pInterface, uint32_t flags);
 
@@ -148,9 +148,9 @@ typedef SbgErrorCode (*SbgInterfaceFlushFunc)(SbgInterface *pInterface, uint32_t
  *
  * WARNING: The method has no action if not applicable for a type of interface
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	speed									The new interface speed to set in bps.
- * \return												SBG_NO_ERROR if successful.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   speed                                   The new interface speed to set in bps.
+ * \return                                              SBG_NO_ERROR if successful.
  */
 typedef SbgErrorCode (*SbgInterfaceSetSpeed)(SbgInterface *pInterface, uint32_t speed);
 
@@ -159,8 +159,8 @@ typedef SbgErrorCode (*SbgInterfaceSetSpeed)(SbgInterface *pInterface, uint32_t 
  *
  * WARNING: The method will returns zero if not applicable for a type of interface
  *
- * \param[in]	pInterface								Interface instance.
- * \return												The current interface baud rate in bps or zero if not applicable.
+ * \param[in]   pInterface                              Interface instance.
+ * \return                                              The current interface baud rate in bps or zero if not applicable.
  */
 typedef uint32_t (*SbgInterfaceGetSpeed)(const SbgInterface *pInterface);
 
@@ -169,9 +169,9 @@ typedef uint32_t (*SbgInterfaceGetSpeed)(const SbgInterface *pInterface);
  *
  * WARNING: The method will returns zero if not applicable for a type of interface.
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	numBytes								The number of bytes to transmit / receive to evaluate the needed delay.
- * \return												The expected delay in us needed to transmit / receive the specified number of bytes or 0 if not applicable.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   numBytes                                The number of bytes to transmit / receive to evaluate the needed delay.
+ * \return                                              The expected delay in us needed to transmit / receive the specified number of bytes or 0 if not applicable.
  */
 typedef uint32_t (*SbgInterfaceGetDelayFunc)(const SbgInterface *pInterface, size_t numBytes);
 
@@ -191,17 +191,17 @@ typedef uint32_t (*SbgInterfaceGetDelayFunc)(const SbgInterface *pInterface, siz
  */
 struct _SbgInterface
 {
-	SbgInterfaceHandle			 handle;							/*!< Internal interface handle used to access the media. */
-	uint32_t					 type;								/*!< Opaque interface type. */
-	char						 name[SBG_IF_NAME_MAX_SIZE];		/*!< The interface name as passed during the creation */
+    SbgInterfaceHandle           handle;                            /*!< Internal interface handle used to access the media. */
+    uint32_t                     type;                              /*!< Opaque interface type. */
+    char                         name[SBG_IF_NAME_MAX_SIZE];        /*!< The interface name as passed during the creation */
 
-	SbgInterfaceDestroyFunc		 pDestroyFunc;						/*!< Optional method used to destroy an interface. */
-	SbgInterfaceWriteFunc		 pWriteFunc;						/*!< Optional method used to write some data to this interface. */
-	SbgInterfaceReadFunc		 pReadFunc;							/*!< Optional method used to read some data to this interface. */
-	SbgInterfaceFlushFunc		 pFlushFunc;						/*!< Optional method used to make this interface flush all pending data. */
-	SbgInterfaceSetSpeed		 pSetSpeedFunc;						/*!< Optional method used to set the interface speed in bps. */
-	SbgInterfaceGetSpeed		 pGetSpeedFunc;						/*!< Optional method used to retrieve the interface speed in bps. */
-	SbgInterfaceGetDelayFunc	 pDelayFunc;						/*!< Optional method used to compute an expected delay to transmit/receive X bytes */
+    SbgInterfaceDestroyFunc      pDestroyFunc;                      /*!< Optional method used to destroy an interface. */
+    SbgInterfaceWriteFunc        pWriteFunc;                        /*!< Optional method used to write some data to this interface. */
+    SbgInterfaceReadFunc         pReadFunc;                         /*!< Optional method used to read some data to this interface. */
+    SbgInterfaceFlushFunc        pFlushFunc;                        /*!< Optional method used to make this interface flush all pending data. */
+    SbgInterfaceSetSpeed         pSetSpeedFunc;                     /*!< Optional method used to set the interface speed in bps. */
+    SbgInterfaceGetSpeed         pGetSpeedFunc;                     /*!< Optional method used to retrieve the interface speed in bps. */
+    SbgInterfaceGetDelayFunc     pDelayFunc;                        /*!< Optional method used to compute an expected delay to transmit/receive X bytes */
 };
 
 //----------------------------------------------------------------------//
@@ -211,7 +211,7 @@ struct _SbgInterface
 /*!
  * Initialize an interface instance to zero.
  *
- * \param[in]	pInterface								The interface instance.
+ * \param[in]   pInterface                              The interface instance.
  */
 SBG_COMMON_LIB_API void sbgInterfaceZeroInit(SbgInterface *pInterface);
 
@@ -220,43 +220,43 @@ SBG_COMMON_LIB_API void sbgInterfaceZeroInit(SbgInterface *pInterface);
  *
  * This method will call the specialized interface destructor if any.
  *
- * \param[in]	pInterface								The interface instance.
- * \return												SBG_NO_ERROR if the interface has been destroyed successfully.
+ * \param[in]   pInterface                              The interface instance.
+ * \return                                              SBG_NO_ERROR if the interface has been destroyed successfully.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceDestroy(SbgInterface *pInterface);
 
 /*!
  * Returns the interface type.
  *
- * \param[in]	pInterface								Interface instance
- * \return												The interface type.
+ * \param[in]   pInterface                              Interface instance
+ * \return                                              The interface type.
  */
 SBG_INLINE uint32_t sbgInterfaceTypeGet(const SbgInterface *pInterface)
 {
-	assert(pInterface);
+    assert(pInterface);
 
-	return pInterface->type;
+    return pInterface->type;
 }
 
 /*!
  * Returns the interface as string.
  *
- * \param[in]	pInterface								Interface instance
- * \return												The interface type.
+ * \param[in]   pInterface                              Interface instance
+ * \return                                              The interface type.
  */
 SBG_COMMON_LIB_API const char *sbgInterfaceTypeGetAsString(const SbgInterface *pInterface);
 
 /*!
  * Returns the interface name string.
  *
- * \param[in]	pInterface								Interface instance
- * \return												The interface name as a NULL terminated C string.
+ * \param[in]   pInterface                              Interface instance
+ * \return                                              The interface name as a NULL terminated C string.
  */
 SBG_INLINE const char *sbgInterfaceNameGet(const SbgInterface *pInterface)
 {
-	assert(pInterface);
+    assert(pInterface);
 
-	return pInterface->name;
+    return pInterface->name;
 }
 
 /*!
@@ -268,8 +268,8 @@ SBG_INLINE const char *sbgInterfaceNameGet(const SbgInterface *pInterface)
  * If the interface name you would like to set is too long, only the end
  * of the string will be kept.
  *
- * \param[in]	pInterface								Interface instance
- * \param[in]	pName									The interface name to set as a NULL terminated C string
+ * \param[in]   pInterface                              Interface instance
+ * \param[in]   pName                                   The interface name to set as a NULL terminated C string
  */
 SBG_COMMON_LIB_API void sbgInterfaceNameSet(SbgInterface *pInterface, const char *pName);
 
@@ -279,29 +279,29 @@ SBG_COMMON_LIB_API void sbgInterfaceNameSet(SbgInterface *pInterface, const char
  * This method should return an error only if all bytes were not written successfully.
  * If you try to write zero byte, the method shouldn't return any error.
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	pBuffer									Pointer on an allocated buffer that contains the data to write
- * \param[in]	bytesToWrite							Number of bytes we would like to write (can be zero).
- * \return												SBG_NO_ERROR if exactly bytesToWrite have been written successfully.
- *														SBG_INVALID_PARAMETER if the interface doesn't support write operations.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   pBuffer                                 Pointer on an allocated buffer that contains the data to write
+ * \param[in]   bytesToWrite                            Number of bytes we would like to write (can be zero).
+ * \return                                              SBG_NO_ERROR if exactly bytesToWrite have been written successfully.
+ *                                                      SBG_INVALID_PARAMETER if the interface doesn't support write operations.
  */
 SBG_INLINE SbgErrorCode sbgInterfaceWrite(SbgInterface *pInterface, const void *pBuffer, size_t bytesToWrite)
 {
-	SbgErrorCode	errorCode;
+    SbgErrorCode    errorCode;
 
-	assert(pInterface);
-	assert(pBuffer);
+    assert(pInterface);
+    assert(pBuffer);
 
-	if (pInterface->pWriteFunc)
-	{
-		errorCode = pInterface->pWriteFunc(pInterface, pBuffer, bytesToWrite);
-	}
-	else
-	{
-		errorCode = SBG_INVALID_PARAMETER;
-	}
+    if (pInterface->pWriteFunc)
+    {
+        errorCode = pInterface->pWriteFunc(pInterface, pBuffer, bytesToWrite);
+    }
+    else
+    {
+        errorCode = SBG_INVALID_PARAMETER;
+    }
 
-	return errorCode;
+    return errorCode;
 }
 
 /*!
@@ -311,32 +311,32 @@ SBG_INLINE SbgErrorCode sbgInterfaceWrite(SbgInterface *pInterface, const void *
  * If no byte is read at all or less bytes than bytesToRead, this method returns SBG_NO_ERROR.
  * You have to check pReadBytes field to know the number of bytes actually read.
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	pBuffer									Pointer on an allocated buffer that can hold at least bytesToRead bytes of data.
- * \param[out]	pReadBytes								Returns the number of bytes actually read (can be zero and up to bytesToRead).
- * \param[in]	bytesToRead								Maximum number of bytes to try to read on the interface.
- * \return												SBG_NO_ERROR if zero or some bytes have been read successfully.
- *														SBG_INVALID_PARAMETER if the interface doesn't support read operations.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   pBuffer                                 Pointer on an allocated buffer that can hold at least bytesToRead bytes of data.
+ * \param[out]  pReadBytes                              Returns the number of bytes actually read (can be zero and up to bytesToRead).
+ * \param[in]   bytesToRead                             Maximum number of bytes to try to read on the interface.
+ * \return                                              SBG_NO_ERROR if zero or some bytes have been read successfully.
+ *                                                      SBG_INVALID_PARAMETER if the interface doesn't support read operations.
  */
 SBG_INLINE SbgErrorCode sbgInterfaceRead(SbgInterface *pInterface, void *pBuffer, size_t *pReadBytes, size_t bytesToRead)
 {
-	SbgErrorCode	errorCode;
+    SbgErrorCode    errorCode;
 
-	assert(pInterface);
-	assert(pBuffer);
-	assert(pReadBytes);
+    assert(pInterface);
+    assert(pBuffer);
+    assert(pReadBytes);
 
-	if (pInterface->pReadFunc)
-	{
-		errorCode = pInterface->pReadFunc(pInterface, pBuffer, pReadBytes, bytesToRead);
-	}
-	else
-	{
-		*pReadBytes	= 0;
-		errorCode	= SBG_INVALID_PARAMETER;
-	}
+    if (pInterface->pReadFunc)
+    {
+        errorCode = pInterface->pReadFunc(pInterface, pBuffer, pReadBytes, bytesToRead);
+    }
+    else
+    {
+        *pReadBytes = 0;
+        errorCode   = SBG_INVALID_PARAMETER;
+    }
 
-	return errorCode;
+    return errorCode;
 }
 
 /*!
@@ -347,27 +347,27 @@ SBG_INLINE SbgErrorCode sbgInterfaceRead(SbgInterface *pInterface, void *pBuffer
  *
  * WARNING: The method has no action if not applicable for a type of interface
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	flags									Combination of the SBG_IF_FLUSH_INPUT and SBG_IF_FLUSH_OUTPUT flags.
- * \return												SBG_NO_ERROR if successful.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   flags                                   Combination of the SBG_IF_FLUSH_INPUT and SBG_IF_FLUSH_OUTPUT flags.
+ * \return                                              SBG_NO_ERROR if successful.
  */
 SBG_INLINE SbgErrorCode sbgInterfaceFlush(SbgInterface *pInterface, uint32_t flags)
 {
-	SbgErrorCode		 errorCode;
+    SbgErrorCode         errorCode;
 
-	assert(pInterface);
-	assert((flags & ~SBG_IF_FLUSH_ALL) == 0);
+    assert(pInterface);
+    assert((flags & ~SBG_IF_FLUSH_ALL) == 0);
 
-	if (pInterface->pFlushFunc)
-	{
-		errorCode = pInterface->pFlushFunc(pInterface, flags);
-	}
-	else
-	{
-		errorCode = SBG_NO_ERROR;
-	}
+    if (pInterface->pFlushFunc)
+    {
+        errorCode = pInterface->pFlushFunc(pInterface, flags);
+    }
+    else
+    {
+        errorCode = SBG_NO_ERROR;
+    }
 
-	return errorCode;
+    return errorCode;
 }
 
 /*!
@@ -381,23 +381,23 @@ SBG_INLINE SbgErrorCode sbgInterfaceFlush(SbgInterface *pInterface, uint32_t fla
  *
  * WARNING: The method has no action if not applicable for a type of interface
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	speed									The new interface speed to set in bps.
- * \return												SBG_NO_ERROR if successful.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   speed                                   The new interface speed to set in bps.
+ * \return                                              SBG_NO_ERROR if successful.
  */
 SBG_INLINE SbgErrorCode sbgInterfaceSetSpeed(SbgInterface *pInterface, uint32_t speed)
 {
-	assert(pInterface);
-	assert(speed > 0);
+    assert(pInterface);
+    assert(speed > 0);
 
-	if (pInterface->pSetSpeedFunc)
-	{
-		return pInterface->pSetSpeedFunc(pInterface, speed);
-	}
-	else
-	{
-		return SBG_NO_ERROR;
-	}
+    if (pInterface->pSetSpeedFunc)
+    {
+        return pInterface->pSetSpeedFunc(pInterface, speed);
+    }
+    else
+    {
+        return SBG_NO_ERROR;
+    }
 }
 
 /*!
@@ -405,21 +405,21 @@ SBG_INLINE SbgErrorCode sbgInterfaceSetSpeed(SbgInterface *pInterface, uint32_t 
  *
  * WARNING: The method will returns zero if not applicable for a type of interface
  *
- * \param[in]	pInterface								Interface instance.
- * \return												The current interface baud rate in bps or zero if not applicable.
+ * \param[in]   pInterface                              Interface instance.
+ * \return                                              The current interface baud rate in bps or zero if not applicable.
  */
 SBG_INLINE uint32_t sbgInterfaceGetSpeed(const SbgInterface *pInterface)
 {
-	assert(pInterface);
+    assert(pInterface);
 
-	if (pInterface->pGetSpeedFunc)
-	{
-		return pInterface->pGetSpeedFunc(pInterface);
-	}
-	else
-	{
-		return 0;
-	}
+    if (pInterface->pGetSpeedFunc)
+    {
+        return pInterface->pGetSpeedFunc(pInterface);
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 /*!
@@ -427,22 +427,22 @@ SBG_INLINE uint32_t sbgInterfaceGetSpeed(const SbgInterface *pInterface)
  *
  * WARNING: The method will returns zero if not applicable for a type of interface.
  *
- * \param[in]	pInterface								Interface instance.
- * \param[in]	numBytes								The number of bytes to transmit / receive to evaluate the needed delay.
- * \return												The expected delay in us needed to transmit / receive the specified number of bytes or 0 if not applicable.
+ * \param[in]   pInterface                              Interface instance.
+ * \param[in]   numBytes                                The number of bytes to transmit / receive to evaluate the needed delay.
+ * \return                                              The expected delay in us needed to transmit / receive the specified number of bytes or 0 if not applicable.
  */
 SBG_INLINE uint32_t sbgInterfaceGetDelay(const SbgInterface *pInterface, size_t numBytes)
 {
-	assert(pInterface);
+    assert(pInterface);
 
-	if (pInterface->pDelayFunc)
-	{
-		return pInterface->pDelayFunc(pInterface, numBytes);
-	}
-	else
-	{
-		return 0;
-	}
+    if (pInterface->pDelayFunc)
+    {
+        return pInterface->pDelayFunc(pInterface, numBytes);
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 //----------------------------------------------------------------------//
@@ -452,4 +452,4 @@ SBG_INLINE uint32_t sbgInterfaceGetDelay(const SbgInterface *pInterface, size_t 
 }
 #endif
 
-#endif /* SBG_INTERFACE_H */
+#endif // SBG_INTERFACE_H

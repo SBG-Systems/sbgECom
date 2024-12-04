@@ -33,14 +33,15 @@ The sbgBasicLogger can be used to parse incoming data from a serial or an Ethern
 You can also select an binary file containing raw sbgECom dump and easily export sbgECom data to CSV like text files.
 
 ## UTC Time & Timestamp
-All sbgECom logs output the internal IMU/AHRS/INS time stamp in microseconds. 
+All sbgECom logs output the internal IMU/AHRS/INS timestamp in microseconds. 
 This is the default time format used by the sbgBasicLogger.
 
-However, if the INS receives valid GNSS time information, the sbgBasicLogger is able to output data referenced to UTC time. 
-You can select this mode with the `--time-mode=utcIso8601` option.
+However, if the INS receives valid GNSS time information, the sbgBasicLogger is able to output data referenced to UTC time.  
+To enable this, use the `--time-mode=utcIso8601` option, which produces timestamps in the format: `YYYY-MM-DDTHH:MM:SS.SSSSSSZ`.
 
-In this mode, before the INS has a valid UTC time, the internal timestamp in microseconds is output then an ISO 8601 is used. 
-You can skip logs before a valid UTC time is available with the option `--discard-invalid-time `.
+In this mode, before the INS acquires a valid UTC time, the logger will output the internal timestamp in microseconds.  
+Once the UTC time is available and synchronized, it switches to the ISO 8601 format.  
+To exclude logs recorded before a valid UTC time is available, use the option `--discard-invalid-time `.
 
 # Usage
 

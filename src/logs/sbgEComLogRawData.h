@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComLogRawData.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			16 November 2020
+ * \file            sbgEComLogRawData.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            16 November 2020
  *
- * \brief			Parse logs used to store a binary stream such as RAW GNSS or RTCM stream.
+ * \brief           Parse logs used to store a binary stream such as RAW GNSS or RTCM stream.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,7 @@ extern "C" {
 //- Log raw Data const definitions                                     -//
 //----------------------------------------------------------------------//
 
-#define SBG_ECOM_RAW_DATA_MAX_BUFFER_SIZE						(4086u)	/*!< Maximum buffer size in bytes that can be stored in the raw data log. */
+#define SBG_ECOM_RAW_DATA_MAX_BUFFER_SIZE                       (4086u) /*!< Maximum buffer size in bytes that can be stored in the raw data log. */
 
 //----------------------------------------------------------------------//
 //- Log structure definitions                                          -//
@@ -56,8 +56,8 @@ extern "C" {
  */
 typedef struct _SbgEComLogRawData
 {
-	uint8_t			rawBuffer[SBG_ECOM_RAW_DATA_MAX_BUFFER_SIZE];	/*!< Buffer that contains raw data. */
-	size_t			bufferSize;										/*!< Raw buffer size in bytes. */
+    uint8_t         rawBuffer[SBG_ECOM_RAW_DATA_MAX_BUFFER_SIZE];   /*!< Buffer that contains raw data. */
+    size_t          bufferSize;                                     /*!< Raw buffer size in bytes. */
 } SbgEComLogRawData;
 
 //----------------------------------------------------------------------//
@@ -67,18 +67,18 @@ typedef struct _SbgEComLogRawData
 /*!
  * Parse raw data message and fill the corresponding structure.
  * 
- * \param[out]	pLogData					Log structure instance to fill.
- * \param[in]	pStreamBuffer				Input stream buffer to read the log from.
- * \return									SBG_NO_ERROR if a valid log has been read from the stream buffer.
+ * \param[out]  pLogData                    Log structure instance to fill.
+ * \param[in]   pStreamBuffer               Input stream buffer to read the log from.
+ * \return                                  SBG_NO_ERROR if a valid log has been read from the stream buffer.
  */
 SbgErrorCode sbgEComLogRawDataReadFromStream(SbgEComLogRawData *pLogData, SbgStreamBuffer *pStreamBuffer);
 
 /*!
  * Write raw data message to the output stream buffer from the provided structure.
  *
- * \param[in]	pLogData					Log structure instance to write.
- * \param[out]	pStreamBuffer				Output stream buffer to write the log to.
- * \return									SBG_NO_ERROR if the log has been written to the stream buffer.
+ * \param[in]   pLogData                    Log structure instance to write.
+ * \param[out]  pStreamBuffer               Output stream buffer to write the log to.
+ * \return                                  SBG_NO_ERROR if the log has been written to the stream buffer.
  */
 SbgErrorCode sbgEComLogRawDataWriteToStream(const SbgEComLogRawData *pLogData, SbgStreamBuffer *pStreamBuffer);
 

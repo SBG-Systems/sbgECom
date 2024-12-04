@@ -4,6 +4,7 @@
 
 // sbgCommonLib headers
 #include <sbgCommon.h>
+#include <network/sbgNetwork.h>
 
 // sbgECom headers
 #include <sbgEComLib.h>
@@ -89,8 +90,8 @@ std::string CLoggerEntryStatus::getName() const
 
 void CLoggerEntryStatus::writeHeaderToFile(const CLoggerContext &context)
 {
-	m_outFile	<< context.getTimeColTitle()	<< "\tgeneral\tcom\tcom2\taiding\n";
-	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(na)\t(na)\t(na)\t(na)\n";
+	m_outFile	<< context.getTimeColTitle()	<< "\tgeneral\tcom\tcom2\taiding\tcpuUsage\n";
+	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(na)\t(na)\t(na)\t(na)\t(%%)\n";
 }
 
 void CLoggerEntryStatus::writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData)
@@ -101,7 +102,8 @@ void CLoggerEntryStatus::writeDataToFile(const CLoggerContext &context, const Sb
 				<< context.fmtStatus(data.generalStatus)								<< "\t"
 				<< context.fmtStatus(data.comStatus)									<< "\t"
 				<< context.fmtStatus(data.comStatus2)									<< "\t"
-				<< context.fmtStatus(data.aidingStatus)									<< "\n";
+				<< context.fmtStatus(data.aidingStatus)									<< "\t"
+				<< (uint32_t)data.cpuUsage												<< "\n";
 }
 
 void CLoggerEntryStatus::writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData)
@@ -112,7 +114,8 @@ void CLoggerEntryStatus::writeDataToConsole(const CLoggerContext &context, const
 				<< std::setw(12) << context.fmtStatus(data.generalStatus)
 				<< std::setw(12) << context.fmtStatus(data.comStatus)
 				<< std::setw(12) << context.fmtStatus(data.comStatus2)
-				<< std::setw(12) << context.fmtStatus(data.aidingStatus)				<< "\n";
+				<< std::setw(12) << context.fmtStatus(data.aidingStatus)
+				<< std::setw(12) << (uint32_t)data.cpuUsage								<< "\n";
 }
 
 //----------------------------------------------------------------------//
@@ -194,6 +197,127 @@ void CLoggerEntryDiag::writeDataToConsole(const CLoggerContext &context, const S
 					<< " [" << sbgErrorCodeToString(data.errorCode) << "]"
 					<< std::endl;
 	}
+}
+
+//----------------------------------------------------------------------//
+//- CLoggerEntryPtpStatus                                              -//
+//----------------------------------------------------------------------//
+
+std::string CLoggerEntryPtpStatus::convertState(SbgEComLogPtpState state)
+{
+	std::string							 stateStr = "unknown";
+
+	switch (state)
+	{
+	case SBG_ECOM_LOG_PTP_STATE_DISABLED:
+		stateStr = "disabled";
+		break;
+	case SBG_ECOM_LOG_PTP_STATE_FAULTY:
+		stateStr = "faulty";
+		break;
+	case SBG_ECOM_LOG_PTP_STATE_MASTER:
+		stateStr = "master";
+		break;
+	case SBG_ECOM_LOG_PTP_STATE_PASSIVE:
+		stateStr = "passive";
+		break;
+	}
+
+	return stateStr;
+}
+
+std::string CLoggerEntryPtpStatus::convertTimeScale(SbgEComLogPtpTimeScale timeScale)
+{
+	std::string							 timeScaleStr = "unknown";
+
+	switch (timeScale)
+	{
+	case SBG_ECOM_LOG_PTP_TIME_SCALE_TAI:
+		timeScaleStr = "tai";
+		break;
+	case SBG_ECOM_LOG_PTP_TIME_SCALE_UTC:
+		timeScaleStr = "utc";
+		break;
+	case SBG_ECOM_LOG_PTP_TIME_SCALE_GPS:
+		timeScaleStr = "gps";
+		break;
+	}
+
+	return timeScaleStr;
+}
+
+std::string CLoggerEntryPtpStatus::getName() const
+{
+	return "ptpStatus";
+}
+
+void CLoggerEntryPtpStatus::writeHeaderToFile(const CLoggerContext &context)
+{
+	m_outFile	<< context.getTimeColTitle()	<< "\tstate\ttimeScale\ttimeScaleOffset\tlocalClockIdentity\tlocalClockPriority1\tlocalClockPriority2\tlocalClockClass\tlocalClockAccuracy\tlocalClockLog2Variance\tlocalClockTimeSource\tmasterClockIdentity\tmasterClockPriority1\tmasterClockPriority2\tmasterClockClass\tmasterClockAccuracy\tmasterClockLog2Variance\tmasterClockTimeSource\tmasterIpAddress\tmeanPathDelay\tmeanPathDelayStdDev\tclockOffset\tclockOffsetStdDev\tclockFreqOffset\tclockFreqOffsetStdDev\n";
+	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(na)\t(s)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(s)\t(s)\t(s)\t(s)\t(s)\t(s)\n";
+}
+
+void CLoggerEntryPtpStatus::writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData)
+{
+	const SbgEComLogPtp				&data = logData.ptpData;
+	char							 masterIpAddressString[SBG_NETWORK_IPV4_STRING_SIZE];
+
+	sbgNetworkIpToString(data.masterIpAddress, masterIpAddressString, sizeof(masterIpAddressString));
+
+	m_outFile	<< context.fmtTime(data.timeStamp)										<< "\t"
+				<< convertState(data.state)												<< "\t"
+				<< convertTimeScale(data.timeScale)										<< "\t"
+				<< data.timeScaleOffset													<< "\t"
+
+				<< std::hex << data.localClockIdentity << std::dec						<< "\t"
+				<< (uint32_t)data.localClockPriority1									<< "\t"
+				<< (uint32_t)data.localClockPriority2									<< "\t"
+				<< (uint32_t)data.localClockClass										<< "\t"
+				<< (uint32_t)data.localClockAccuracy									<< "\t"
+				<< data.localClockLog2Variance											<< "\t"
+				<< (uint32_t)data.localClockTimeSource									<< "\t"
+
+				<< std::hex << data.masterClockIdentity << std::dec						<< "\t"
+				<< (uint32_t)data.masterClockPriority1									<< "\t"
+				<< (uint32_t)data.masterClockPriority2									<< "\t"
+				<< (uint32_t)data.masterClockClass										<< "\t"
+				<< (uint32_t)data.masterClockAccuracy									<< "\t"
+				<< data.masterClockLog2Variance											<< "\t"
+				<< (uint32_t)data.masterClockTimeSource									<< "\t"
+				<< masterIpAddressString												<< "\t"
+
+				<< data.meanPathDelay													<< "\t"
+				<< data.meanPathDelayStdDev												<< "\t"
+				<< data.clockOffset														<< "\t"
+				<< data.clockOffsetStdDev												<< "\t"
+				<< data.clockFreqOffset													<< "\t"
+				<< data.clockFreqOffsetStdDev											<< "\n";
+}
+
+void CLoggerEntryPtpStatus::writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData)
+{
+	const SbgEComLogPtp				&data = logData.ptpData;
+	char							 masterIpAddressString[SBG_NETWORK_IPV4_STRING_SIZE];
+
+	SBG_UNUSED_PARAMETER(context);
+
+	sbgNetworkIpToString(data.masterIpAddress, masterIpAddressString, sizeof(masterIpAddressString));
+
+	std::cout	<< std::setw(12) << getName()											<< ": "
+				<< std::setw(12) << convertState(data.state)
+				<< std::setw(12) << convertTimeScale(data.timeScale)
+				<< std::setw(12) << data.timeScaleOffset
+
+				<< std::setw(20) << std::hex << data.localClockIdentity << std::dec
+				<< std::setw(20) << std::hex << data.masterClockIdentity << std::dec
+				<< std::setw(20) << masterIpAddressString
+
+				<< std::setw(12) << data.meanPathDelay
+				<< std::setw(12) << data.meanPathDelayStdDev
+				<< std::setw(12) << data.clockOffset
+				<< std::setw(12) << data.clockOffsetStdDev
+				<< std::setw(12) << data.clockFreqOffset
+				<< std::setw(12) << data.clockFreqOffsetStdDev							<< "\n";
 }
 
 //----------------------------------------------------------------------//

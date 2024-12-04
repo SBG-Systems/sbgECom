@@ -1,15 +1,15 @@
 /*!
- * \file			sbgEComLib.h
- * \ingroup			main
- * \author			SBG Systems
- * \date			05 February 2013
+ * \file            sbgEComLib.h
+ * \ingroup         main
+ * \author          SBG Systems
+ * \date            05 February 2013
  *
- * \brief			Main header file for the SBG Systems Enhanced Communication Library.
+ * \brief           Main header file for the SBG Systems Enhanced Communication Library.
  *
  * Only this main header file should be included to use the library.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,6 +57,7 @@ extern "C" {
 #include "commands/sbgEComCmd.h"
 #include "logs/sbgEComLog.h"
 #include "protocol/sbgEComProtocol.h"
+#include "sessionInfo/sbgEComSessionInfo.h"
 #include "sbgEComVersion.h"
 #include "sbgEComGetVersion.h"
 
@@ -67,4 +68,4 @@ extern "C" {
 }
 #endif
 
-#endif	// SBG_ECOM_LIB_H
+#endif  // SBG_ECOM_LIB_H

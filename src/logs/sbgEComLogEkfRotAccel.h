@@ -1,10 +1,10 @@
 ﻿/*!
- * \file			sbgEComLogEkfRotAccel.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			12 June 2023
+ * \file            sbgEComLogEkfRotAccel.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            12 June 2023
  *
- * \brief			Write and parse SBG_ECOM_LOG_EKF_ROT_ACCEL_XXXX messages.
+ * \brief           Write and parse SBG_ECOM_LOG_EKF_ROT_ACCEL_XXXX messages.
  * 
  * The SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY and SBG_ECOM_LOG_EKF_ROT_ACCEL_NED logs
  * returns compensated INS rotation rate and lateral accelerations.
@@ -26,8 +26,8 @@
  * local earth gravity has been removed. It should returns zero if the INS is not
  * moving at all.
  * 
- * \copyright		Copyright (C) 2023, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,10 +70,10 @@ extern "C" {
  */
 typedef struct _SbgEComLogEkfRotAccel
 {
-	uint32_t	timeStamp;				/*!< Time in us since the sensor power up. */
-	uint32_t	status;					/*!< Status - reserved for future use. */
-	float		rate[3];				/*!< X,Y,Z or North/East/Down INS rotation rate free from earth rotation and sensor bias/scale errors (rad.s^-1). */
-	float		acceleration[3];		/*!< X,Y,Z or North/East/Down INS accelerations and free from gravity and sensor bias/scale errors (m.s^-2). */
+    uint32_t    timeStamp;              /*!< Time in us since the sensor power up. */
+    uint32_t    status;                 /*!< Status - reserved for future use. */
+    float       rate[3];                /*!< X,Y,Z or North/East/Down INS rotation rate free from earth rotation and sensor bias/scale errors (rad.s^-1). */
+    float       acceleration[3];        /*!< X,Y,Z or North/East/Down INS accelerations and free from gravity and sensor bias/scale errors (m.s^-2). */
 } SbgEComLogEkfRotAccel;
 
 //----------------------------------------------------------------------//
@@ -83,25 +83,25 @@ typedef struct _SbgEComLogEkfRotAccel
 /*!
  * Construct an empty / zero initialized instance.
  *
- * \param[in]	pLogData					Log instance.
+ * \param[in]   pLogData                    Log instance.
  */
 void sbgEComLogEkfRotAccelConstruct(SbgEComLogEkfRotAccel *pLogData);
  
 /*!
  * Read SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY or SBG_ECOM_LOG_EKF_ROT_ACCEL_NED messages from a stream buffer.
  * 
- * \param[out]	pLogData					Log instance.
- * \param[in]	pStreamBuffer				Input stream buffer to read the log from.
- * \return									SBG_NO_ERROR if a valid log has been read from the stream buffer.
+ * \param[out]  pLogData                    Log instance.
+ * \param[in]   pStreamBuffer               Input stream buffer to read the log from.
+ * \return                                  SBG_NO_ERROR if a valid log has been read from the stream buffer.
  */
 SbgErrorCode sbgEComLogEkfRotAccelReadFromStream(SbgEComLogEkfRotAccel *pLogData, SbgStreamBuffer *pStreamBuffer);
 
 /*!
  * Write SBG_ECOM_LOG_EKF_ROT_ACCEL_BODY or SBG_ECOM_LOG_EKF_ROT_ACCEL_NED messages to a stream buffer.
  *
- * \param[in]	pLogData					Log instance.
- * \param[out]	pStreamBuffer				Output stream buffer to write the log to.
- * \return									SBG_NO_ERROR if the log has been written to the stream buffer.
+ * \param[in]   pLogData                    Log instance.
+ * \param[out]  pStreamBuffer               Output stream buffer to write the log to.
+ * \return                                  SBG_NO_ERROR if the log has been written to the stream buffer.
  */
 SbgErrorCode sbgEComLogEkfRotAccelWriteToStream(const SbgEComLogEkfRotAccel *pLogData, SbgStreamBuffer *pStreamBuffer);
 

@@ -1,13 +1,13 @@
 /*!
- * \file           sbgInterfaceSerial.h
- * \ingroup        common
- * \author         SBG Systems
- * \date           06 February 2013
+ * \file            sbgInterfaceSerial.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            06 February 2013
  *
- * \brief          This file implements a serial interface.
+ * \brief           This file implements a serial interface.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -49,12 +49,12 @@ extern "C" {
 //----------------------------------------------------------------------//
 
 /*!
- *	Initialize a serial interface for read and write operations.
+ *  Initialize a serial interface for read and write operations.
  *
- *	\param[in]	pInterface						Pointer on an allocated interface instance to initialize.
- *	\param[in]	deviceName						Serial interface location (COM21 , /dev/ttys0, depending on platform).
- *	\param[in]	baudRate						Serial interface baud rate in bps.
- *	\return										SBG_NO_ERROR if the interface has been created.
+ *  \param[in]  pInterface                      Pointer on an allocated interface instance to initialize.
+ *  \param[in]  deviceName                      Serial interface location (COM21 , /dev/ttys0, depending on platform).
+ *  \param[in]  baudRate                        Serial interface baud rate in bps.
+ *  \return                                     SBG_NO_ERROR if the interface has been created.
  */
 SBG_COMMON_LIB_API SbgErrorCode sbgInterfaceSerialCreate(SbgInterface *pInterface, const char *deviceName, uint32_t baudRate);
 

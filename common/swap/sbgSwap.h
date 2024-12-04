@@ -1,13 +1,13 @@
 /*!
- * \file           sbgSwap.h
- * \ingroup        common
- * \author         SBG Systems
- * \date           14 January 2013
+ * \file            sbgSwap.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            14 January 2013
  *
- * \brief          Set of functions used to swap numbers.
+ * \brief           Set of functions used to swap numbers.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,95 +47,96 @@ extern "C" {
 //----------------------------------------------------------------------//
 
 /*!
- *	Swap a uint16_t number.
- * 
- *	\param[in]	x					The uint16_t to swap.
- *	\return							The swapped value.
+ * Swap a uint16_t number.
+ *
+ * \param[in]   x                   The uint16_t to swap.
+ * \return                          The swapped value.
  */
 SBG_INLINE uint16_t sbgSwap16(uint16_t x)
 {
-	return ((x<<8)|(x>>8));
+    return ((x<<8)|(x>>8));
 }
 
 /*!
- *	Swap a uint32_t number.
- *	\param[in]	x					The uint32_t to swap.
- *	\return							The swapped value.
+ * Swap a uint32_t number.
+ * 
+ * \param[in]   x                   The uint32_t to swap.
+ * \return                          The swapped value.
  */
 SBG_INLINE uint32_t sbgSwap32(uint32_t x)
 {
-	return ((x << 24) | ((x << 8) & (0xFF0000)) | ((x >> 8) & (0xFF00)) | (x >> 24));
+    return ((x << 24) | ((x << 8) & (0xFF0000)) | ((x >> 8) & (0xFF00)) | (x >> 24));
 }
 
 /*!
- *	Swap a uint64_t number.
- * 
- *	\param[in]	x					The uint64_t to swap.
- *	\return							The swapped value.
+ * Swap a uint64_t number.
+ *
+ * \param[in]   x                   The uint64_t to swap.
+ * \return                          The swapped value.
  */
 SBG_INLINE uint64_t sbgSwap64(uint64_t x)
 {
-	uint32_t hi, lo;
+    uint32_t hi, lo;
 
-	//
-	// Separate into high and low 32-bit values
-	//
-	lo = (uint32_t)(x&0xFFFFFFFF);
-	x >>= 32;
-	hi = (uint32_t)(x&0xFFFFFFFF);
+    //
+    // Separate into high and low 32-bit values
+    //
+    lo = (uint32_t)(x&0xFFFFFFFF);
+    x >>= 32;
+    hi = (uint32_t)(x&0xFFFFFFFF);
 
-	//
-	// Swap each part and rebuild our 64 bit vale
-	//
-	x = sbgSwap32(lo);
-	x <<= 32;
-	x |= sbgSwap32(hi);
+    //
+    // Swap each part and rebuild our 64 bit vale
+    //
+    x = sbgSwap32(lo);
+    x <<= 32;
+    x |= sbgSwap32(hi);
 
-	return x;
+    return x;
 }
 
 /*!
  * Swap a float number.
  * 
- * \param[in]	val					The float to swap.
- * \return							The swapped value.
+ * \param[in]   val                 The float to swap.
+ * \return                          The swapped value.
  */
 SBG_INLINE float sbgSwapFloat(float val)
 {
-	SbgFloatNint	tmpFloat;
+    SbgFloatNint    tmpFloat;
 
-	//
-	// We use a union to do the type punning
-	//
-	tmpFloat.valF = val;
-	tmpFloat.valU = sbgSwap32(tmpFloat.valU);
+    //
+    // We use a union to do the type punning
+    //
+    tmpFloat.valF = val;
+    tmpFloat.valU = sbgSwap32(tmpFloat.valU);
 
-	//
-	// Return the swapped float
-	//
-	return tmpFloat.valF;
+    //
+    // Return the swapped float
+    //
+    return tmpFloat.valF;
 }
 
 /*!
  * Swap a double number.
  * 
- * \param[in]	val					The double to swap.
- * \return							The swapped value.
+ * \param[in]   val                 The double to swap.
+ * \return                          The swapped value.
  */
 SBG_INLINE double sbgSwapDouble(double val)
 {
-	SbgDoubleNint	tmpDouble;
+    SbgDoubleNint   tmpDouble;
 
-	//
-	// We use a union to do the type punning
-	//
-	tmpDouble.valF = val;
-	tmpDouble.valU = sbgSwap64(tmpDouble.valU);
+    //
+    // We use a union to do the type punning
+    //
+    tmpDouble.valF = val;
+    tmpDouble.valU = sbgSwap64(tmpDouble.valU);
 
-	//
-	// Return the swapped double
-	//
-	return tmpDouble.valF;
+    //
+    // Return the swapped double
+    //
+    return tmpDouble.valF;
 }
 
 //----------------------------------------------------------------------//
@@ -145,4 +146,4 @@ SBG_INLINE double sbgSwapDouble(double val)
 }
 #endif
 
-#endif /* SBG_SWAP_H */
+#endif // SBG_SWAP_H

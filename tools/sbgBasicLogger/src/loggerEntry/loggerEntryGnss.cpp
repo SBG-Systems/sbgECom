@@ -135,8 +135,8 @@ void CLoggerEntryGnssHdt::writeDataToFile(const CLoggerContext &context, const S
 				<< data.pitch															<< "\t"
 				<< data.pitchAccuracy													<< "\t"
 				<< data.baseline														<< "\t"
-				<< data.numSvTracked													<< "\t"
-				<< data.numSvUsed														<< "\n";
+				<< (uint32_t)data.numSvTracked											<< "\t"
+				<< (uint32_t)data.numSvUsed												<< "\n";
 }
 
 void CLoggerEntryGnssHdt::writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData)
@@ -151,8 +151,8 @@ void CLoggerEntryGnssHdt::writeDataToConsole(const CLoggerContext &context, cons
 				<< std::setw(12) << data.pitch
 				<< std::setw(12) << data.pitchAccuracy
 				<< std::setw(12) << data.baseline
-				<< std::setw(12) << data.numSvTracked
-				<< std::setw(12) << data.numSvUsed										<< "\n";
+				<< std::setw(12) << (uint32_t)data.numSvTracked
+				<< std::setw(12) << (uint32_t)data.numSvUsed							<< "\n";
 }
 
 //----------------------------------------------------------------------//

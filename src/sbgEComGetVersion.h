@@ -1,12 +1,12 @@
 ﻿/*!
- * \file			sbgEComGetVersion.h
- * \ingroup			main
- * \author			SBG Systems
- * \date			05 February 2013
- * \brief			Version information.
+ * \file            sbgEComGetVersion.h
+ * \ingroup         main
+ * \author          SBG Systems
+ * \date            05 February 2013
+ * \brief           Version information.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,14 +46,14 @@ extern "C" {
 /*!
  * Returns an integer representing the version of the sbgECom library.
  *
- * \return										An integer representing the version of the sbgECom library.<br>
+ * \return                                      An integer representing the version of the sbgECom library.
  */
 uint32_t sbgEComGetVersion(void);
 
 /*!
  * Retrieve the sbgECom library version as a string (1.0.443-stable).
  *
- * \return										Null terminated string that contains the sbgECom library version.
+ * \return                                      Null terminated string that contains the sbgECom library version.
  */
 const char *sbgEComGetVersionAsString(void);
 

@@ -1,14 +1,14 @@
 /*!
- * \file			sbgEComCmdDvl.h
- * \ingroup			commands
- * \author			SBG Systems
- * \date			13 December 2018
+ * \file            sbgEComCmdDvl.h
+ * \ingroup         commands
+ * \author          SBG Systems
+ * \date            13 December 2018
  *
- * \brief			DVL (Doppler Velocity Logger) aiding module configuration commands.
+ * \brief           DVL (Doppler Velocity Logger) aiding module configuration commands.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
- * 
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -26,7 +26,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * \endlicense
  */
 
@@ -55,27 +55,31 @@ extern "C" {
  */
 typedef enum _SbgEComDvlModelsIds
 {
-	SBG_ECOM_DVL_MODEL_GENERIC_PD6	= 202,		/*!< Generic DVL using PD6 protocol format. */
-	SBG_ECOM_DVL_MODEL_WAYFINDER	= 203		/*!< Teledyne Wayfinder DVL using proprietary protocol. */
+    SBG_ECOM_DVL_MODEL_GENERIC_PD6  = 202,          /*!< Generic DVL using PD6 protocol format. */
+    SBG_ECOM_DVL_MODEL_WAYFINDER    = 203,          /*!< Teledyne Wayfinder DVL using proprietary protocol. */
+    SBG_ECOM_DVL_MODEL_NORTEK       = 204,          /*!< Nortek DVL using proprietary protocol. */
 } SbgEComDvlModelsIds;
 
 /*!
- * DVL mechanical installation parameters such as lever arm and alignment
+ * DVL (Doppler Velocity Log) mechanical installation parameters, including lever arm and alignment.
+ * 
+ * \note In ELLIPSE firmware 3.x and above, lever arms are always treated as precise, with no online re-estimation performed.  
+ * The `preciseInstallation` field is deprecated and implicitly considered true.
  */
 typedef struct _SbgEComDvlInstallation
 {
-	float	leverArm[3];						/*!< X, Y, Z DVL lever arm in meters expressed from the DVL to the IMU. */
-	float	alignment[3];						/*!< Roll, pitch, yaw DVL alignment expressed in radians. */
-	bool	preciseInstallation;				/*!< Set to true if both the DVL lever arm and DVL alignment are precise and don't require in-run estimation. */
+    float                   leverArm[3];            /*!< DVL lever arm (X, Y, Z) in meters, expressed from the DVL to the IMU. */
+    float                   alignment[3];           /*!< DVL alignment (roll, pitch, yaw) in radians. */
+    bool                    preciseInstallation;    /*!< [DEPRECATED] Indicates whether both the DVL lever arm and alignment are precise and do not require in-run estimation. */
 } SbgEComDvlInstallation;
 
 /*!
- * Holds all necessary information for DVL module data rejection.
+ * Contains configuration settings for DVL module data rejection.
  */
 typedef struct _SbgEComDvlRejectionConf
 {
-	SbgEComRejectionMode	bottomLayer;		/*!< Rejection mode for the bottom tracking (ie when the velocity  measurement is in respect to the seabed). */
-	SbgEComRejectionMode	waterLayer;			/*!< Rejection mode for the water tracking (ie when the velocity measurement is relative to a water layer). */
+    SbgEComRejectionMode    bottomLayer;            /*!< Rejection mode for the bottom tracking (ie when the velocity measurement is in respect to the seabed). */
+    SbgEComRejectionMode    waterLayer;             /*!< Rejection mode for the water tracking (ie when the velocity measurement is relative to a water layer). */
 } SbgEComDvlRejectionConf;
 
 //----------------------------------------------------------------------//
@@ -85,54 +89,54 @@ typedef struct _SbgEComDvlRejectionConf
 /*!
  * Set the DVL model to use that both defines the protocol as well as the associated error model.
  *
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	modelId						DVL model ID to set
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[in]   modelId                     DVL model ID to set
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdDvlSetModelId(SbgEComHandle *pHandle, SbgEComDvlModelsIds modelId);
 
 /*!
  * Retrieve the DVL model id currently in use by the device.
  *
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pModelId					Returns the DVL model ID currently in use by the device.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[out]  pModelId                    Returns the DVL model ID currently in use by the device.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdDvlGetModelId(SbgEComHandle *pHandle, SbgEComDvlModelsIds *pModelId);
 
 /*!
  * Set the lever arm and alignment configuration of the DVL module.
  *
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	pDvlInstallation			The DVL lever arm and alignment configuration to apply.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[in]   pDvlInstallation            The DVL lever arm and alignment configuration to apply.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdDvlInstallationSet(SbgEComHandle *pHandle, const SbgEComDvlInstallation *pDvlInstallation);
 
 /*!
  * Retrieve the lever arm and alignment configuration of the DVL module.
  *
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pDvlInstallation			Returns the DVL lever arm and alignment configuration currently in use.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[out]  pDvlInstallation            Returns the DVL lever arm and alignment configuration currently in use.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdDvlInstallationGet(SbgEComHandle *pHandle, SbgEComDvlInstallation *pDvlInstallation);
 
 /*!
  * Set the rejection configuration of the DVL module (this command doesn't need a reboot to be applied)
  *
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pRejectConf					The new DVL rejection configuration to set.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[out]  pRejectConf                 The new DVL rejection configuration to set.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdDvlSetRejection(SbgEComHandle *pHandle, const SbgEComDvlRejectionConf *pRejectConf);
 
 /*!
  * Retrieve the current rejection configuration of the DVL module.
  *
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[out]	pRejectConf					Return the DVL rejection configuration currently in use.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[out]  pRejectConf                 Return the DVL rejection configuration currently in use.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdDvlGetRejection(SbgEComHandle *pHandle, SbgEComDvlRejectionConf *pRejectConf);
 

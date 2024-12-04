@@ -1,13 +1,13 @@
 ﻿/*!
- * \file			sbgEComCmdInfo.h
- * \ingroup			commands
- * \author			SBG Systems
- * \date			11 June 2014
+ * \file            sbgEComCmdInfo.h
+ * \ingroup         commands
+ * \author          SBG Systems
+ * \date            11 June 2014
  *
- * \brief			Commands used to query the device information.
+ * \brief           Commands used to query the device information.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,7 @@ extern "C" {
 //----------------------------------------------------------------------//
 
 /* Misc */
-#define SBG_ECOM_INFO_PRODUCT_CODE_LENGTH			(32)
+#define SBG_ECOM_INFO_PRODUCT_CODE_LENGTH           (32)
 
 //----------------------------------------------------------------------//
 //- Device Info structure                                              -//
@@ -59,14 +59,14 @@ extern "C" {
  */
 typedef struct _SbgEComDeviceInfo
 {
-	uint8_t		productCode[SBG_ECOM_INFO_PRODUCT_CODE_LENGTH];	/*!< Human readable Product Code. */
-	uint32_t	serialNumber;									/*!< Device serial number */
-	uint32_t	calibationRev;									/*!< Calibration data revision */
-	uint16_t	calibrationYear;								/*!< Device Calibration Year */
-	uint8_t		calibrationMonth;								/*!< Device Calibration Month */
-	uint8_t		calibrationDay;									/*!< Device Calibration Day */
-	uint32_t	hardwareRev;									/*!< Device hardware revision */
-	uint32_t	firmwareRev;									/*!< Firmware revision */
+    uint8_t     productCode[SBG_ECOM_INFO_PRODUCT_CODE_LENGTH]; /*!< Human readable Product Code. */
+    uint32_t    serialNumber;                                   /*!< Device serial number */
+    uint32_t    calibationRev;                                  /*!< Calibration data revision */
+    uint16_t    calibrationYear;                                /*!< Device Calibration Year */
+    uint8_t     calibrationMonth;                               /*!< Device Calibration Month */
+    uint8_t     calibrationDay;                                 /*!< Device Calibration Day */
+    uint32_t    hardwareRev;                                    /*!< Device hardware revision */
+    uint32_t    firmwareRev;                                    /*!< Firmware revision */
 } SbgEComDeviceInfo;
 
 //----------------------------------------------------------------------//
@@ -76,9 +76,9 @@ typedef struct _SbgEComDeviceInfo
 /*!
  * Retrieve the device information.
  * 
- * \param[in]	pHandle						A valid sbgECom handle.
- * \param[in]	pInfo						A pointer to a structure to hold device information.
- * \return									SBG_NO_ERROR if the command has been executed successfully.
+ * \param[in]   pHandle                     A valid sbgECom handle.
+ * \param[in]   pInfo                       A pointer to a structure to hold device information.
+ * \return                                  SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdGetInfo(SbgEComHandle *pHandle, SbgEComDeviceInfo *pInfo);
 

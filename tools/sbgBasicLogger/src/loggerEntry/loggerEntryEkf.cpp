@@ -29,8 +29,8 @@ std::string CLoggerEntryEkfEuler::getName() const
 
 void CLoggerEntryEkfEuler::writeHeaderToFile(const CLoggerContext &context)
 {
-	m_outFile	<< context.getTimeColTitle()	<< "\tstatus\troll\tpitch\tyaw\trollStd\tpitchStd\tyawStd\n";
-	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(rad)\t(rad)\t(rad)\t(rad)\t(rad)\t(rad)\n";
+	m_outFile	<< context.getTimeColTitle()	<< "\tstatus\troll\tpitch\tyaw\trollStd\tpitchStd\tyawStd\tmagHeading\tmagDecl\tmagIncl\n";
+	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(deg)\t(deg)\t(deg)\t(deg)\t(deg)\t(deg)\t(deg)\t(deg)\t(deg)\n";
 }
 
 void CLoggerEntryEkfEuler::writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData)
@@ -39,12 +39,15 @@ void CLoggerEntryEkfEuler::writeDataToFile(const CLoggerContext &context, const 
 
 	m_outFile	<< context.fmtTime(data.timeStamp)									<< "\t"
 				<< context.fmtStatus(data.status)									<< "\t"
-				<< data.euler[0]													<< "\t"
-				<< data.euler[1]													<< "\t"
-				<< data.euler[2]													<< "\t"
-				<< data.eulerStdDev[0]												<< "\t"
-				<< data.eulerStdDev[1]												<< "\t"
-				<< data.eulerStdDev[2]												<< "\n";
+				<< sbgRadToDegf(data.euler[0])										<< "\t"
+				<< sbgRadToDegf(data.euler[1])										<< "\t"
+				<< sbgRadToDegf(data.euler[2])										<< "\t"
+				<< sbgRadToDegf(data.eulerStdDev[0])								<< "\t"
+				<< sbgRadToDegf(data.eulerStdDev[1])								<< "\t"
+				<< sbgRadToDegf(data.eulerStdDev[2])								<< "\t"
+				<< sbgRadToDegf(sbgEComLogEkfEulerGetMagneticHeading(&data))		<< "\t"
+				<< sbgRadToDegf(data.magDeclination)								<< "\t"
+				<< sbgRadToDegf(data.magInclination)								<< "\n";
 }
 
 void CLoggerEntryEkfEuler::writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData)
@@ -53,14 +56,16 @@ void CLoggerEntryEkfEuler::writeDataToConsole(const CLoggerContext &context, con
 
 	std::cout	<< std::setw(12) << getName()										<< ": "
 				<< std::setw(12) << context.fmtStatus(data.status)
-				<< std::setw(12) << data.euler[0]
-				<< std::setw(12) << data.euler[1]
-				<< std::setw(12) << data.euler[2]
-				<< std::setw(12) << data.eulerStdDev[0]
-				<< std::setw(12) << data.eulerStdDev[1]
-				<< std::setw(12) << data.eulerStdDev[2]								<< "\n";
+				<< std::setw(12) << sbgRadToDegf(data.euler[0])
+				<< std::setw(12) << sbgRadToDegf(data.euler[1])
+				<< std::setw(12) << sbgRadToDegf(data.euler[2])
+				<< std::setw(12) << sbgRadToDegf(data.eulerStdDev[0])
+				<< std::setw(12) << sbgRadToDegf(data.eulerStdDev[1])
+				<< std::setw(12) << sbgRadToDegf(data.eulerStdDev[2])
+				<< std::setw(12) << sbgRadToDegf(sbgEComLogEkfEulerGetMagneticHeading(&data))
+				<< std::setw(12) << sbgRadToDegf(data.magDeclination)
+				<< std::setw(12) << sbgRadToDegf(data.magInclination)				<< "\n";
 }
-
 
 //----------------------------------------------------------------------//
 //- CLoggerEntryEkfQuat                                                -//
@@ -73,8 +78,8 @@ std::string CLoggerEntryEkfQuat::getName() const
 
 void CLoggerEntryEkfQuat::writeHeaderToFile(const CLoggerContext &context)
 {
-	m_outFile	<< context.getTimeColTitle()	<< "\tstatus\tqW\tqX\tqY\tqZ\trollStd\tpitchStd\tyawStd\n";
-	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(au)\t(au)\t(au)\t(au)\t(rad)\t(rad)\t(rad)\n";
+	m_outFile	<< context.getTimeColTitle()	<< "\tstatus\tqW\tqX\tqY\tqZ\trollStd\tpitchStd\tyawStd\tmagDecl\tmagIncl\n";
+	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(au)\t(au)\t(au)\t(au)\t(deg)\t(deg)\t(deg)\t(deg)\t(deg)\n";
 }
 
 void CLoggerEntryEkfQuat::writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData)
@@ -87,9 +92,11 @@ void CLoggerEntryEkfQuat::writeDataToFile(const CLoggerContext &context, const S
 				<< data.quaternion[1]												<< "\t"
 				<< data.quaternion[2]												<< "\t"
 				<< data.quaternion[3]												<< "\t"
-				<< data.eulerStdDev[0]												<< "\t"
-				<< data.eulerStdDev[1]												<< "\t"
-				<< data.eulerStdDev[2]												<< "\n";
+				<< sbgRadToDegf(data.eulerStdDev[0])								<< "\t"
+				<< sbgRadToDegf(data.eulerStdDev[1])								<< "\t"
+				<< sbgRadToDegf(data.eulerStdDev[2])								<< "\t"
+				<< sbgRadToDegf(data.magDeclination)								<< "\t"
+				<< sbgRadToDegf(data.magInclination)								<< "\n";
 }
 
 void CLoggerEntryEkfQuat::writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData)
@@ -102,9 +109,11 @@ void CLoggerEntryEkfQuat::writeDataToConsole(const CLoggerContext &context, cons
 				<< std::setw(12) << data.quaternion[1]
 				<< std::setw(12) << data.quaternion[2]
 				<< std::setw(12) << data.quaternion[3]
-				<< std::setw(12) << data.eulerStdDev[0]
-				<< std::setw(12) << data.eulerStdDev[1]
-				<< std::setw(12) << data.eulerStdDev[2]								<< "\n";
+				<< std::setw(12) << sbgRadToDegf(data.eulerStdDev[0])
+				<< std::setw(12) << sbgRadToDegf(data.eulerStdDev[1])
+				<< std::setw(12) << sbgRadToDegf(data.eulerStdDev[2])
+				<< std::setw(12) << sbgRadToDegf(data.magDeclination)
+				<< std::setw(12) << sbgRadToDegf(data.magInclination)				<< "\n";
 }
 
 //----------------------------------------------------------------------//

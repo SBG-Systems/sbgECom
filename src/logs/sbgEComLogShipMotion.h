@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComLogShipMotion.h
- * \ingroup			binaryLogs
- * \author			SBG Systems
- * \date			30 March 2013
+ * \file            sbgEComLogShipMotion.h
+ * \ingroup         binaryLogs
+ * \author          SBG Systems
+ * \date            30 March 2013
  *
- * \brief			Parse logs that returns ship motion values such as heave.
+ * \brief           Parse logs that returns ship motion values such as heave.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,12 +45,12 @@ extern "C" {
 //- Heave status definitions                                           -//
 //----------------------------------------------------------------------//
 
-#define	SBG_ECOM_HEAVE_VALID				(0x0001u << 0)			/*!< Set to 1 after heave convergence time. */
-#define SBG_ECOM_HEAVE_VEL_AIDED			(0x0001u << 1)			/*!< Set to 1 if heave output is compensated for transient accelerations. */
-#define SBG_ECOM_HEAVE_SURGE_SWAY_INCLUDED	(0x0001u << 2)			/*!< Set to 1 if surge and sway channels are provided in this output. */
-#define SBG_ECOM_HEAVE_PERIOD_INCLUDED		(0x0001u << 3)			/*!< Set to 1 if the heave period is provided in this output. */
-#define SBG_ECOM_HEAVE_PERIOD_VALID			(0x0001u << 4)			/*!< Set to 1 if the returned heave period is assumed to be valid. */
-#define SBG_ECOM_HEAVE_SWELL_MODE			(0x0001u << 5)			/*!< Set to 1 if the real time heave filter is using the swell mode computations. */
+#define SBG_ECOM_HEAVE_VALID                (0x0001u << 0)          /*!< Set to 1 after heave convergence time. */
+#define SBG_ECOM_HEAVE_VEL_AIDED            (0x0001u << 1)          /*!< Set to 1 if heave output is compensated for transient accelerations. */
+#define SBG_ECOM_HEAVE_SURGE_SWAY_INCLUDED  (0x0001u << 2)          /*!< Set to 1 if surge and sway channels are provided in this output. */
+#define SBG_ECOM_HEAVE_PERIOD_INCLUDED      (0x0001u << 3)          /*!< Set to 1 if the heave period is provided in this output. */
+#define SBG_ECOM_HEAVE_PERIOD_VALID         (0x0001u << 4)          /*!< Set to 1 if the returned heave period is assumed to be valid. */
+#define SBG_ECOM_HEAVE_SWELL_MODE           (0x0001u << 5)          /*!< Set to 1 if the real time heave filter is using the swell mode computations. */
 
 //----------------------------------------------------------------------//
 //- Log structure definitions                                          -//
@@ -67,12 +67,12 @@ extern "C" {
  */
 typedef struct _SbgEComLogShipMotion
 {
-	uint32_t	timeStamp;					/*!< Time in us since the sensor power up. */
-	uint16_t	status;						/*!< Ship Motion data status bitmask */
-	float		mainHeavePeriod;			/*!< Main heave period in seconds. */
-	float		shipMotion[3];				/*!< Surge, sway and heave in meters. */
-	float		shipAccel[3];				/*!< Surge, sway and heave ship Acceleration in m.s^-2. */
-	float		shipVel[3];					/*!< Surge, sway and heave velocities */
+    uint32_t    timeStamp;                  /*!< Time in us since the sensor power up. */
+    uint16_t    status;                     /*!< Ship Motion data status bitmask */
+    float       mainHeavePeriod;            /*!< Main heave period in seconds. */
+    float       shipMotion[3];              /*!< Surge, sway and heave in meters. */
+    float       shipAccel[3];               /*!< Surge, sway and heave ship Acceleration in m.s^-2. */
+    float       shipVel[3];                 /*!< Surge, sway and heave velocities */
 } SbgEComLogShipMotion;
 
 //----------------------------------------------------------------------//
@@ -82,18 +82,18 @@ typedef struct _SbgEComLogShipMotion
 /*!
  * Parse data for the SBG_ECOM_LOG_SHIP_MOTION or SBG_ECOM_LOG_SHIP_MOTION_HP message and fill the corresponding structure.
  * 
- * \param[out]	pLogData					Log structure instance to fill.
- * \param[in]	pStreamBuffer				Input stream buffer to read the log from.
- * \return									SBG_NO_ERROR if a valid log has been read from the stream buffer.
+ * \param[out]  pLogData                    Log structure instance to fill.
+ * \param[in]   pStreamBuffer               Input stream buffer to read the log from.
+ * \return                                  SBG_NO_ERROR if a valid log has been read from the stream buffer.
  */
 SbgErrorCode sbgEComLogShipMotionReadFromStream(SbgEComLogShipMotion *pLogData, SbgStreamBuffer *pStreamBuffer);
 
 /*!
  * Write data for the SBG_ECOM_LOG_SHIP_MOTION or SBG_ECOM_LOG_SHIP_MOTION_HP message to the output stream buffer from the provided structure.
  *
- * \param[in]	pLogData					Log structure instance to write.
- * \param[out]	pStreamBuffer				Output stream buffer to write the log to.
- * \return									SBG_NO_ERROR if the log has been written to the stream buffer.
+ * \param[in]   pLogData                    Log structure instance to write.
+ * \param[out]  pStreamBuffer               Output stream buffer to write the log to.
+ * \return                                  SBG_NO_ERROR if the log has been written to the stream buffer.
  */
 SbgErrorCode sbgEComLogShipMotionWriteToStream(const SbgEComLogShipMotion *pLogData, SbgStreamBuffer *pStreamBuffer);
 

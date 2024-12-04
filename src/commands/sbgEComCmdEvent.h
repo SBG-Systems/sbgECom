@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComCmdEvent.h
- * \ingroup			commands
- * \author			SBG Systems
- * \date			11 June 2014
+ * \file            sbgEComCmdEvent.h
+ * \ingroup         commands
+ * \author          SBG Systems
+ * \date            11 June 2014
  *
- * \brief			Input/output event markers configuration commands.
+ * \brief           Input/output event markers configuration commands.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,10 +52,10 @@ extern "C" {
  */
 typedef enum _SbgEComSyncInId
 {
-	SBG_ECOM_SYNC_IN_A = 0,							/*!< Sync IN A */
-	SBG_ECOM_SYNC_IN_B = 1,							/*!< Sync IN B */
-	SBG_ECOM_SYNC_IN_C = 2,							/*!< Sync IN C */
-	SBG_ECOM_SYNC_IN_D = 3							/*!< Sync IN D */
+    SBG_ECOM_SYNC_IN_A = 0,                         /*!< Sync IN A */
+    SBG_ECOM_SYNC_IN_B = 1,                         /*!< Sync IN B */
+    SBG_ECOM_SYNC_IN_C = 2,                         /*!< Sync IN C */
+    SBG_ECOM_SYNC_IN_D = 3                          /*!< Sync IN D */
 } SbgEComSyncInId;
 
 /*!
@@ -63,10 +63,10 @@ typedef enum _SbgEComSyncInId
  */
 typedef enum _SbgEComSyncInSensitivity
 {
-	SBG_ECOM_SYNC_IN_DISABLED		= 0,			/*!< This trigger is turned OFF. */
-	SBG_ECOM_SYNC_IN_FALLING_EDGE	= 1,			/*!< The trigger will be activated by a falling edge. */
-	SBG_ECOM_SYNC_IN_RISING_EDGE	= 2,			/*!< The trigger will be activated by a rising edge. */
-	SBG_ECOM_SYNC_IN_BOTH_EDGES		= 3				/*!< The trigger is activated by a level change (rising or falling edge). */
+    SBG_ECOM_SYNC_IN_DISABLED       = 0,            /*!< This trigger is turned OFF. */
+    SBG_ECOM_SYNC_IN_FALLING_EDGE   = 1,            /*!< The trigger will be activated by a falling edge. */
+    SBG_ECOM_SYNC_IN_RISING_EDGE    = 2,            /*!< The trigger will be activated by a rising edge. */
+    SBG_ECOM_SYNC_IN_BOTH_EDGES     = 3             /*!< The trigger is activated by a level change (rising or falling edge). */
 } SbgEComSyncInSensitivity;
 
 /*!
@@ -74,8 +74,8 @@ typedef enum _SbgEComSyncInSensitivity
  */
 typedef enum _SbgEComSyncOutId
 {
-	SBG_ECOM_SYNC_OUT_A = 0,						/*!< Synchronization output A */
-	SBG_ECOM_SYNC_OUT_B = 1							/*!< Synchronization output B */
+    SBG_ECOM_SYNC_OUT_A = 0,                        /*!< Synchronization output A */
+    SBG_ECOM_SYNC_OUT_B = 1                         /*!< Synchronization output B */
 } SbgEComSyncOutId;
 
 /*!
@@ -83,27 +83,28 @@ typedef enum _SbgEComSyncOutId
  */
 typedef enum _SbgEComSyncOutFunction
 {
-	SBG_ECOM_SYNC_OUT_MODE_DISABLED 	= 0,		/*!< Output is disabled. */
-	SBG_ECOM_SYNC_OUT_MODE_MAIN_LOOP 	= 1,		/*!< Output is generated at 200Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_DIV_2 		= 2,		/*!< Output is generated at 100Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_DIV_4		= 4,		/*!< Output is generated at 50Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_DIV_8		= 8,		/*!< Output is generated at 25Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_DIV_10		= 10,		/*!< Output is generated at 20Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_DIV_20		= 20,		/*!< Output is generated at 10Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_DIV_40		= 40,		/*!< Output is generated at 5Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_DIV_200		= 200,		/*!< Output is generated at 1Hz. */
-	SBG_ECOM_SYNC_OUT_MODE_PPS			= 10000,	/*!< Pulse Per Second. Same mode as above. */
-	SBG_ECOM_SYNC_OUT_MODE_EVENT_IN_A	= 10003,	/*!< Output is generated on a Sync In A event. */
-	SBG_ECOM_SYNC_OUT_MODE_EVENT_IN_B	= 10004,	/*!< Output is generated on a Sync In B event. */
-	SBG_ECOM_SYNC_OUT_MODE_EVENT_IN_C	= 10005,	/*!< Output is generated on a Sync In C event. */
-	SBG_ECOM_SYNC_OUT_MODE_EVENT_IN_D	= 10006,	/*!< Output is generated on a Sync In D event. */
+    SBG_ECOM_SYNC_OUT_MODE_DISABLED     = 0,        /*!< Output is disabled. */
+    SBG_ECOM_SYNC_OUT_MODE_MAIN_LOOP    = 1,        /*!< Output is generated at  200Hz. */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_2        = 2,        /*!< Output is generated at  100Hz. */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_4        = 4,        /*!< Output is generated at   50Hz. */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_5        = 5,        /*!< Output is generated at   40Hz. (only ELLIPSE fmw v3) */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_8        = 8,        /*!< Output is generated at   25Hz. */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_10       = 10,       /*!< Output is generated at   20Hz. */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_20       = 20,       /*!< Output is generated at   10Hz. */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_40       = 40,       /*!< Output is generated at    5Hz. */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_100      = 100,      /*!< Output is generated at    2Hz. (only ELLIPSE fmw v3). */
+    SBG_ECOM_SYNC_OUT_MODE_DIV_200      = 200,      /*!< Output is generated at    1Hz. */
 
-	SBG_ECOM_SYNC_OUT_MODE_DIRECT_PPS	= 10100,	/*!< The internal GNSS PPS signal is directly routed to the Sync Out.
-														 This mode is only valid for the following products:
-															- ELLIPSE-N with hardware revisions above 1.2.1.0
-															- ELLIPSE-N & ELLIPSE-D Generation 3 or above.
-														 Polarity and duration parameters are ignored with this specific mode. */
-
+    SBG_ECOM_SYNC_OUT_MODE_1_MS         = 1001,     /*!< Output is generated at 1000 Hz. (only ELLIPSE fmw v3) */
+    SBG_ECOM_SYNC_OUT_MODE_2_MS         = 1002,     /*!< Output is generated at  500 Hz. (only ELLIPSE fmw v3) */
+    SBG_ECOM_SYNC_OUT_MODE_4_MS         = 1004,     /*!< Output is generated at  250 Hz. (only ELLIPSE fmw v3) */
+        
+    SBG_ECOM_SYNC_OUT_MODE_PPS          = 10000,    /*!< Pulse Per Second. Same as SBG_ECOM_SYNC_OUT_MODE_DIV_200. */
+    SBG_ECOM_SYNC_OUT_MODE_DIRECT_PPS   = 10100,    /*!< The internal GNSS PPS signal is directly routed to the Sync Out.
+                                                         This mode is only valid for the following products:
+                                                            - ELLIPSE-N with hardware revisions above 1.2.1.0
+                                                            - ELLIPSE-N & ELLIPSE-D Generation 3 or above.
+                                                         Polarity and duration parameters are ignored with this specific mode. */
 } SbgEComSyncOutFunction;
 
 /*!
@@ -111,9 +112,9 @@ typedef enum _SbgEComSyncOutFunction
  */
 typedef enum _SbgEComSyncOutPolarity
 {
-	SBG_ECOM_SYNC_OUT_FALLING_EDGE	= 0,			/*!< The output pin will generate a falling edge*/
-	SBG_ECOM_SYNC_OUT_RISING_EDGE	= 1,			/*!< The output pin will generate a rising edge */
-	SBG_ECOM_SYNC_OUT_TOGGLE		= 2,			/*!< The pulse is a level change */
+    SBG_ECOM_SYNC_OUT_FALLING_EDGE  = 0,            /*!< The output pin will generate a falling edge*/
+    SBG_ECOM_SYNC_OUT_RISING_EDGE   = 1,            /*!< The output pin will generate a rising edge */
+    SBG_ECOM_SYNC_OUT_TOGGLE        = 2,            /*!< The pulse is a level change */
 } SbgEComSyncOutPolarity;
 
 //----------------------------------------------------------------------//
@@ -125,8 +126,8 @@ typedef enum _SbgEComSyncOutPolarity
  */
 typedef struct _SbgEComSyncInConf
 {
-	SbgEComSyncInSensitivity	sensitivity;	/*!< Sensitivity of the sync in. */
-	int32_t						delay;			/*!< Delay to take into account for the sync in. (in ns)*/
+    SbgEComSyncInSensitivity    sensitivity;    /*!< Sensitivity of the sync in. */
+    int32_t                     delay;          /*!< Delay to take into account for the sync in. (in ns)*/
 } SbgEComSyncInConf;
 
 /*!
@@ -134,9 +135,9 @@ typedef struct _SbgEComSyncInConf
  */
 typedef struct _SbgEComSyncOutConf
 {
-	SbgEComSyncOutFunction		outputFunction;	/*!< Output function of the sync out pin */
-	SbgEComSyncOutPolarity		polarity;		/*!< Polarity of the sync out. */
-	uint32_t					duration;		/*!< Pulse width for the sync out (in ns). */
+    SbgEComSyncOutFunction      outputFunction; /*!< Output function of the sync out pin */
+    SbgEComSyncOutPolarity      polarity;       /*!< Polarity of the sync out. */
+    uint32_t                    duration;       /*!< Pulse width for the sync out (in ns). */
 } SbgEComSyncOutConf;
 
 //----------------------------------------------------------------------//
@@ -144,42 +145,42 @@ typedef struct _SbgEComSyncOutConf
 //----------------------------------------------------------------------//
 
 /*!
- *	Retrieve the configuration of a Sync In.
+ *  Retrieve the configuration of a Sync In.
  * 
- *	\param[in]	pHandle						A valid sbgECom handle.
- *	\param[in]	syncInId					The id of the sync whose configuration is to be retrieved.
- *	\param[out]	pConf						Pointer to a SbgEComSyncInConf to contain the current configuration of the sync in.
- *	\return									SBG_NO_ERROR if the command has been executed successfully.
+ *  \param[in]  pHandle                     A valid sbgECom handle.
+ *  \param[in]  syncInId                    The id of the sync whose configuration is to be retrieved.
+ *  \param[out] pConf                       Pointer to a SbgEComSyncInConf to contain the current configuration of the sync in.
+ *  \return                                 SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdSyncInGetConf(SbgEComHandle *pHandle, SbgEComSyncInId syncInId, SbgEComSyncInConf *pConf);
 
 /*!
- *	Set the configuration of a Sync In.
+ *  Set the configuration of a Sync In.
  * 
- *	\param[in]	pHandle						A valid sbgECom handle.
- *	\param[in]	syncInId					The id of the sync whose configuration is to be set.
- *	\param[in]	pConf						Pointer to a SbgEComSyncInConf that contains the new configuration for the sync in.
- *	\return									SBG_NO_ERROR if the command has been executed successfully.
+ *  \param[in]  pHandle                     A valid sbgECom handle.
+ *  \param[in]  syncInId                    The id of the sync whose configuration is to be set.
+ *  \param[in]  pConf                       Pointer to a SbgEComSyncInConf that contains the new configuration for the sync in.
+ *  \return                                 SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdSyncInSetConf(SbgEComHandle *pHandle, SbgEComSyncInId syncInId, const SbgEComSyncInConf *pConf);
 
 /*!
- *	Retrieve the configuration of a Sync Out.
+ *  Retrieve the configuration of a Sync Out.
  * 
- *	\param[in]	pHandle						A valid sbgECom handle.
- *	\param[in]	syncOutId					The id of the sync whose configuration is to be retrieved.
- *	\param[out]	pConf						Pointer to a SbgEComSyncOutConf to contain the current configuration of the sync out.
- *	\return									SBG_NO_ERROR if the command has been executed successfully.
+ *  \param[in]  pHandle                     A valid sbgECom handle.
+ *  \param[in]  syncOutId                   The id of the sync whose configuration is to be retrieved.
+ *  \param[out] pConf                       Pointer to a SbgEComSyncOutConf to contain the current configuration of the sync out.
+ *  \return                                 SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdSyncOutGetConf(SbgEComHandle *pHandle, SbgEComSyncOutId syncOutId, SbgEComSyncOutConf *pConf);
 
 /*!
- *	Set the configuration of a Sync Out.
+ *  Set the configuration of a Sync Out.
  * 
- *	\param[in]	pHandle						A valid sbgECom handle.
- *	\param[in]	syncOutId					The id of the sync whose configuration is to be set.
- *	\param[in]	pConf						Pointer to a SbgEComSyncOutConf that contains the new configuration for the sync Out.
- *	\return									SBG_NO_ERROR if the command has been executed successfully.
+ *  \param[in]  pHandle                     A valid sbgECom handle.
+ *  \param[in]  syncOutId                   The id of the sync whose configuration is to be set.
+ *  \param[in]  pConf                       Pointer to a SbgEComSyncOutConf that contains the new configuration for the sync Out.
+ *  \return                                 SBG_NO_ERROR if the command has been executed successfully.
  */
 SbgErrorCode sbgEComCmdSyncOutSetConf(SbgEComHandle *pHandle, SbgEComSyncOutId syncOutId, const SbgEComSyncOutConf *pConf);
 

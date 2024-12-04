@@ -1,16 +1,16 @@
 /*!
- * \file           sbgDebug.h
- * \ingroup        common
- * \author         SBG Systems
- * \date           17 March 2015
+ * \file            sbgDebug.h
+ * \ingroup         common
+ * \author          SBG Systems
+ * \date            17 March 2015
  *
- * \brief          Define and handle error logging for the SBG Systems common C library.
+ * \brief           Define and handle error logging for the SBG Systems common C library.
  *
  * The methods defined here should be implemented in sbgPlatform.h/sbgPlatform.c
  * according to your platform and needs.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@
 #include <sbgDefines.h>
 
 #ifndef SBG_DEBUG_LOG_CATEGORY
-	#define SBG_DEBUG_LOG_CATEGORY		("None")
+    #define SBG_DEBUG_LOG_CATEGORY      ("None")
 #endif
 
 //----------------------------------------------------------------------//
@@ -47,14 +47,14 @@
 //----------------------------------------------------------------------//
 
 /*!
- *	Enum that identify the type of error / warning that has been thrown.
+ * Enum that identify the type of error / warning that has been thrown.
  */
 typedef enum _SbgDebugLogType
 {
-	SBG_DEBUG_LOG_TYPE_ERROR,					/*!< The message to log is an error. */
-	SBG_DEBUG_LOG_TYPE_WARNING,					/*!< The message to log is a warning. */
-	SBG_DEBUG_LOG_TYPE_INFO,					/*!< The message to log is an information. */
-	SBG_DEBUG_LOG_TYPE_DEBUG					/*!< The message to log is a debug information. */
+    SBG_DEBUG_LOG_TYPE_ERROR,                   /*!< The message to log is an error. */
+    SBG_DEBUG_LOG_TYPE_WARNING,                 /*!< The message to log is a warning. */
+    SBG_DEBUG_LOG_TYPE_INFO,                    /*!< The message to log is an information. */
+    SBG_DEBUG_LOG_TYPE_DEBUG                    /*!< The message to log is a debug information. */
 } SbgDebugLogType;
 
 //----------------------------------------------------------------------//
@@ -62,53 +62,69 @@ typedef enum _SbgDebugLogType
 //----------------------------------------------------------------------//
 
 /*!
- *	Log an error with its associated message.
- *	\param[in]	errorCode						The error code that has thrown this error.
- *	\param[in]	format							String litteral for the associated error message (you can use printf like string formating).
+ * \brief Log an error with its associated message.
+ *
+ * This macro logs an error message along with the specified error code. The message can include formatted text similar to printf.
+ *
+ * \param[in]   errorCode                       The error code that triggered this error.
+ * \param[in]   format                          The string literal for the associated error message, supporting printf-like formatting.
+ * \param[in]   ...                             Additional arguments for the format string.
  */
-#define SBG_LOG_ERROR_CALL(errorCode, format, ...)		sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_ERROR, errorCode, format, ##__VA_ARGS__)
+#define SBG_LOG_ERROR_CALL(errorCode, format, ...)      sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_ERROR, errorCode, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_ERROR == 1
-	#define	SBG_LOG_ERROR								SBG_LOG_ERROR_CALL
+    #define SBG_LOG_ERROR                               SBG_LOG_ERROR_CALL
 #else
-	#define SBG_LOG_ERROR(format, ...)					((void)sizeof(SBG_LOG_ERROR_CALL(format, ## __VA_ARGS__), 0))
+    #define SBG_LOG_ERROR(format, ...)                  ((void)sizeof(SBG_LOG_ERROR_CALL(format, ## __VA_ARGS__), 0))
 #endif
 
 /*!
- *	Log a warning with its associated message.
- *	\param[in]	errorCode						The error code that has thrown this warning.
- *	\param[in]	format							String litteral for the associated warning message (you can use printf like string formating).
+ * \brief Log a warning with its associated message.
+ *
+ * This macro logs a warning message along with the specified error code. The message can include formatted text similar to printf.
+ *
+ * \param[in]   errorCode                       The error code that triggered this warning.
+ * \param[in]   format                          The string literal for the associated error message, supporting printf-like formatting.
+ * \param[in]   ...                             Additional arguments for the format string.
  */
-#define SBG_LOG_WARNING_CALL(errorCode, format, ...)	sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_WARNING, errorCode, format, ##__VA_ARGS__)
+#define SBG_LOG_WARNING_CALL(errorCode, format, ...)    sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_WARNING, errorCode, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_WARNING == 1
-	#define	SBG_LOG_WARNING								SBG_LOG_WARNING_CALL
+    #define SBG_LOG_WARNING                             SBG_LOG_WARNING_CALL
 #else
-	#define SBG_LOG_WARNING(format, ...)				((void)sizeof(SBG_LOG_WARNING_CALL(format, ## __VA_ARGS__), 0))
+    #define SBG_LOG_WARNING(format, ...)                ((void)sizeof(SBG_LOG_WARNING_CALL(format, ## __VA_ARGS__), 0))
 #endif
 
 /*!
- *	Log an information message.
- *	\param[in]	format							String litteral for the information message (you can use printf like string formating).
+ * \brief Log an information message.
+ *
+ * This macro logs an information message. The message can include formatted text similar to printf.
+ *
+ * \param[in]   format                          The string literal for the associated information message, supporting printf-like formatting.
+ * \param[in]   ...                             Additional arguments for the format string.
  */
-#define SBG_LOG_INFO_CALL(format, ...)					sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_INFO, SBG_NO_ERROR, format, ##__VA_ARGS__)
+#define SBG_LOG_INFO_CALL(format, ...)                  sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_INFO, SBG_NO_ERROR, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_INFO == 1
-	#define	SBG_LOG_INFO								SBG_LOG_INFO_CALL
+    #define SBG_LOG_INFO                                SBG_LOG_INFO_CALL
 #else
-	#define SBG_LOG_INFO(format, ...)					((void)sizeof(SBG_LOG_INFO_CALL(format, ## __VA_ARGS__), 0))
+    #define SBG_LOG_INFO(format, ...)                   ((void)sizeof(SBG_LOG_INFO_CALL(format, ## __VA_ARGS__), 0))
 #endif
 
 /*!
- *	Log an information message only in debug mode
- *	\param[in]	format							String litteral for the information message (you can use printf like string formating).
+ * \brief Log a a debug message.
+ *
+ * This macro logs a debug message, which is only output when compiled in debug mode. The message can include formatted text similar to printf.
+ *
+ * \param[in]   format                          The string literal for the associated debug message, supporting printf-like formatting.
+ * \param[in]   ...                             Additional arguments for the format string.
  */
-#define SBG_LOG_DEBUG_CALL(format, ...)					sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_DEBUG, SBG_NO_ERROR, format, ##__VA_ARGS__)
+#define SBG_LOG_DEBUG_CALL(format, ...)                 sbgPlatformDebugLogMsg((const char*)__BASE_FILE__, (const char*)__func__, __LINE__, SBG_DEBUG_LOG_CATEGORY, SBG_DEBUG_LOG_TYPE_DEBUG, SBG_NO_ERROR, format, ##__VA_ARGS__)
 
 #if SBG_CONFIG_ENABLE_LOG_DEBUG == 1
-	#define	SBG_LOG_DEBUG								SBG_LOG_DEBUG_CALL
+    #define SBG_LOG_DEBUG                               SBG_LOG_DEBUG_CALL
 #else
-	#define SBG_LOG_DEBUG(format, ...)					((void)sizeof(SBG_LOG_DEBUG_CALL(format, ## __VA_ARGS__), 0))
+    #define SBG_LOG_DEBUG(format, ...)                  ((void)sizeof(SBG_LOG_DEBUG_CALL(format, ## __VA_ARGS__), 0))
 #endif
 
 //----------------------------------------------------------------------//
@@ -118,33 +134,33 @@ typedef enum _SbgDebugLogType
 /*!
  * Convert a log type into a string representation.
  *
- * \param[in]	logType						Log type.
- * \return									String representation for the given log type.
+ * \param[in]   logType                         Log type.
+ * \return                                      String representation for the given log type.
  */
 SBG_INLINE const char *sbgDebugLogTypeToStr(SbgDebugLogType logType)
 {
-	const char				*pString;
+    const char              *pString;
 
-	switch (logType)
-	{
-	case SBG_DEBUG_LOG_TYPE_ERROR:
-		pString = "error";
-		break;
-	case SBG_DEBUG_LOG_TYPE_WARNING:
-		pString = "warning";
-		break;
-	case SBG_DEBUG_LOG_TYPE_INFO:
-		pString = "info";
-		break;
-	case SBG_DEBUG_LOG_TYPE_DEBUG:
-		pString = "debug";
-		break;
-	default:
-		pString = "unknown";
-		break;
-	}
+    switch (logType)
+    {
+    case SBG_DEBUG_LOG_TYPE_ERROR:
+        pString = "error";
+        break;
+    case SBG_DEBUG_LOG_TYPE_WARNING:
+        pString = "warning";
+        break;
+    case SBG_DEBUG_LOG_TYPE_INFO:
+        pString = "info";
+        break;
+    case SBG_DEBUG_LOG_TYPE_DEBUG:
+        pString = "debug";
+        break;
+    default:
+        pString = "unknown";
+        break;
+    }
 
-	return pString;
+    return pString;
 }
 
 //----------------------------------------------------------------------//
@@ -154,10 +170,10 @@ SBG_INLINE const char *sbgDebugLogTypeToStr(SbgDebugLogType logType)
 /*!
  * Produce a text dump of a buffer.
  *
- * \param[in]	pPrefix						Prefix string before each line.
- * \param[in]	pBuffer						Data buffer, may be NULL.
- * \param[in]	size						Data size, in bytes.
+ * \param[in]   pPrefix                         Prefix string before each line.
+ * \param[in]   pBuffer                         Data buffer, may be NULL.
+ * \param[in]   size                            Data size, in bytes.
  */
 void sbgDebugHexDump(const char *pPrefix, const void *pBuffer, size_t size);
 
-#endif	/* SBG_DEBUG_H */
+#endif // SBG_DEBUG_H

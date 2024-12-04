@@ -1,12 +1,12 @@
 /*!
- * \file			loggerEntryImu.h
- * \author			SBG Systems
- * \date			March 14, 2023
+ * \file            loggerEntryImu.h
+ * \author          SBG Systems
+ * \date            March 14, 2023
  *
- * \brief			Implemented IMU with optional decimation.
+ * \brief           Implemented IMU with optional decimation.
  *
- * \copyright		Copyright (C) 2023, SBG Systems SAS. All rights reserved.
- * \beginlicense	Proprietary license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    Proprietary license
  *
  * This source code is intended for use only by SBG Systems SAS and
  * those that have explicit written permission to use it from
@@ -38,167 +38,167 @@
 
 namespace sbg
 {
-	/*!
-	 * Generic handler for IMU data Handle
-	 */
-	class CLoggerEntryImu : public ILoggerEntry
-	{
-	protected:
+    /*!
+     * Generic handler for IMU data Handle
+     */
+    class CLoggerEntryImu : public ILoggerEntry
+    {
+    protected:
 
-		/*!
-		 * Write the IMU data or short log to the file
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	imuData								Input sbgECom IMU data to write.
-		 */
-		template<typename T>
-		void writeImuDataToFile(const CLoggerContext &context, const T &imuData);
+        /*!
+         * Write the IMU data or short log to the file
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   imuData                             Input sbgECom IMU data to write.
+         */
+        template<typename T>
+        void writeImuDataToFile(const CLoggerContext &context, const T &imuData);
 
-		/*!
-		 * Write the IMU data or short log to the file
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	imuData								Input sbgECom IMU data to write.
-		 */
-		template<typename T>
-		void writeImuDataToConsole(const CLoggerContext &context, const T &imuData);
+        /*!
+         * Write the IMU data or short log to the file
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   imuData                             Input sbgECom IMU data to write.
+         */
+        template<typename T>
+        void writeImuDataToConsole(const CLoggerContext &context, const T &imuData);
 
-	private:
-		//----------------------------------------------------------------------//
-		//- Private methods                                                    -//
-		//----------------------------------------------------------------------//
+    private:
+        //----------------------------------------------------------------------//
+        //- Private methods                                                    -//
+        //----------------------------------------------------------------------//
 
-		/*!
-		 * Write the header to the file and/or console.
-		 *
-		 * \param[in]	context								Logger context and settings.
-		 */
-		void writeHeaderToFile(const CLoggerContext &context) override;
+        /*!
+         * Write the header to the file and/or console.
+         *
+         * \param[in]   context                             Logger context and settings.
+         */
+        void writeHeaderToFile(const CLoggerContext &context) override;
 
-		//----------------------------------------------------------------------//
-		//- Private members                                                    -//
-		//----------------------------------------------------------------------//
+        //----------------------------------------------------------------------//
+        //- Private members                                                    -//
+        //----------------------------------------------------------------------//
 
-		CImuDataMean			m_fileValues;						/*!< decimated IMU values for file output. */
-		CImuDataMean			m_consoleValues;					/*!< decimated IMU values for console output. */
-	};
+        CImuDataMean            m_fileValues;                       /*!< decimated IMU values for file output. */
+        CImuDataMean            m_consoleValues;                    /*!< decimated IMU values for console output. */
+    };
 
-	/*!
-	 * Handle SBG_ECOM_LOG_IMU_DATA
-	 */
-	class CLoggerEntryImuData : public CLoggerEntryImu, public ILoggerEntryKey<SBG_ECOM_CLASS_LOG_ECOM_0, SBG_ECOM_LOG_IMU_DATA>
-	{	
-	public:
-		//----------------------------------------------------------------------//
-		//- Public getters                                                     -//
-		//----------------------------------------------------------------------//
+    /*!
+     * Handle SBG_ECOM_LOG_IMU_DATA
+     */
+    class CLoggerEntryImuData : public CLoggerEntryImu, public ILoggerEntryKey<SBG_ECOM_CLASS_LOG_ECOM_0, SBG_ECOM_LOG_IMU_DATA>
+    {   
+    public:
+        //----------------------------------------------------------------------//
+        //- Public getters                                                     -//
+        //----------------------------------------------------------------------//
 
-		/*!
-		 * Returns the log name.
-		 * 
-		 * \return											log name.
-		 */
-		std::string getName() const override;
-		
-	private:
-		//----------------------------------------------------------------------//
-		//- Private methods                                                    -//
-		//----------------------------------------------------------------------//
-		
-		/*!
-		 * Write the data log to the file
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	logData								Input sbgECom log data to write.
-		 */
-		void writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+        /*!
+         * Returns the log name.
+         * 
+         * \return                                          log name.
+         */
+        std::string getName() const override;
+        
+    private:
+        //----------------------------------------------------------------------//
+        //- Private methods                                                    -//
+        //----------------------------------------------------------------------//
+        
+        /*!
+         * Write the data log to the file
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
 
-		/*!
-		 * Write the data log to the console
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	logData								Input sbgECom log data to write.
-		 */
-		void writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
-	};
+        /*!
+         * Write the data log to the console
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+    };
 
-	/*!
-	 * Handle SBG_ECOM_LOG_IMU_SHORT
-	 */
-	class CLoggerEntryImuShort : public CLoggerEntryImu, public ILoggerEntryKey<SBG_ECOM_CLASS_LOG_ECOM_0, SBG_ECOM_LOG_IMU_SHORT>
-	{
-	public:
-		//----------------------------------------------------------------------//
-		//- Public getters                                                     -//
-		//----------------------------------------------------------------------//
+    /*!
+     * Handle SBG_ECOM_LOG_IMU_SHORT
+     */
+    class CLoggerEntryImuShort : public CLoggerEntryImu, public ILoggerEntryKey<SBG_ECOM_CLASS_LOG_ECOM_0, SBG_ECOM_LOG_IMU_SHORT>
+    {
+    public:
+        //----------------------------------------------------------------------//
+        //- Public getters                                                     -//
+        //----------------------------------------------------------------------//
 
-		/*!
-		 * Returns the log name.
-		 * 
-		 * \return											log name.
-		 */
-		std::string getName() const override;
+        /*!
+         * Returns the log name.
+         * 
+         * \return                                          log name.
+         */
+        std::string getName() const override;
 
-	private:
-		//----------------------------------------------------------------------//
-		//- Private methods                                                    -//
-		//----------------------------------------------------------------------//
-		
-		/*!
-		 * Write the data log to the file
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	logData								Input sbgECom log data to write.
-		 */
-		void writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+    private:
+        //----------------------------------------------------------------------//
+        //- Private methods                                                    -//
+        //----------------------------------------------------------------------//
+        
+        /*!
+         * Write the data log to the file
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
 
-		/*!
-		 * Write the data log to the console
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	logData								Input sbgECom log data to write.
-		 */
-		void writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
-	};
+        /*!
+         * Write the data log to the console
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+    };
 
-	/*!
-	 * Handle SBG_ECOM_LOG_FAST_IMU_DATA
-	 */
-	class CLoggerEntryImuFast : public CLoggerEntryImu, public ILoggerEntryKey<SBG_ECOM_CLASS_LOG_ECOM_1, SBG_ECOM_LOG_FAST_IMU_DATA>
-	{
-	public:
-		//----------------------------------------------------------------------//
-		//- Public getters                                                     -//
-		//----------------------------------------------------------------------//
+    /*!
+     * Handle SBG_ECOM_LOG_FAST_IMU_DATA
+     */
+    class CLoggerEntryImuFast : public CLoggerEntryImu, public ILoggerEntryKey<SBG_ECOM_CLASS_LOG_ECOM_1, SBG_ECOM_LOG_FAST_IMU_DATA>
+    {
+    public:
+        //----------------------------------------------------------------------//
+        //- Public getters                                                     -//
+        //----------------------------------------------------------------------//
 
-		/*!
-		 * Returns the log name.
-		 * 
-		 * \return											log name.
-		 */
-		std::string getName() const override;
+        /*!
+         * Returns the log name.
+         * 
+         * \return                                          log name.
+         */
+        std::string getName() const override;
 
-	private:
-		//----------------------------------------------------------------------//
-		//- Private methods                                                    -//
-		//----------------------------------------------------------------------//
-		
-		/*!
-		 * Write the data log to the file
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	logData								Input sbgECom log data to write.
-		 */
-		void writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+    private:
+        //----------------------------------------------------------------------//
+        //- Private methods                                                    -//
+        //----------------------------------------------------------------------//
+        
+        /*!
+         * Write the data log to the file
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
 
-		/*!
-		 * Write the data log to the console
-		 * 
-		 * \param[in]	context								Logger context and settings.
-		 * \param[in]	logData								Input sbgECom log data to write.
-		 */
-		void writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
-	};
+        /*!
+         * Write the data log to the console
+         * 
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+    };
 };
 
 #endif // SBG_LOGGER_ENTRY_IMU_H

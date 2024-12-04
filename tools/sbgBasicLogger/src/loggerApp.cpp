@@ -90,6 +90,7 @@ void CLoggerApp::createLogger(const CLoggerSettings &settings)
 	m_manager->registerLog<sbg::CLoggerEntryUtcTime>();
 	m_manager->registerLog<sbg::CLoggerEntryStatus>();
 	m_manager->registerLog<sbg::CLoggerEntryDiag>();
+	m_manager->registerLog<sbg::CLoggerEntryPtpStatus>();
 	m_manager->registerLog<sbg::CLoggerEntryRtcmRaw>();
 			
 	//

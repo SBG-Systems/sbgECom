@@ -1,13 +1,13 @@
 /*!
- * \file			sbgEComTransfer.h
- * \ingroup			protocol
- * \author			SBG Systems
- * \date			19 November 2013
+ * \file            sbgEComTransfer.h
+ * \ingroup         protocol
+ * \author          SBG Systems
+ * \date            19 November 2013
  *
- * \brief			Handle large send/receive transfer for specific ECom Protocol commands.
+ * \brief           Handle large send/receive transfer for specific ECom Protocol commands.
  *
- * \copyright		Copyright (C) 2022, SBG Systems SAS. All rights reserved.
- * \beginlicense	The MIT license
+ * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,8 @@ extern "C" {
 //- Global definitions                                                 -//
 //----------------------------------------------------------------------//
 
-#define SBG_ECOM_TRANSFER_MAX_SIZE			(8192u)			/*!< Maximum buffer that can be transmitted using the sbgECom transfer protocol. */
-#define SBG_ECOM_TRANSFER_PACKET_SIZE		(512u)			/*!< Max packet size transmitted in a single frame */
+#define SBG_ECOM_TRANSFER_MAX_SIZE          (8192u)         /*!< Maximum buffer that can be transmitted using the sbgECom transfer protocol. */
+#define SBG_ECOM_TRANSFER_PACKET_SIZE       (512u)          /*!< Max packet size transmitted in a single frame */
 
 //----------------------------------------------------------------------//
 //- Communication protocol struct and definitions                      -//
@@ -59,9 +59,9 @@ extern "C" {
  */
 typedef enum _SbgEComTransferCmd
 {
-	SBG_ECOM_TRANSFER_START = 0,							/*!< Command to initiate a transfer. */
-	SBG_ECOM_TRANSFER_DATA	= 1,							/*!< Command to transmit/receive data. */
-	SBG_ECOM_TRANSFER_END	= 2								/*!< Command to end a transfer. */
+    SBG_ECOM_TRANSFER_START = 0,                            /*!< Command to initiate a transfer. */
+    SBG_ECOM_TRANSFER_DATA  = 1,                            /*!< Command to transmit/receive data. */
+    SBG_ECOM_TRANSFER_END   = 2                             /*!< Command to end a transfer. */
 } SbgEComTransferCmd;
 
 //----------------------------------------------------------------------//
@@ -71,25 +71,25 @@ typedef enum _SbgEComTransferCmd
 /*!
  * Specific method to handle a large send into multiple frames.
  * 
- * \param[in]	pHandle					Pointer to a valid SbgEComHandle.
- * \param[in]	msgClass				Original protocol class asking for transfer.
- * \param[in]	msg						Original protocol message id asking for transfer.
- * \param[in]	pBuffer					Pointer to the buffer containing the data to send.
- * \param[in]	size					The size of the buffer.
- * \return								SBG_NO_ERROR in case of a successful upload.
+ * \param[in]   pHandle                 Pointer to a valid SbgEComHandle.
+ * \param[in]   msgClass                Original protocol class asking for transfer.
+ * \param[in]   msg                     Original protocol message id asking for transfer.
+ * \param[in]   pBuffer                 Pointer to the buffer containing the data to send.
+ * \param[in]   size                    The size of the buffer.
+ * \return                              SBG_NO_ERROR in case of a successful upload.
  */
 SbgErrorCode sbgEComTransferSend(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg, const void *pBuffer, size_t size);
 
 /*!
  * Specific method to handle a large receive from the device.
  * 
- * \param[in]	pHandle					Pointer to a valid SbgEComHandle.
- * \param[in]	msgClass				Original protocol class asking for transfer.
- * \param[in]	msg						Original protocol message id asking for transfer.
- * \param[in]	pBuffer					Pointer to the buffer where to write data.
- * \param[out]	pActualSize				The final size written into the buffer.
- * \param[in]	bufferSize				The size of the buffer.
- * \return								SBG_NO_ERROR in case of a successful download.
+ * \param[in]   pHandle                 Pointer to a valid SbgEComHandle.
+ * \param[in]   msgClass                Original protocol class asking for transfer.
+ * \param[in]   msg                     Original protocol message id asking for transfer.
+ * \param[in]   pBuffer                 Pointer to the buffer where to write data.
+ * \param[out]  pActualSize             The final size written into the buffer.
+ * \param[in]   bufferSize              The size of the buffer.
+ * \return                              SBG_NO_ERROR in case of a successful download.
  */
 SbgErrorCode sbgEComTransferReceive(SbgEComHandle *pHandle, uint8_t msgClass, uint8_t msg, void *pBuffer, size_t *pActualSize, size_t bufferSize);
 
