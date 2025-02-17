@@ -23,6 +23,9 @@
 #ifndef SBG_LOGGER_ENTRY_GENERAL_H
 #define SBG_LOGGER_ENTRY_GENERAL_H
 
+// STL headers
+#include <array>
+
 // sbgCommonLib headers
 #include <sbgCommon.h>
 
@@ -48,20 +51,20 @@ namespace sbg
 
         /*!
          * Returns the log name.
-         * 
+         *
          * \return                                          log name.
          */
         std::string getName() const override;
 
     private:
-        
+
         //----------------------------------------------------------------------//
         //- Private methods                                                    -//
         //----------------------------------------------------------------------//
 
         /*!
          * Process the incoming log to update the context with latest UTC time information.
-         * 
+         *
          * \param[in/out]   context                         Logger context and settings.
          * \param[in]       logData                         Received sbgECom log data to process.
          * \return                                          true to continue processing the log or false to skip/discard it.
@@ -77,7 +80,7 @@ namespace sbg
 
         /*!
          * Write the data log to the file
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.
          */
@@ -85,7 +88,7 @@ namespace sbg
 
         /*!
          * Write the data log to the console
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.
          */
@@ -106,13 +109,13 @@ namespace sbg
 
         /*!
          * Returns the log name.
-         * 
+         *
          * \return                                          log name.
          */
         std::string getName() const override;
 
     private:
-        
+
         //----------------------------------------------------------------------//
         //- Private methods                                                    -//
         //----------------------------------------------------------------------//
@@ -126,7 +129,7 @@ namespace sbg
 
         /*!
          * Write the data log to the file
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.
          */
@@ -134,7 +137,7 @@ namespace sbg
 
         /*!
          * Write the data log to the console
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.
          */
@@ -154,7 +157,7 @@ namespace sbg
 
         /*!
          * Returns the log name.
-         * 
+         *
          * \return                                          log name.
          */
         std::string getName() const override;
@@ -166,7 +169,7 @@ namespace sbg
 
         /*!
          * For diagnostic messages, never discard data when time is invalid.
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \return                                          always returns false.
          */
@@ -174,7 +177,7 @@ namespace sbg
 
         /*!
          * Write the data log to the file
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.
          */
@@ -182,7 +185,7 @@ namespace sbg
 
         /*!
          * Write the data log to the console
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.
          */
@@ -213,9 +216,37 @@ namespace sbg
         //- Private methods                                                    -//
         //----------------------------------------------------------------------//
 
+        /*!
+         * Convert a PTP state to a string.
+         *
+         * \param[in]   state                               State.
+         * \return                                          State string.
+         */
         static std::string convertState(SbgEComLogPtpState state);
 
+        /*!
+         * Convert a PTP transport to a string.
+         *
+         * \param[in]   transport                           Transport.
+         * \return                                          Transport string.
+         */
+        static std::string convertTransport(SbgEComLogPtpTransport transport);
+
+        /*!
+         * Convert a PTP time scale to a string.
+         *
+         * \param[in]   timeScale                           Time scale.
+         * \return                                          Time scale string.
+         */
         static std::string convertTimeScale(SbgEComLogPtpTimeScale timeScale);
+
+        /*!
+         * Convert a PTP MAC address to a string.
+         *
+         * \param[in]   macAddr                             MAC address array.
+         * \return                                          MAC address string.
+         */
+        static std::string convertMacAddress(const std::array<uint8_t, 6> &macAddr);
 
         /*!
          * Write the header to the file and/or console.
@@ -253,38 +284,38 @@ namespace sbg
 
         /*!
          * Returns the log name.
-         * 
+         *
          * \return                                          log name.
          */
         std::string getName() const override;
 
         /*!
          * Returns the file name to use.
-         * 
+         *
          * The default implementation just appends a .txt to the log name.
-         * 
+         *
          * \return                                          file name for this log.
          */
         std::string getFileName() const override;
 
         /*!
          * Returns false if the output file is text or true for binary.
-         * 
+         *
          * The default base implementation consider text file (false).
-         * 
+         *
          * \return                                          false for text file and true for binary.
          */
         bool isBinary() const override;
 
     private:
-        
+
         //----------------------------------------------------------------------//
         //- Private methods                                                    -//
         //----------------------------------------------------------------------//
 
         /*!
          * Write the data log to the file
-         * 
+         *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.
          */

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 # Set project metadata
-project(sbgECom VERSION 5.1.708 LANGUAGES C;CXX)
+project(sbgECom VERSION 5.2.590 LANGUAGES C;CXX)
 
 #
 # Compiler configuration
@@ -168,7 +168,7 @@ install(EXPORT sbgEComTargets
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/sbgEComConfigVersion.cmake"
-    VERSION 5.1.708
+    VERSION 5.2.590
     COMPATIBILITY SameMajorVersion
 )
 

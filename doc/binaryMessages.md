@@ -40,7 +40,7 @@ The variable `lastUtcMsg` holds the latest valid `SBG_ECOM_LOG_UTC_TIME` informa
 > Timestamp to UTC time conversion is implemented in the `sbgBasicLogger` CLI tool.  
 > For reference, you can review the `CLoggerContext` C++ implementation.
 
-## Messages overview
+## Messages Overview
 
 The following list, provides a quick overview of all available logs for this message class.  
 It briefly describe which parameters are contained in each output log.
@@ -86,6 +86,7 @@ It briefly describe which parameters are contained in each output log.
 | [SBG_ECOM_LOG_EVENT_OUT_B (46)](#SBG_ECOM_LOG_EVENT_XXXX)                | Event marker used to timestamp each generated Sync Out B signal                        |
 | [SBG_ECOM_LOG_DIAG (48)](#SBG_ECOM_LOG_DIAG)                             | Returns error, warning, info and debug messages                                        |
 | [SBG_ECOM_LOG_RTCM_RAW (49)](#SBG_ECOM_LOG_RTCM_RAW)                     | RTCM/NTRIP RAW data stream that can be used in post-processing                         |
+| [SBG_ECOM_LOG_SESSION_INFO (55)](#SBG_ECOM_LOG_SESSION_INFO)             | Session information, including device information and current settings.                |
 | [SBG_ECOM_LOG_PTP_STATUS (57)](#SBG_ECOM_LOG_PTP_STATUS)                 | Precise Time Protocol (PTP) status and metric values.                                  |
 
 ## Messages Availability
@@ -160,7 +161,7 @@ This log is sent by the device whenever an internal error, warning, or informati
 | TIME_STAMP  | Time since the sensor was powered up                           | µs    | uint32 | 4          | 0      |
 | TYPE        | Type of message reported (see [TYPE](#DIAG_TYPE))              | -     | uint8  | 1          | 4      |
 | ERROR_CODE  | Error code, if applicable (see [SbgErrorCode](#SbgErrorCode))  | -     | uint8  | 1          | 5      |
-| MESSAGE     | Detailed message as a NULL-terminated C string                 | -     | chars  | [0-4080]   | 6      |
+| MESSAGE     | Detailed message as a NULL-terminated C string                 | -     | char[] | [0-4080]   | 6      |
 
 #### TYPE Definition {#DIAG_TYPE}
 
@@ -170,6 +171,45 @@ This log is sent by the device whenever an internal error, warning, or informati
 | 1     | SBG_DEBUG_LOG_TYPE_WARNING| Indicates a warning; may occur during normal operation                         |
 | 2     | SBG_DEBUG_LOG_TYPE_INFO   | Provides informational content, useful for troubleshooting                     |
 | 3     | SBG_DEBUG_LOG_TYPE_DEBUG  | Debug information, available only with specific firmware                       |
+
+### SBG_ECOM_LOG_RTCM_RAW (49) {#SBG_ECOM_LOG_RTCM_RAW}
+
+This log stores the RTCM raw data stream received by the INS/GNSS module for RTK/DGPS positioning modes.  
+The RTCM data stream may originate from a serial/Ethernet interface or be retrieved via the built-in NTRIP client.
+
+The data is stored as received, without modification, allowing Qinertia to use it for post-processing workflows and debugging.  
+Each message can contain up to 4086 bytes of data to fit within a standard sbgECom protocol frame.   
+The RTCM messages may be fragmented across multiple log entries depending on their length.
+
+- **Message Name (ID):** `SBG_ECOM_LOG_RTCM_RAW (49)`
+- **Compatibility:** INS capable products
+- **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-3.0-blue) ![HPINS](https://img.shields.io/badge/HPINS-1.1-blue)
+- **Payload Size:** Variable (up to 4086)
+
+| Field       | Description                                              | Unit | Format | Size       | Offset |
+|-------------|----------------------------------------------------------|------|--------|------------|--------|
+| RAW_BUFFER  | Bytes containing raw RTCM data received by the INS.      | -    | void   | [0-4086]   | 0      |
+
+### SBG_ECOM_LOG_SESSION_INFO (55) {#SBG_ECOM_LOG_SESSION_INFO}
+
+This log periodically streams device information and settings as a JSON string.
+
+Since the JSON string can be large, it is split into smaller chunks to prevent delays in data transmission and avoid serial port saturation.  
+Each chunk is sent using the frame structure below, and the host is responsible for reassembling the chunks to reconstruct the full JSON message.
+
+A new session info message is transmitted every minute, allowing the host to retrieve and log the latest device information and settings at any time.
+
+- **Message Name (ID):** `SBG_ECOM_LOG_SESSION_INFO (55)`
+- **Compatibility:** INS capable products
+- **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-3.0-blue) ![HPINS](https://img.shields.io/badge/HPINS-5.4-blue)
+- **Payload Size:** Variable (up to 70)
+
+| Field       | Description                                              | Unit | Format | Size       | Offset |
+|-------------|----------------------------------------------------------|------|--------|------------|--------|
+| PAGE_INDEX  | Zero-based index of the current chunk.                   | -    | uint16 | 2          | 0      |
+| PAGE_COUNT  | Total number of chunks in the current transmission.      | -    | uint16 | 2          | 2      |
+| DATA_SIZE   | Size in bytes for the DATA field.                        | -    | uint16 | 2          | 4      |
+| DATA        | JSON data chunk, part of the full JSON message.          | -    | char[] | [0-64]     | 6      |
 
 ## Status and Time
 
@@ -377,13 +417,12 @@ The message reporting the PTP status and accuracy is detailed below:
 - **Message Name (ID):** `SBG_ECOM_LOG_PTP_STATUS (57)`
 - **Compatibility:** High Performance INS
 - **Firmware:** ![HPINS](https://img.shields.io/badge/HPINS-5.3-blue)
-- **Payload Size:** 76 bytes
+- **Payload Size:** 82 bytes
 
 | Field                      | Description                                                                        | Unit | Format | Size | Offset |
 |----------------------------|------------------------------------------------------------------------------------|------|--------|------|--------|
 | TIME_STAMP                 | Time since sensor is powered up.                                                   | µs   | uint32 | 4    | 0      |
-| STATE                      | Main PTP state (see [PTP_STATE](#PTP_STATE)).                                      | -    | uint8  | 1    | 4      |
-| TIME_SCALE                 | Internal time scale (see [PTP_TIME_SCALE](#PTP_TIME_SCALE)).                       | -    | uint8  | 1    | 5      |
+| STATUS                     | State, transport and time scale status (see [PTP_STATUS](#PTP_STATUS)).            | -    | uint16 | 2    | 4      |
 | TIME_SCALE_OFFSET          | Internal time scale offset, in seconds.                                            | s    | double | 8    | 6      |
 | LOCAL_CLOCK_IDENTITY       | Local clock identity, UINT64_MAX if invalid.                                       | -    | uint64 | 4    | 14     |
 | LOCAL_CLOCK_PRIORITY1      | Local clock priority1 attribute.                                                   | -    | uint8  | 4    | 22     |
@@ -406,34 +445,59 @@ The message reporting the PTP status and accuracy is detailed below:
 | CLOCK_OFFSET_STD_DEV       | Master clock offset standard deviation, NaN if not available.                      | s    | float  | 4    | 64     |
 | CLOCK_FREQ_OFFSET          | Offset between the frequency of the local and master clocks, NaN if not available. | Hz   | float  | 4    | 68     |
 | CLOCK_FREQ_OFFSET_STD_DEV  | Frequency offset standard deviation, NaN if not available.                         | Hz   | float  | 4    | 72     |
+| MASTER_MAC_ADDRESS         | Master clock MAC address, all fields to UINT32_MAX if invalid (added in v5.2).     | -    | uint8  | 6    | 76     |
 
 > [!NOTE]
-> The local clock members are valid if and only if the local clock identity is valid.  
+> The local clock members are valid if and only if the local clock identity is valid.
 > Similarly, the master clock members are valid if and only if the master clock identity is valid.
 
-#### PTP State (STATE field) {#PTP_STATE}
+#### PTP_STATUS Definition {#PTP_STATUS}
 
-General PTP operating mode and status.
+The `PTP_STATUS` field provides status details, including the main PTP mode, transport and internal time scale.  
+The field encodes several enumerations as described below:
 
-| Value | Name                            | Description                        |
-|-------|---------------------------------|------------------------------------|
-| 0     | SBG_ECOM_LOG_PTP_STATE_DISABLED | PTP is disabled.                   |
-| 1     | SBG_ECOM_LOG_PTP_STATE_FAULTY   | The device is in the faulty state. |
-| 2     | SBG_ECOM_LOG_PTP_STATE_MASTER   | The device is the domain master.   |
-| 3     | SBG_ECOM_LOG_PTP_STATE_PASSIVE  | The device is passive.             |
+| Bits    | Type  | Name                          | Description                                                           |
+|---------|-------|-------------------------------|-----------------------------------------------------------------------|
+| [0-2]   | Enum  | SBG_ECOM_LOG_PTP_STATE        | Main PTP state. (see [PTP_STATE](#PTP_STATE)).                        |
+| [3-5]   | Enum  | SBG_ECOM_LOG_PTP_TRANSPORT    | PTP transport (added in v5.2). (see [PTP_TRANSPORT](#PTP_TRANSPORT)). |
+| [6-7]   |       | Reserved                      | Reserved for future use.                                              |
+| [8-10]  | Enum  | SBG_ECOM_LOG_PTP_TIME_SCALE   | Internal time scale. (see [PTP_TIME_SCALE](#PTP_TIME_SCALE)).         |
+| [11-15] |       | Reserved                      | Reserved for future use.                                              |
 
-#### PTP Time Scale (TIME_SCALE field) {#PTP_TIME_SCALE}
+##### PTP State {#PTP_STATE}
 
-This field specifies the time scale used as the reference for broadcasting PTP time.  
+Main PTP operating mode and status.
+
+| Value | Name                                | Description                        |
+|-------|-------------------------------------|------------------------------------|
+| 0     | SBG_ECOM_LOG_PTP_STATE_DISABLED     | PTP is disabled.                   |
+| 1     | SBG_ECOM_LOG_PTP_STATE_FAULTY       | The device is in the faulty state. |
+| 2     | SBG_ECOM_LOG_PTP_STATE_MASTER       | The device is the domain master.   |
+| 3     | SBG_ECOM_LOG_PTP_STATE_PASSIVE      | The device is passive.             |
+
+##### PTP Transport {#PTP_TRANSPORT}
+
+The transport defines how PTP messages are sent between devices. The main options are:  
+- UDP (User Datagram Protocol): PTP messages are sent over IP networks (IPv4/IPv6), allowing synchronization across switches and routers.  
+- Ethernet: PTP messages are sent directly over Ethernet frames, providing lower latency and more precise synchronization in local networks.
+
+| Value | Name                                | Description                         |
+|-------|-------------------------------------|-------------------------------------|
+| 0     | SBG_ECOM_LOG_PTP_TRANSPORT_UDP      | Transport is UDP.                   |
+| 1     | SBG_ECOM_LOG_PTP_TRANSPORT_ETHERNET | Transport is Ethernet (IEEE 802.3). |
+
+##### PTP Time Scale {#PTP_TIME_SCALE}
+
+This enumeration specifies the time scale used as the reference for broadcasting PTP time.
 The reference time can also include a positive or negative offset value specified by `TIME_SCALE_OFFSET`.
 
 The IEEE 1588 standard specifies TAI (International Atomic Time) as the standard time scale for PTP (Precision Time Protocol).
 
-| Value | Name                            | Description                                            |
-|-------|---------------------------------|--------------------------------------------------------|
-| 0     | SBG_ECOM_LOG_PTP_TIME_SCALE_TAI | Reference time is TAI (International Atomic Time)      |
-| 1     | SBG_ECOM_LOG_PTP_TIME_SCALE_UTC | Reference time is UTC (Coordinated Universal Time)     |
-| 2     | SBG_ECOM_LOG_PTP_TIME_SCALE_GPS | Reference time is GPS (Global Positioning System Time) |
+| Value | Name                                | Description                                             |
+|-------|-------------------------------------|---------------------------------------------------------|
+| 0     | SBG_ECOM_LOG_PTP_TIME_SCALE_TAI     | Reference time is TAI (International Atomic Time).      |
+| 1     | SBG_ECOM_LOG_PTP_TIME_SCALE_UTC     | Reference time is UTC (Coordinated Universal Time).     |
+| 2     | SBG_ECOM_LOG_PTP_TIME_SCALE_GPS     | Reference time is GPS (Global Positioning System Time). |
 ## IMU Measurements
 
 This section details the messages used to report Inertial Measurement Unit (IMU) data as measured by the device's accelerometers and gyroscopes.  
@@ -528,7 +592,7 @@ Each bit represents a specific status flag, providing detailed information on va
 > **PBIT (Power-On Built-In Tests):** These tests are conducted once when the IMU is powered on, ensuring that all essential systems are functioning correctly at startup.  
 > **CBIT (Continuous Built-In Tests):** These tests are performed continuously during operation, monitoring the health and status of the IMU components in real-time.
 
-### SBG_ECOM_LOG_IMU_SHORT (22) {#SBG_ECOM_LOG_IMU_SHORT}
+### SBG_ECOM_LOG_IMU_SHORT (44) {#SBG_ECOM_LOG_IMU_SHORT}
 
 The `SBG_ECOM_LOG_IMU_SHORT` message reports IMU data, including accelerations and rotation rates expressed in the IMU body frame, in a compact and efficient format.
 
@@ -542,7 +606,7 @@ For high rotation rates above ~1833°/s, a different high range scaling is appli
 > [!NOTE]
 > This message supersedes the deprecated [SBG_ECOM_LOG_IMU_DATA](#SBG_ECOM_LOG_IMU_DATA) message.
 
-- **Message Name (ID):** `SBG_ECOM_LOG_IMU_SHORT (22)`
+- **Message Name (ID):** `SBG_ECOM_LOG_IMU_SHORT (44)`
 - **Compatibility:** All products
 - **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-1.7-blue) ![HPINS](https://img.shields.io/badge/HPINS-2.1-blue) ![PULSE](https://img.shields.io/badge/PULSE-1.0-blue)
 - **Payload Size:** 32 bytes
@@ -674,7 +738,7 @@ This log provides the Euler angles (roll, pitch, yaw) and their associated accur
 - **Message Name (ID):** `SBG_ECOM_LOG_EKF_EULER (06)`
 - **Compatibility:** AHRS/INS capable products
 - **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-1.0-blue) ![HPINS](https://img.shields.io/badge/HPINS-1.0-blue)
-- **Payload Size:** 32 bytes
+- **Payload Size:** 40 bytes
 
 | Field           | Description                                                   | Unit  | Format | Size | Offset |
 |-----------------|---------------------------------------------------------------|-------|--------|------|--------|
@@ -686,6 +750,8 @@ This log provides the Euler angles (roll, pitch, yaw) and their associated accur
 | PITCH_ACC       | 1σ standard deviation of pitch angle accuracy                 | rad   | float  | 4    | 20     |
 | YAW_ACC         | 1σ standard deviation of yaw angle accuracy                   | rad   | float  | 4    | 24     |
 | SOLUTION_STATUS | INS solution status (see [SOLUTION_STATUS](#SOLUTION_STATUS)) | -     | uint32 | 4    | 28     |
+| MAG_DECL        | Local magnetic declination, positive East.                    | rad   | float  | 4    | 32     |
+| MAG_INCL        | Local magnetic inclination, positive Down.                    | rad   | float  | 4    | 36     |
 
 ### SBG_ECOM_LOG_EKF_QUAT (07) {#SBG_ECOM_LOG_EKF_QUAT}
 
@@ -695,7 +761,7 @@ It also includes the standard deviation accuracies for roll, pitch, and yaw angl
 - **Message Name (ID):** `SBG_ECOM_LOG_EKF_QUAT (07)`
 - **Compatibility:** AHRS/INS capable products
 - **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-1.0-blue) ![HPINS](https://img.shields.io/badge/HPINS-1.0-blue)
-- **Payload Size:** 36 bytes
+- **Payload Size:** 44 bytes
 
 | Field           | Description                                                   | Unit  | Format | Size | Offset |
 |-----------------|---------------------------------------------------------------|-------|--------|------|--------|
@@ -708,6 +774,8 @@ It also includes the standard deviation accuracies for roll, pitch, and yaw angl
 | PITCH_ACC       | 1σ standard deviation of pitch angle accuracy                 | rad   | float  | 4    | 24     |
 | YAW_ACC         | 1σ standard deviation of yaw angle accuracy                   | rad   | float  | 4    | 28     |
 | SOLUTION_STATUS | INS solution status (see [SOLUTION_STATUS](#SOLUTION_STATUS)) | -     | uint32 | 4    | 32     |
+| MAG_DECL        | Local magnetic declination, positive East.                    | rad   | float  | 4    | 36     |
+| MAG_INCL        | Local magnetic inclination, positive Down.                    | rad   | float  | 4    | 40     |
 
 ### SBG_ECOM_LOG_EKF_NAV (08) {#SBG_ECOM_LOG_EKF_NAV}
 
@@ -1043,6 +1111,7 @@ It also includes bitmasks to reports which signals are being used to compute the
 | 26     | Mask  | SBG_ECOM_GPS_POS_QZSS_L1_USED   | Set if QZSS L1CA is used in the solution                            |
 | 27     | Mask  | SBG_ECOM_GPS_POS_QZSS_L2_USED   | Set if QZSS L2C is used in the solution                             |
 | 28     | Mask  | SBG_ECOM_GPS_POS_QZSS_L5_USED   | Set if QZSS L5 is used in the solution                              |
+| 29     | Mask  | SBG_ECOM_GPS_POS_QZSS_L6_USED   | Set if QZSS L6 is used in the solution                              |
 
 ##### GNSS Position Status Enumeration {#GPS_POS_STATUS}
 
@@ -1211,8 +1280,8 @@ It is repeated `nrSatellites` times.
 | Bits   | Type  | Name               | Description                                                              |
 |--------|-------|--------------------|--------------------------------------------------------------------------|
 | [0-2]  | Enum  | Tracking status    | Tracking Status (see [SAT_TRACKING_STATUS](#SAT_TRACKING_STATUS)).       |
-| [3-4]  | Enum  | Health status      | Health Status (see [SAT_TRACKING_STATUS](#SAT_TRACKING_STATUS)).         |
-| [5-6]  | Enum  | Elevation status   | Elevation Status (see [SAT_TRACKING_STATUS](#SAT_TRACKING_STATUS)).      |
+| [3-4]  | Enum  | Health status      | Health Status (see [SAT_HEALTH_STATUS](#SAT_HEALTH_STATUS)).             |
+| [5-6]  | Enum  | Elevation status   | Elevation Status (see [SAT_ELEVATION_STATUS](#SAT_ELEVATION_STATUS)).    |
 | [7-10] | Enum  | Constellation      | Satellite constellation (see [GNSS_CONSTELLATION](#GNSS_CONSTELLATION)). |
 
 #### Repeated Group: SignalData (nrSignals times) {#SignalData}
@@ -1231,7 +1300,7 @@ It is repeated `nrSignals` for a satellite.
 | Bits   | Type  | Name             | Description                                                           |
 |--------|-------|------------------|-----------------------------------------------------------------------|
 | [0-2]  | Enum  | Tracking status  | Tracking Status (see [SAT_TRACKING_STATUS](#SAT_TRACKING_STATUS)).    |
-| [3-4]  | Enum  | Health status    | Health Status (see [SAT_TRACKING_STATUS](#SAT_TRACKING_STATUS)).      |
+| [3-4]  | Enum  | Health status    | Health Status (see [SAT_HEALTH_STATUS](#SAT_HEALTH_STATUS)).          |
 | 5      | Mask  | SNR valid        | Set if the Signal-to-Noise Ratio information is available.            |
 
 #### Common Definitions

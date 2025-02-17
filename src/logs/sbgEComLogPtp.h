@@ -2,7 +2,7 @@
  * \file            sbgEComLogPtp.h
  * \ingroup         binaryLogs
  * \author          SBG Systems
- * \date            Monday 17, 2024
+ * \date            2024-06-17
  *
  * \brief           Parse logs used to report device PTP status.
  *
@@ -47,8 +47,6 @@ extern "C" {
 
 /*!
  * PTP states.
- *
- * These are on-the-wire values.
  */
 typedef enum _SbgEComLogPtpState
 {
@@ -59,9 +57,16 @@ typedef enum _SbgEComLogPtpState
 } SbgEComLogPtpState;
 
 /*!
+ * Transport.
+ */
+typedef enum _SbgEComLogPtpTransport
+{
+    SBG_ECOM_LOG_PTP_TRANSPORT_UDP          = 0,                        /*!< UDP. */
+    SBG_ECOM_LOG_PTP_TRANSPORT_ETHERNET     = 1,                        /*!< Ethernet (IEEE 802.3). */
+} SbgEComLogPtpTransport;
+
+/*!
  * Time scales.
- *
- * These are on-the-wire values.
  */
 typedef enum _SbgEComLogPtpTimeScale
 {
@@ -85,9 +90,9 @@ typedef enum _SbgEComLogPtpTimeScale
  */
 typedef struct _SbgEComLogPtp
 {
-    uint32_t                             timeStamp;                     /*!< Timestamp, in us . */
-    SbgEComLogPtpState                   state;                         /*!< State. */
-    SbgEComLogPtpTimeScale               timeScale;                     /*!< Internal time scale. */
+    uint32_t                             timeStamp;                     /*!< Timestamp, in us. */
+    uint16_t                             status;                        /*!< State, transport and internal time scale status. */
+
     double                               timeScaleOffset;               /*!< Internal time scale offset, in seconds. */
 
     uint64_t                             localClockIdentity;            /*!< Local clock identity, UINT64_MAX if invalid. */
@@ -113,6 +118,8 @@ typedef struct _SbgEComLogPtp
     float                                clockOffsetStdDev;             /*!< Master clock offset standard deviation, in seconds. */
     float                                clockFreqOffset;               /*!< Offset between the frequency of the local and master clocks, in Hz. */
     float                                clockFreqOffsetStdDev;         /*!< Frequency offset standard deviation, in Hz. */
+
+    uint8_t                              masterMacAddress[6];           /*!< Master clock 48 bits mac address, all field at UINT8_MAX if invalid. Added in sbgECom v5.2.*/
 } SbgEComLogPtp;
 
 //----------------------------------------------------------------------//
@@ -143,6 +150,58 @@ SbgErrorCode sbgEComLogPtpReadFromStream(SbgEComLogPtp *pLogData, SbgStreamBuffe
  * \return                                  SBG_NO_ERROR if the log has been written to the stream buffer.
  */
 SbgErrorCode sbgEComLogPtpWriteToStream(const SbgEComLogPtp *pLogData, SbgStreamBuffer *pStreamBuffer);
+
+//----------------------------------------------------------------------//
+//- Public setters/getters                                             -//
+//----------------------------------------------------------------------//
+
+/*!
+ * Set the PTP state.
+ *
+ * \param[in]   pLogData            Log instance.
+ * \param[in]   state               The solution state to set.
+ */
+void sbgEComLogPtpSetState(SbgEComLogPtp *pLogData, SbgEComLogPtpState state);
+
+/*!
+ * Returns the PTP solution state.
+ *
+ * \param[in]   pLogData            Log instance.
+ * \return                          The solution state.
+ */
+SbgEComLogPtpState sbgEComLogPtpGetState(const SbgEComLogPtp *pLogData);
+
+/*!
+ * Set the PTP transport.
+ *
+ * \param[in]   pLogData            Log instance.
+ * \param[in]   transport           The solution transport to set.
+ */
+void sbgEComLogPtpSetTransport(SbgEComLogPtp *pLogData, SbgEComLogPtpTransport transport);
+
+/*!
+ * Returns the PTP solution transport.
+ *
+ * \param[in]   pLogData            Log instance.
+ * \return                          The solution transport.
+ */
+SbgEComLogPtpTransport sbgEComLogPtpGetTransport(const SbgEComLogPtp *pLogData);
+
+/*!
+ * Set the PTP time scale.
+ *
+ * \param[in]   pLogData            Log instance.
+ * \param[in]   timeScale           The solution time scale to set.
+ */
+void sbgEComLogPtpSetTimeScale(SbgEComLogPtp *pLogData, SbgEComLogPtpTimeScale timeScale);
+
+/*!
+ * Returns the PTP solution time scale.
+ *
+ * \param[in]   pLogData            Log instance.
+ * \return                          The solution time scale.
+ */
+SbgEComLogPtpTimeScale sbgEComLogPtpGetTimeScale(const SbgEComLogPtp *pLogData);
 
 #ifdef __cplusplus
 }

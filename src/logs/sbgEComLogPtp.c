@@ -6,71 +6,17 @@
 #include "sbgEComLogPtp.h"
 
 //----------------------------------------------------------------------//
-//- Private functions                                                  -//
+//- Private definitions for state field                                -//
 //----------------------------------------------------------------------//
 
-/*!
- * Convert a value into a state.
- *
- * \param[in]   value                       Value.
- * \param[out]  pState                      State.
- * \return                                  SBG_NO_ERROR if successful.
- */
-static SbgErrorCode sbgEComLogPtpConvertState(uint8_t value, SbgEComLogPtpState *pState)
-{
-    SbgErrorCode                         errorCode = SBG_INVALID_PARAMETER;
+#define SBG_ECOM_LOG_PTP_STATE_SHIFT                        (0u)                    /*!< Shift used to extract the PTP state part. */
+#define SBG_ECOM_LOG_PTP_STATE_MASK                         ((uint16_t)0x07u)       /*!< Mask used to keep only the PTP state part. */
 
-    assert(pState);
+#define SBG_ECOM_LOG_PTP_TRANSPORT_SHIFT                    (3u)                    /*!< Shift used to extract the PTP transport part. */
+#define SBG_ECOM_LOG_PTP_TRANSPORT_MASK                     ((uint16_t)0x07u)       /*!< Mask used to keep only the PTP transport part. */
 
-    switch ((SbgEComLogPtpState)value)
-    {
-    case SBG_ECOM_LOG_PTP_STATE_DISABLED:
-    case SBG_ECOM_LOG_PTP_STATE_FAULTY:
-    case SBG_ECOM_LOG_PTP_STATE_MASTER:
-    case SBG_ECOM_LOG_PTP_STATE_PASSIVE:
-        *pState     = (SbgEComLogPtpState)value;
-        errorCode   = SBG_NO_ERROR;
-        break;
-    }
-
-    if (errorCode == SBG_INVALID_PARAMETER)
-    {
-        SBG_LOG_ERROR(errorCode, "unable to convert state: invalid value %" PRIu8, value);
-    }
-
-    return errorCode;
-}
-
-/*!
- * Convert a value into a time scale.
- *
- * \param[in]   value                       Value.
- * \param[out]  pTimeScale                  Time scale.
- * \return                                  SBG_NO_ERROR if successful.
- */
-static SbgErrorCode sbgEComLogPtpConvertTimeScale(uint8_t value, SbgEComLogPtpTimeScale *pTimeScale)
-{
-    SbgErrorCode                         errorCode = SBG_INVALID_PARAMETER;
-
-    assert(pTimeScale);
-
-    switch ((SbgEComLogPtpTimeScale)value)
-    {
-    case SBG_ECOM_LOG_PTP_TIME_SCALE_TAI:
-    case SBG_ECOM_LOG_PTP_TIME_SCALE_UTC:
-    case SBG_ECOM_LOG_PTP_TIME_SCALE_GPS:
-        *pTimeScale = (SbgEComLogPtpTimeScale)value;
-        errorCode   = SBG_NO_ERROR;
-        break;
-    }
-
-    if (errorCode == SBG_INVALID_PARAMETER)
-    {
-        SBG_LOG_ERROR(errorCode, "unable to convert time scale: invalid value %" PRIu8, value);
-    }
-
-    return errorCode;
-}
+#define SBG_ECOM_LOG_PTP_TIMESCALE_SHIFT                    (8u)                    /*!< Shift used to extract the PTP time scale part. */
+#define SBG_ECOM_LOG_PTP_TIMESCALE_MASK                     ((uint16_t)0x07u)       /*!< Mask used to keep only the PTP time scale part. */
 
 //----------------------------------------------------------------------//
 //- Public functions                                                   -//
@@ -82,8 +28,10 @@ void sbgEComLogPtpZeroInit(SbgEComLogPtp *pLogData)
 
     memset(pLogData, 0, sizeof(*pLogData));
 
-    pLogData->state                         = SBG_ECOM_LOG_PTP_STATE_FAULTY;
-    pLogData->timeScale                     = SBG_ECOM_LOG_PTP_TIME_SCALE_TAI;
+    sbgEComLogPtpSetState(pLogData,     SBG_ECOM_LOG_PTP_STATE_FAULTY);
+    sbgEComLogPtpSetTransport(pLogData, SBG_ECOM_LOG_PTP_TRANSPORT_UDP);
+    sbgEComLogPtpSetTimeScale(pLogData, SBG_ECOM_LOG_PTP_TIME_SCALE_TAI);
+
     pLogData->timeScaleOffset               = 0.0;
     pLogData->localClockIdentity            = UINT64_MAX;
     pLogData->masterClockIdentity           = UINT64_MAX;
@@ -94,20 +42,21 @@ void sbgEComLogPtpZeroInit(SbgEComLogPtp *pLogData)
     pLogData->clockOffsetStdDev             = NAN;
     pLogData->clockFreqOffset               = NAN;
     pLogData->clockFreqOffsetStdDev         = NAN;
+
+    memset(pLogData->masterMacAddress, UINT8_MAX, sizeof(pLogData->masterMacAddress));
 }
 
 SbgErrorCode sbgEComLogPtpReadFromStream(SbgEComLogPtp *pLogData, SbgStreamBuffer *pStreamBuffer)
 {
     SbgErrorCode                         errorCode;
-    uint8_t                              state;
-    uint8_t                              timeScale;
+    uint16_t                             status;
 
-    assert(pStreamBuffer);
     assert(pLogData);
+    assert(pStreamBuffer);
 
     pLogData->timeStamp                 = sbgStreamBufferReadUint32LE(pStreamBuffer);
-    state                               = sbgStreamBufferReadUint8(pStreamBuffer);
-    timeScale                           = sbgStreamBufferReadUint8(pStreamBuffer);
+    status                              = sbgStreamBufferReadUint16LE(pStreamBuffer);
+
     pLogData->timeScaleOffset           = sbgStreamBufferReadDoubleLE(pStreamBuffer);
 
     pLogData->localClockIdentity        = sbgStreamBufferReadUint64LE(pStreamBuffer);
@@ -134,16 +83,26 @@ SbgErrorCode sbgEComLogPtpReadFromStream(SbgEComLogPtp *pLogData, SbgStreamBuffe
     pLogData->clockFreqOffset           = sbgStreamBufferReadFloatLE(pStreamBuffer);
     pLogData->clockFreqOffsetStdDev     = sbgStreamBufferReadFloatLE(pStreamBuffer);
 
+    //
+    // Added in sbgECom 5.2
+    //
+    if (sbgStreamBufferGetSpace(pStreamBuffer) >= sizeof(pLogData->masterMacAddress))
+    {
+        for (size_t i = 0; i < SBG_ARRAY_SIZE(pLogData->masterMacAddress); i++)
+        {
+            pLogData->masterMacAddress[i] = sbgStreamBufferReadUint8(pStreamBuffer);
+        }
+    }
+    else
+    {
+        memset(pLogData->masterMacAddress, UINT8_MAX, sizeof(pLogData->masterMacAddress));
+    }
+
     errorCode = sbgStreamBufferGetLastError(pStreamBuffer);
 
     if (errorCode == SBG_NO_ERROR)
     {
-        errorCode = sbgEComLogPtpConvertState(state, &pLogData->state);
-    }
-
-    if (errorCode == SBG_NO_ERROR)
-    {
-        errorCode = sbgEComLogPtpConvertTimeScale(timeScale, &pLogData->timeScale);
+        pLogData->status = status;
     }
 
     return errorCode;
@@ -151,12 +110,12 @@ SbgErrorCode sbgEComLogPtpReadFromStream(SbgEComLogPtp *pLogData, SbgStreamBuffe
 
 SbgErrorCode sbgEComLogPtpWriteToStream(const SbgEComLogPtp *pLogData, SbgStreamBuffer *pStreamBuffer)
 {
-    assert(pStreamBuffer);
     assert(pLogData);
+    assert(pStreamBuffer);
 
     sbgStreamBufferWriteUint32LE(pStreamBuffer, pLogData->timeStamp);
-    sbgStreamBufferWriteUint8(pStreamBuffer,    pLogData->state);
-    sbgStreamBufferWriteUint8(pStreamBuffer,    pLogData->timeScale);
+    sbgStreamBufferWriteUint16LE(pStreamBuffer, pLogData->status);
+
     sbgStreamBufferWriteDoubleLE(pStreamBuffer, pLogData->timeScaleOffset);
 
     sbgStreamBufferWriteUint64LE(pStreamBuffer, pLogData->localClockIdentity);
@@ -183,5 +142,65 @@ SbgErrorCode sbgEComLogPtpWriteToStream(const SbgEComLogPtp *pLogData, SbgStream
     sbgStreamBufferWriteFloatLE(pStreamBuffer,  pLogData->clockFreqOffset);
     sbgStreamBufferWriteFloatLE(pStreamBuffer,  pLogData->clockFreqOffsetStdDev);
 
+    //
+    // Added in sbgECom 5.2
+    //
+    for (size_t i = 0; i < SBG_ARRAY_SIZE(pLogData->masterMacAddress); i++)
+    {
+        sbgStreamBufferWriteUint8(pStreamBuffer, pLogData->masterMacAddress[i]);
+    }
+
     return sbgStreamBufferGetLastError(pStreamBuffer);
+}
+
+//----------------------------------------------------------------------//
+//- Public setters/getters                                             -//
+//----------------------------------------------------------------------//
+
+void sbgEComLogPtpSetState(SbgEComLogPtp *pLogData, SbgEComLogPtpState state)
+{
+    assert(pLogData);
+    assert(state <= SBG_ECOM_LOG_PTP_STATE_MASK);
+
+    pLogData->status &= ~(SBG_ECOM_LOG_PTP_STATE_MASK << SBG_ECOM_LOG_PTP_STATE_SHIFT);
+    pLogData->status |= ((uint16_t)state & SBG_ECOM_LOG_PTP_STATE_MASK) << SBG_ECOM_LOG_PTP_STATE_SHIFT;
+}
+
+SbgEComLogPtpState sbgEComLogPtpGetState(const SbgEComLogPtp *pLogData)
+{
+    assert(pLogData);
+
+    return (SbgEComLogPtpState)((pLogData->status >> SBG_ECOM_LOG_PTP_STATE_SHIFT) & SBG_ECOM_LOG_PTP_STATE_MASK);
+}
+
+void sbgEComLogPtpSetTransport(SbgEComLogPtp *pLogData, SbgEComLogPtpTransport transport)
+{
+    assert(pLogData);
+    assert(transport <= SBG_ECOM_LOG_PTP_TRANSPORT_MASK);
+
+    pLogData->status &= ~(SBG_ECOM_LOG_PTP_TRANSPORT_MASK << SBG_ECOM_LOG_PTP_TRANSPORT_SHIFT);
+    pLogData->status |= ((uint16_t)transport & SBG_ECOM_LOG_PTP_TRANSPORT_MASK) << SBG_ECOM_LOG_PTP_TRANSPORT_SHIFT;
+}
+
+SbgEComLogPtpTransport sbgEComLogPtpGetTransport(const SbgEComLogPtp *pLogData)
+{
+    assert(pLogData);
+
+    return (SbgEComLogPtpTransport)((pLogData->status >> SBG_ECOM_LOG_PTP_TRANSPORT_SHIFT) & SBG_ECOM_LOG_PTP_TRANSPORT_MASK);
+}
+
+void sbgEComLogPtpSetTimeScale(SbgEComLogPtp *pLogData, SbgEComLogPtpTimeScale timescale)
+{
+    assert(pLogData);
+    assert(timescale <= SBG_ECOM_LOG_PTP_TIMESCALE_MASK);
+
+    pLogData->status &= ~(SBG_ECOM_LOG_PTP_TIMESCALE_MASK << SBG_ECOM_LOG_PTP_TIMESCALE_SHIFT);
+    pLogData->status |= ((uint16_t)timescale & SBG_ECOM_LOG_PTP_TIMESCALE_MASK) << SBG_ECOM_LOG_PTP_TIMESCALE_SHIFT;
+}
+
+SbgEComLogPtpTimeScale sbgEComLogPtpGetTimeScale(const SbgEComLogPtp *pLogData)
+{
+    assert(pLogData);
+
+    return (SbgEComLogPtpTimeScale)((pLogData->status >> SBG_ECOM_LOG_PTP_TIMESCALE_SHIFT) & SBG_ECOM_LOG_PTP_TIMESCALE_MASK);
 }

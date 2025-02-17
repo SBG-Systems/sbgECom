@@ -1,4 +1,5 @@
 // STL headers
+#include <array>
 #include <iostream>
 #include <iomanip>
 
@@ -226,6 +227,23 @@ std::string CLoggerEntryPtpStatus::convertState(SbgEComLogPtpState state)
 	return stateStr;
 }
 
+std::string CLoggerEntryPtpStatus::convertTransport(SbgEComLogPtpTransport transport)
+{
+	std::string							 transportStr = "unknown";
+
+	switch (transport)
+	{
+	case SBG_ECOM_LOG_PTP_TRANSPORT_UDP:
+		transportStr = "udp";
+		break;
+	case SBG_ECOM_LOG_PTP_TRANSPORT_ETHERNET:
+		transportStr = "ethernet";
+		break;
+	}
+
+	return transportStr;
+}
+
 std::string CLoggerEntryPtpStatus::convertTimeScale(SbgEComLogPtpTimeScale timeScale)
 {
 	std::string							 timeScaleStr = "unknown";
@@ -246,6 +264,20 @@ std::string CLoggerEntryPtpStatus::convertTimeScale(SbgEComLogPtpTimeScale timeS
 	return timeScaleStr;
 }
 
+std::string CLoggerEntryPtpStatus::convertMacAddress(const std::array<uint8_t, 6> &macAddr)
+{
+	std::stringstream				 outputStr;
+
+	outputStr	<< std::hex << std::setw(2 * sizeof(uint8_t)) << static_cast<uint32_t>(macAddr[0]) << std::dec << ":"
+				<< std::hex << std::setw(2 * sizeof(uint8_t)) << static_cast<uint32_t>(macAddr[1]) << std::dec << ":"
+				<< std::hex << std::setw(2 * sizeof(uint8_t)) << static_cast<uint32_t>(macAddr[2]) << std::dec << ":"
+				<< std::hex << std::setw(2 * sizeof(uint8_t)) << static_cast<uint32_t>(macAddr[3]) << std::dec << ":"
+				<< std::hex << std::setw(2 * sizeof(uint8_t)) << static_cast<uint32_t>(macAddr[4]) << std::dec << ":"
+				<< std::hex << std::setw(2 * sizeof(uint8_t)) << static_cast<uint32_t>(macAddr[5]) << std::dec;
+
+	return outputStr.str();
+}
+
 std::string CLoggerEntryPtpStatus::getName() const
 {
 	return "ptpStatus";
@@ -253,20 +285,24 @@ std::string CLoggerEntryPtpStatus::getName() const
 
 void CLoggerEntryPtpStatus::writeHeaderToFile(const CLoggerContext &context)
 {
-	m_outFile	<< context.getTimeColTitle()	<< "\tstate\ttimeScale\ttimeScaleOffset\tlocalClockIdentity\tlocalClockPriority1\tlocalClockPriority2\tlocalClockClass\tlocalClockAccuracy\tlocalClockLog2Variance\tlocalClockTimeSource\tmasterClockIdentity\tmasterClockPriority1\tmasterClockPriority2\tmasterClockClass\tmasterClockAccuracy\tmasterClockLog2Variance\tmasterClockTimeSource\tmasterIpAddress\tmeanPathDelay\tmeanPathDelayStdDev\tclockOffset\tclockOffsetStdDev\tclockFreqOffset\tclockFreqOffsetStdDev\n";
-	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(na)\t(s)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(s)\t(s)\t(s)\t(s)\t(s)\t(s)\n";
+	m_outFile	<< context.getTimeColTitle()	<< "\tstate\ttimeScale\ttimeScaleOffset\tlocalClockIdentity\tlocalClockPriority1\tlocalClockPriority2\tlocalClockClass\tlocalClockAccuracy\tlocalClockLog2Variance\tlocalClockTimeSource\tmasterClockIdentity\tmasterClockPriority1\tmasterClockPriority2\tmasterClockClass\tmasterClockAccuracy\tmasterClockLog2Variance\tmasterClockTimeSource\tmasterIpAddress\tmeanPathDelay\tmeanPathDelayStdDev\tclockOffset\tclockOffsetStdDev\tclockFreqOffset\tclockFreqOffsetStdDev\tmasterMacAddress\n";
+	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(na)\t(s)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(na)\t(s)\t(s)\t(s)\t(s)\t(s)\t(s)\t(na)\n";
 }
 
 void CLoggerEntryPtpStatus::writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData)
 {
 	const SbgEComLogPtp				&data = logData.ptpData;
 	char							 masterIpAddressString[SBG_NETWORK_IPV4_STRING_SIZE];
+	std::array<uint8_t, 6>			 macAddr;
+
+	std::copy(std::begin(data.masterMacAddress), std::end(data.masterMacAddress), std::begin(macAddr));
 
 	sbgNetworkIpToString(data.masterIpAddress, masterIpAddressString, sizeof(masterIpAddressString));
 
 	m_outFile	<< context.fmtTime(data.timeStamp)										<< "\t"
-				<< convertState(data.state)												<< "\t"
-				<< convertTimeScale(data.timeScale)										<< "\t"
+				<< convertState(sbgEComLogPtpGetState(&data))							<< "\t"
+				<< convertTransport(sbgEComLogPtpGetTransport(&data))					<< "\t"
+				<< convertTimeScale(sbgEComLogPtpGetTimeScale(&data))					<< "\t"
 				<< data.timeScaleOffset													<< "\t"
 
 				<< std::hex << data.localClockIdentity << std::dec						<< "\t"
@@ -291,21 +327,27 @@ void CLoggerEntryPtpStatus::writeDataToFile(const CLoggerContext &context, const
 				<< data.clockOffset														<< "\t"
 				<< data.clockOffsetStdDev												<< "\t"
 				<< data.clockFreqOffset													<< "\t"
-				<< data.clockFreqOffsetStdDev											<< "\n";
+				<< data.clockFreqOffsetStdDev											<< "\t"
+
+				<< convertMacAddress(macAddr)											<< "\n";
 }
 
 void CLoggerEntryPtpStatus::writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData)
 {
 	const SbgEComLogPtp				&data = logData.ptpData;
 	char							 masterIpAddressString[SBG_NETWORK_IPV4_STRING_SIZE];
+	std::array<uint8_t, 6>			 macAddr;
+
+	std::copy(std::begin(data.masterMacAddress), std::end(data.masterMacAddress), std::begin(macAddr));
 
 	SBG_UNUSED_PARAMETER(context);
 
 	sbgNetworkIpToString(data.masterIpAddress, masterIpAddressString, sizeof(masterIpAddressString));
 
 	std::cout	<< std::setw(12) << getName()											<< ": "
-				<< std::setw(12) << convertState(data.state)
-				<< std::setw(12) << convertTimeScale(data.timeScale)
+				<< std::setw(12) << convertState(sbgEComLogPtpGetState(&data))
+				<< std::setw(12) << convertTransport(sbgEComLogPtpGetTransport(&data))
+				<< std::setw(12) << convertTimeScale(sbgEComLogPtpGetTimeScale(&data))
 				<< std::setw(12) << data.timeScaleOffset
 
 				<< std::setw(20) << std::hex << data.localClockIdentity << std::dec
@@ -317,7 +359,9 @@ void CLoggerEntryPtpStatus::writeDataToConsole(const CLoggerContext &context, co
 				<< std::setw(12) << data.clockOffset
 				<< std::setw(12) << data.clockOffsetStdDev
 				<< std::setw(12) << data.clockFreqOffset
-				<< std::setw(12) << data.clockFreqOffsetStdDev							<< "\n";
+				<< std::setw(12) << data.clockFreqOffsetStdDev
+
+				<< std::setw(20) << convertMacAddress(macAddr)							<< "\n";
 }
 
 //----------------------------------------------------------------------//

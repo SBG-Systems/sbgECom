@@ -1,12 +1,12 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2024-12-04  
-Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+sbgECom C library change log issued on: 2025-02-17  
+Copyright (C) 2007-2025, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-The sbgECom 5.1.708-stable is a major release that supports the following products:
+The sbgECom 5.2.590-stable is a major release that supports the following products:
  - **High Performance INS**: Firmware 5.x and above
  - **ELLIPSE v3**: Firmware 3.x and above
  - **ELLIPSE v1/v2**: Firmware 2.6 (legacy support)
@@ -31,6 +31,19 @@ Below are the key improvements and modifications in this release:
  - Added device info/settings streaming
  - Completely rewritten sbgECom protocol documentation
  - General code cleanup and improvements for better maintainability
+
+## Release - 5.2.590-stable
+
+### New Features
+ - SBGECOM-451 - Add support for new Septentrio Pro+ and CLAS receivers variants
+ - SBGECOM-455 - Update PTP message with PTP over Ethernet
+ - SBGECOM-457 - Doc: Add Magnetic declination and inclination fields in EKF Euler and Quaternion messages
+ - SBGECOM-458 - Doc: Add missing documentation for output message SBG_ECOM_LOG_RTCM_RAW
+ - SBGECOM-459 - Doc: Add SBG_ECOM_LOG_SESSION_INFO output message with device info and settings
+
+### Bug Fixes
+ - SBGECOM-452 - Doc: Fix several issues with anchors, titles and notes
+ - SBGECOM-454 - Doc: SBG_ECOM_LOG_IMU_SHORT message ID is 22 instead of 44
 
 ## Release - 5.1.708-stable
 

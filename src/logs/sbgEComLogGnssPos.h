@@ -69,6 +69,7 @@ extern "C" {
 #define SBG_ECOM_GNSS_POS_QZSS_L1_USED      (0x00000001u << 26)             /*!< Set to 1 if QZSS L1CA is used in solution. */
 #define SBG_ECOM_GNSS_POS_QZSS_L2_USED      (0x00000001u << 27)             /*!< Set to 1 if QZSS L2C is used in solution. */
 #define SBG_ECOM_GNSS_POS_QZSS_L5_USED      (0x00000001u << 28)             /*!< Set to 1 if QZSS L5 is used in solution. */
+#define SBG_ECOM_GNSS_POS_QZSS_L6_USED      (0x00000001u << 29)             /*!< Set to 1 if QZSS L6 is used in solution. */
 
 /*!
  * GNSS position status definitions.
@@ -377,6 +378,7 @@ SbgEComGnssOsnmaStatus sbgEComLogGnssPosGetOsnmaStatus(const SbgEComLogGnssPos *
     #define SBG_ECOM_GPS_POS_QZSS_L1_USED       (0x00000001u << 26)
     #define SBG_ECOM_GPS_POS_QZSS_L2_USED       (0x00000001u << 27)
     #define SBG_ECOM_GPS_POS_QZSS_L5_USED       (0x00000001u << 28)
+    #define SBG_ECOM_GPS_POS_QZSS_L6_USED       (0x00000001u << 29)
 
     #define SBG_ECOM_POS_SOL_COMPUTED           (SBG_ECOM_GNSS_POS_STATUS_SOL_COMPUTED)
     #define SBG_ECOM_POS_INSUFFICIENT_OBS       (SBG_ECOM_GNSS_POS_STATUS_INSUFFICIENT_OBS)

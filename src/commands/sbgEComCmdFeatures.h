@@ -8,7 +8,7 @@
  *
  * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
  * \beginlicense    The MIT license
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -26,7 +26,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * \endlicense
  */
 
@@ -85,6 +85,7 @@ extern "C" {
 #define SBG_ECOM_GNSS_FEATURE_HIGH_SPEED        (0x00000001 << 6)           /*!< The GNSS receiver has no high speed limitation (> 515m/s) */
 #define SBG_ECOM_GNSS_FEATURE_IM                (0x00000001 << 7)           /*!< The GNSS receiver is able to detect and mitigate RF interferences. */
 #define SBG_ECOM_GNSS_FEATURE_OSNMA             (0x00000001 << 8)           /*!< The GNSS receiver implements Galileo OSNMA spoofing detection. */
+#define SBG_ECOM_GNSS_FEATURE_CLAS              (0x00000001 << 9)           /*!< The GNSS receiver implements Centimeter-Level Augmentation Service. */
 
 //----------------------------------------------------------------------//
 //- Feature commands types definition                                  -//
@@ -128,7 +129,7 @@ typedef struct _SbgEComFeatures
 
 /*!
  * Retrieve the device and embedded GPS receiver features.
- * 
+ *
  * \param[in]   pHandle                     A valid sbgECom handle.
  * \param[in]   pFeatures                   A pointer to a structure to hold features.
  * \return                                  SBG_NO_ERROR if the command has been executed successfully.
