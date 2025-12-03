@@ -263,7 +263,7 @@ void sbgEComLogGnssPosSetDifferentialAge(SbgEComLogGnssPos *pLogData, float diff
     {
         float   diffAgeScaled;
 
-        diffAgeScaled = differentialAge / 100.0f;
+        diffAgeScaled = differentialAge * 100.0f;
 
         if (diffAgeScaled >= (float)UINT16_MAX)
         {

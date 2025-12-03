@@ -1,12 +1,12 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2025-06-23  
-Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+sbgECom C library change log issued on: 2025-12-02  
+Copyright (C) 2007-2025, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-The sbgECom 5.3.2276-stable is a major release that supports the following products:
+The sbgECom 5.4.1684-stable is a major release that supports the following products:
  - **High Performance INS**: Firmware 5.x and above
  - **ELLIPSE v3**: Firmware 3.x and above
  - **ELLIPSE v1/v2**: Firmware 2.6 (legacy support)
@@ -32,7 +32,23 @@ Below are the key improvements and modifications in this release:
  - Completely rewritten sbgECom protocol documentation
  - General code cleanup and improvements for better maintainability
 
-## Release - 5.3.2276-stable
+## Release - 5.4.1684-stable
+
+### New Features
+ - SBGECOM-514 - Add new CAN output message to send additionnal GNSS true heading fields
+ - SBGECOM-510 - Add generic 3D position aiding input/output log
+ - SBGECOM-507 - Add CAN messages for GNSS security status (interference/spoofing/OSNMA)
+ - SBGECOM-491 - Add new North, East, Down wind speed and wind speed standard deviation output
+ - SBGECOM-488 - Renamed SBG_ECOM_SOL_DEPTH_USED to SBG_ECOM_SOL_VERTICAL_AIDING_USED
+ - SBGECOM-484 - Add SBG_ECOM_SOL_VEL_CONSTRAINTS_USED flag for cars and UAV applications
+
+### Improvements
+ - SBGECOM-513 - Standardize timestamp handling when receiving aiding data in sbgECom format
+ - SBGECOM-511 - Add air data and generic velocity EKF solution types
+ - SBGECOM-504 - Doc: Update sbgECom IMU_STATUS_BIT definition
+ - SBGECOM-490 - Renamed SBG_ECOM_SOL_AIR_DATA_USED to SBG_ECOM_SOL_AIRSPEED_USED
+
+## Release - 5.3.2242-stable
 
 ### New Features
  - SBGECOM-479 - Doc: Add GSA NMEA frame

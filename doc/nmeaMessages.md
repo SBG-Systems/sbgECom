@@ -743,6 +743,9 @@ It also denotes whether the INS is aligned, using lowercase or uppercase charact
 | p     | Nav RTK Fixed     | Full INS solution using GNSS RTK with fixed ambiguities position type.                       |
 | q     | Nav PPP Float     | Full INS solution using GNSS PPP with float ambiguities position type.                       |
 | r     | Nav PPP Fixed     | Full INS solution using GNSS PPP with fixed ambiguities position type.                       |
+| s     | Nav Air Data      | Full INS solution by integrating accelerations and air data velocity.                        |
+| t     | Nav Vel. 1        | Full INS solution by integrating accelerations and generic velocity.                         |
+| u     | Nav Pos. 1        | Full INS solution by integrating accelerations and generic position.                         |
 
 > [!NOTE]
 > If the INS is not fully aligned, the solution type is reported in lowercase. Once aligned, the solution type is reported in uppercase.

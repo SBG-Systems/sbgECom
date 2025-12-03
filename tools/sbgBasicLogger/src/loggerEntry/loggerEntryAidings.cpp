@@ -214,4 +214,55 @@ std::string CLoggerEntryVelocity1::getName() const
 	return "velocity1";
 }
 
+//----------------------------------------------------------------------//
+//- CLoggerEntryPosition                                               -//
+//----------------------------------------------------------------------//
+void CLoggerEntryPosition::writeHeaderToFile(const CLoggerContext &context)
+{
+	m_outFile	<< context.getTimeColTitle()	<< "\tstatus\tlatitude\tlongitude\theight\tcovLatLat\tcovLonLon\tcovHgtHgt\tcovLatLon\tcovLatHgt\tcovLonHgt\n";
+	m_outFile	<< context.getTimeUnit()		<< "\t(na)\t(deg)\t(deg)\t(m)\t(m^2)\t(m^2)\t(m^2)\t(m^2)\t(m^2)\t(m^2)\n";
+}
+
+void CLoggerEntryPosition::writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData)
+{
+	const SbgEComLogPosition			&data = logData.positionData;
+
+	m_outFile	<< context.fmtTime(data.timeStamp)									<< "\t"
+				<< context.fmtStatus(data.status)									<< "\t"
+				<< data.position[0]													<< "\t"
+				<< data.position[1]													<< "\t"
+				<< data.position[2]													<< "\t"
+				<< data.covLatLat													<< "\t"
+				<< data.covLonLon													<< "\t"
+				<< data.covHgtHgt													<< "\t"
+				<< data.covLatLon													<< "\t"
+				<< data.covLatHgt													<< "\t"
+				<< data.covLonHgt													<< "\n";
+}
+
+void CLoggerEntryPosition::writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData)
+{
+	const SbgEComLogPosition			&data = logData.positionData;
+
+	std::cout	<< std::setw(12) << getName()										<< ": "
+				<< std::setw(12) << context.fmtStatus(data.status)
+				<< std::setw(12) << data.position[0]
+				<< std::setw(12) << data.position[1]
+				<< std::setw(12) << data.position[2]
+				<< std::setw(12) << data.covLatLat
+				<< std::setw(12) << data.covLonLon
+				<< std::setw(12) << data.covHgtHgt
+				<< std::setw(12) << data.covLatLon
+				<< std::setw(12) << data.covLatHgt
+				<< std::setw(12) << data.covLonHgt									<< "\n";
+}
+
+//----------------------------------------------------------------------//
+//- CLoggerEntryPosition                                               -//
+//----------------------------------------------------------------------//
+std::string CLoggerEntryPosition1::getName() const
+{
+	return "position1";
+}
+
 }; // Namespace sbg

@@ -546,8 +546,8 @@ static void signalHandler(int signalId)
 /*!
  * Register all signals events used to exit the logger gracefully
  */
-static void registerSignalsEvents()
-{   
+static void registerSignalsEvents(void)
+{
     signal(SIGINT,      signalHandler);
     signal(SIGABRT,     signalHandler);
     signal(SIGTERM,     signalHandler);

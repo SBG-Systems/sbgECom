@@ -58,6 +58,7 @@ void CLoggerApp::createLogger(const CLoggerSettings &settings)
 	m_manager->registerLog<sbg::CLoggerEntryDepth>();
 	m_manager->registerLog<sbg::CLoggerEntryUsbl>();
 	m_manager->registerLog<sbg::CLoggerEntryVelocity1>();
+	m_manager->registerLog<sbg::CLoggerEntryPosition1>();
 
 	//
 	// DVL aiding
@@ -74,6 +75,7 @@ void CLoggerApp::createLogger(const CLoggerSettings &settings)
 	m_manager->registerLog<sbg::CLoggerEntryEkfVelBody>();
 	m_manager->registerLog<sbg::CLoggerEntryEkfRotAccelBody>();
 	m_manager->registerLog<sbg::CLoggerEntryEkfRotAccelNed>();
+	m_manager->registerLog<sbg::CLoggerEntryEkfAirData>();
 
 	//
 	// Register event in/out logs
@@ -137,7 +139,7 @@ void CLoggerApp::createLogger(const CLoggerSettings &settings)
 	//
 	m_manager->registerLog<sbg::CLoggerEntryVibMonFft>();
 	m_manager->registerLog<sbg::CLoggerEntryVibMonReport>();
-	
+
 }
 
 void CLoggerApp::process()
