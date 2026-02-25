@@ -9,7 +9,7 @@
  * Air Data logs are used to inject / return barometric altitude
  * as well as true air speed.
  *
- * \copyright       Copyright (C) 2007-2025, SBG Systems SAS. All rights reserved.
+ * \copyright       Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
  * \beginlicense    The MIT license
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy

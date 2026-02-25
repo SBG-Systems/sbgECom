@@ -6,7 +6,7 @@
  *
  * \brief           Parse logs used to report device PTP status.
  *
- * \copyright       Copyright (C) 2007-2024, SBG Systems SAS. All rights reserved.
+ * \copyright       Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
  * \beginlicense    The MIT license
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -120,6 +120,7 @@ typedef struct _SbgEComLogPtp
     float                                clockFreqOffsetStdDev;         /*!< Frequency offset standard deviation, in Hz. */
 
     uint8_t                              masterMacAddress[6];           /*!< Master clock 48 bits mac address, all field at UINT8_MAX if invalid. Added in sbgECom v5.2.*/
+    uint8_t                              domainNumber;                  /*!< Domain number attribute. */
 } SbgEComLogPtp;
 
 //----------------------------------------------------------------------//

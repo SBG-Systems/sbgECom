@@ -280,17 +280,17 @@ $GPZDA,201530.00,04,07,2002,00,00*60<CR><LF>
 - **Compatibility:** INS capable products
 - **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-1.0-blue) ![HPINS](https://img.shields.io/badge/HPINS-1.0-blue)
 
-| Field | Name     | Format      | Description                                          |
-|-------|----------|-------------|------------------------------------------------------|
-| 0     | $##ZDA   | string      | Message ID – ZDA frame                               |
-| 1     | Time     | hhmmss.ss   | UTC Time, current time                               |
-| 2     | Day      | dd          | Day of month [01 - 31]                               |
-| 3     | Month    | mm          | Month of year [01 - 12]                              |
-| 4     | Year     | yyyy        | Year (4 digits)                                      |
-| 5     | Ltzh     | 0           | Local zone hours (not supported, fixed 00)           |
-| 6     | Ltzh     | 0           | Local zone minutes (not supported, fixed 00)         |
-| 7     | Check sum| *cs         | XOR of all previous bytes except $                   |
-| 8     | End of frame | <CR><LF> | Carriage return and line feed                        |
+| Field | Name         | Format    | Description                        |
+| ----- | ------------ | --------- | ---------------------------------- |
+| 0     | $##ZDA       | string    | Message ID – ZDA frame             |
+| 1     | Time         | hhmmss.ss | UTC Time, current time             |
+| 2     | Day          | dd        | Day of month [01 - 31]             |
+| 3     | Month        | mm        | Month of year [01 - 12]            |
+| 4     | Year         | yyyy      | Year (4 digits)                    |
+| 5     | Ltzh         | 0         | Local zone hours (not supported)   |
+| 6     | Ltzh         | 0         | Local zone minutes (not supported) |
+| 7     | Check sum    | *cs       | XOR of all previous bytes except $ |
+| 8     | End of frame | <CR><LF>  | Carriage return and line feed      |
 
 ---
 
@@ -645,6 +645,8 @@ It briefly describe which parameters are contained in each output log.
 | [SBG_ECOM_LOG_NMEA_1_PHOCT (08)](#SBG_ECOM_LOG_NMEA_1_PHOCT) | iXblue NMEA-like log used to output surge, sway, and heave.                                       |
 | [SBG_ECOM_LOG_NMEA_1_INDYN (09)](#SBG_ECOM_LOG_NMEA_1_INDYN) | iXblue NMEA-like log used to output position, heading, attitude, rate, and velocity.              |
 | [SBG_ECOM_LOG_NMEA_1_GGK (10)](#SBG_ECOM_LOG_NMEA_1_GGK)     | Trimble NMEA-like log containing time, latitude, longitude, and ellipsoidal height.               |
+| [SBG_ECOM_LOG_NMEA_1_PPS (11)](#SBG_ECOM_LOG_NMEA_1_PPS)     | Trimble (Applanix) NMEA-like log containing UTC and PPS information.                              |
+| [SBG_ECOM_LOG_NMEA_1_AVR (14)](#SBG_ECOM_LOG_NMEA_1_AVR)     | Trimble NMEA-like log containing yaw, tilt, baseline range, and GNSS quality.                     |
 
 ---
 
@@ -1133,9 +1135,9 @@ $PTNL,GGK,161159.00,013020,4854.61758182,N,00210.08881241,E,1,07,8.3,EHT140.509,
 | 5     | N/S          | char           | ‘N’ for Northern hemisphere latitude, ‘S’ for Southern hemisphere latitude       |
 | 6     | Longitude    | dddmm.mmmmmmmm | INS longitude in degrees (0 to 180) and decimal minutes (8 decimal digits)       |
 | 7     | E/W          | char           | ‘E’ for Eastern longitude, ‘W’ for Western longitude                             |
-| 8     | Pos. Quality | char           | Position quality indicator using INS standard deviation (see Quality indicators) |
+| 8     | Pos. Quality | char           | Position quality indicator using INS standard deviation (see Quality Indicators) |
 | 9     | SV used      | xx             | Number of satellites used in the solution (latest received GNSS fix)             |
-| 10    | HDOP         | z.z            | Horizontal Dilution of Precision (1 decimal digit) (see Quality indicators)      |
+| 10    | HDOP         | z.z            | Horizontal Dilution of Precision (1 decimal digit) (see DOP Computation)         |
 | 11    | Height       | EHTx.xxx       | Height above ellipsoid with 3 decimal digits and must start with `EHT`           |
 | 12    | Height Unit  | M              | Always `M`: Height above ellipsoid measured in meters                            |
 | 13    | Check sum    | *cs            | XOR of all previous bytes except `$`                                             |
@@ -1143,5 +1145,76 @@ $PTNL,GGK,161159.00,013020,4854.61758182,N,00210.08881241,E,1,07,8.3,EHT140.509,
 
 > [!NOTE]
 > The position quality and DOP are computed using the INS position's estimated standard deviation and are not directly related to the GNSS solution.
+
+---
+
+### SBG_ECOM_LOG_NMEA_1_PPS (11) {#SBG_ECOM_LOG_NMEA_1_PPS}
+
+The `SBG_ECOM_LOG_NMEA_1_PPS` message is a Trimble (Applanix) proprietary NMEA log that outputs UTC time and Pulse Per Second (PPS) synchronization information.
+
+#### Message Format
+
+```
+$GPPPS,002258.1556,6,4526,46.27,516,*48<CR><LF>
+```
+
+#### Message Structure
+
+- **Message Name (ID):** `SBG_ECOM_LOG_NMEA_1_PPS (11)`
+- **Compatibility:** INS capable products
+- **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-X.X-blue) ![HPINS](https://img.shields.io/badge/HPINS-X.X-blue)
+
+| Field | Name           | Format       | Description                                                                      |
+|-------|----------------|--------------|----------------------------------------------------------------------------------|
+| 0     | $GPPPS         | string       | Message ID – Trimble (Applanix) proprietary NMEA identifier                      |
+| 1     | Time           | hhmmss.ssss  | UTC time of the previous PPS signal (4 decimal digits)                           |
+| 2     | Offset Day     | d            | Day of the week (Sunday = 0)                                                     |
+| 3     | Week Number    | wwww         | GNSS week number (0000 to 9999)                                                  |
+| 4     | UTC Offset     | ss.ss        | UTC offset time in seconds (GPS time = UTC time + UTC offset)                    |
+| 5     | PPS Count      | ccccccccc    | Number of PPS signals received (up to 9 digits)                                  |
+| 6     | Check sum      | *cs          | XOR of all previous bytes except `$`                                             |
+| 7     | End of frame   | <CR><LF>     | Carriage return and line feed                                                    |
+
+> [!NOTE]
+> This message provides precise timing information synchronized with the PPS signal.
+
+---
+
+### SBG_ECOM_LOG_NMEA_1_AVR (14) {#SBG_ECOM_LOG_NMEA_1_AVR}
+
+The `SBG_ECOM_LOG_NMEA_1_AVR` message is a Trimble proprietary NMEA log that outputs heading computed from a moving baseline vector (dual GNSS antenna system).
+
+#### Message Format
+
+```
+$PTNL,AVR,212405.20,+52.1531,Yaw,-0.0806,Tilt,,,12.575,3,1.4,16*39<CR><LF>
+$PTNL,AVR,212604.30,+52.1800,Yaw,,,-0.0807,Roll,12.579,3,1.4,16*21<CR><LF>
+```
+
+#### Message Structure
+
+- **Message Name (ID):** `SBG_ECOM_LOG_NMEA_1_AVR (14)`
+- **Compatibility:** INS capable products
+- **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-X.X-blue) ![HPINS](https://img.shields.io/badge/HPINS-X.X-blue)
+
+| Field | Name           | Format       | Description                                                                      |
+|-------|----------------|--------------|----------------------------------------------------------------------------------|
+| 0     | $PTNL,AVR      | string       | Message ID – Trimble proprietary NMEA identifier                                 |
+| 1     | Time           | hhmmss.ss    | UTC time of vector fix                                                           |
+| 2     | Yaw Angle      | yyy.yyyy     | Yaw angle in degrees (0.000 to 359.999)                                          |
+| 3     | Yaw            | string       | Always `Yaw`                                                                     |
+| 4     | Tilt Angle     | tt.tttt      | Tilt angle in degrees (pitch or roll depending on antenna configuration)         |
+| 5     | Tilt           | string       | `Tilt` or `Roll` depending on antenna orientation                                |
+| 6     | Reserved       |              | Reserved field                                                                   |
+| 7     | Reserved       |              | Reserved field                                                                   |
+| 8     | Range          | rr.rrr       | Baseline range in meters (distance between antennas)                             |
+| 9     | GNSS Quality   | q            | GNSS quality indicator using INS standard deviation (see Quality Indicators)     |
+| 10    | PDOP           | p.p          | Position Dilution of Precision (1 decimal digit) (see DOP Computation)           |
+| 11    | SV used        | xx           | Number of satellites used in the solution (latest received GNSS fix)             |
+| 12    | Check sum      | *cs          | XOR of all previous bytes except `$`                                             |
+| 13    | End of frame   | <CR><LF>     | Carriage return and line feed                                                    |
+
+> [!NOTE]
+> The GNSS quality and PDOP are computed from the INS position standard deviation as described in the Quality indicators and DOP computation sections.
 
 ---

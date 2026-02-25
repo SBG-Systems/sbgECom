@@ -424,7 +424,7 @@ The message reporting the PTP status and accuracy is detailed below:
 - **Message Name (ID):** `SBG_ECOM_LOG_PTP_STATUS (57)`
 - **Compatibility:** High Performance INS
 - **Firmware:** ![HPINS](https://img.shields.io/badge/HPINS-5.3-blue)
-- **Payload Size:** 82 bytes
+- **Payload Size:** 83 bytes
 
 | Field                      | Description                                                                        | Unit | Format | Size | Offset |
 |----------------------------|------------------------------------------------------------------------------------|------|--------|------|--------|
@@ -432,19 +432,19 @@ The message reporting the PTP status and accuracy is detailed below:
 | STATUS                     | State, transport and time scale status (see [PTP_STATUS](#PTP_STATUS)).            | -    | uint16 | 2    | 4      |
 | TIME_SCALE_OFFSET          | Internal time scale offset, in seconds.                                            | s    | double | 8    | 6      |
 | LOCAL_CLOCK_IDENTITY       | Local clock identity, UINT64_MAX if invalid.                                       | -    | uint64 | 4    | 14     |
-| LOCAL_CLOCK_PRIORITY1      | Local clock priority1 attribute.                                                   | -    | uint8  | 4    | 22     |
-| LOCAL_CLOCK_PRIORITY2      | Local clock priority2 attribute.                                                   | -    | uint8  | 4    | 23     |
-| LOCAL_CLOCK_CLASS          | Local clock class attribute.                                                       | -    | uint8  | 4    | 24     |
-| LOCAL_CLOCK_ACCURACY       | Local clock accuracy.                                                              | -    | uint8  | 4    | 25     |
+| LOCAL_CLOCK_PRIORITY1      | Local clock priority1 attribute.                                                   | -    | uint8  | 1    | 22     |
+| LOCAL_CLOCK_PRIORITY2      | Local clock priority2 attribute.                                                   | -    | uint8  | 1    | 23     |
+| LOCAL_CLOCK_CLASS          | Local clock class attribute.                                                       | -    | uint8  | 1    | 24     |
+| LOCAL_CLOCK_ACCURACY       | Local clock accuracy.                                                              | -    | uint8  | 1    | 25     |
 | LOCAL_CLOCK_LOG2_VARIANCE  | Local clock variance expressed as an exponential (base 2).                         | -    | uint16 | 4    | 26     |
-| LOCAL_CLOCK_TIME_SOURCE    | Local clock time source.                                                           | -    | uint8  | 4    | 28     |
+| LOCAL_CLOCK_TIME_SOURCE    | Local clock time source.                                                           | -    | uint8  | 1    | 28     |
 | MASTER_CLOCK_IDENTITY      | Master clock identity, UINT64_MAX if invalid.                                      | -    | uint64 | 4    | 29     |
-| MASTER_CLOCK_PRIORITY1     | Master clock priority1 attribute.                                                  | -    | uint8  | 4    | 37     |
-| MASTER_CLOCK_PRIORITY2     | Master clock priority2 attribute.                                                  | -    | uint8  | 4    | 38     |
-| MASTER_CLOCK_CLASS         | Master clock class attribute.                                                      | -    | uint8  | 4    | 39     |
-| MASTER_CLOCK_ACCURACY      | Master clock accuracy.                                                             | -    | uint8  | 4    | 40     |
+| MASTER_CLOCK_PRIORITY1     | Master clock priority1 attribute.                                                  | -    | uint8  | 1    | 37     |
+| MASTER_CLOCK_PRIORITY2     | Master clock priority2 attribute.                                                  | -    | uint8  | 1    | 38     |
+| MASTER_CLOCK_CLASS         | Master clock class attribute.                                                      | -    | uint8  | 1    | 39     |
+| MASTER_CLOCK_ACCURACY      | Master clock accuracy.                                                             | -    | uint8  | 1    | 40     |
 | MASTER_CLOCK_LOG2_VARIANCE | Master clock variance expressed as an exponential (base 2).                        | -    | uint16 | 4    | 41     |
-| MASTER_CLOCK_TIME_SOURCE   | Master clock time source.                                                          | -    | uint8  | 4    | 43     |
+| MASTER_CLOCK_TIME_SOURCE   | Master clock time source.                                                          | -    | uint8  | 1    | 43     |
 | MASTER_IP_ADDRESS          | Master clock IP address, UINT32_MAX if invalid.                                    | -    | uint32 | 4    | 44     |
 | MEAN_PATH_DELAY            | Mean path delay to/from the master clock, NaN if not available.                    | s    | float  | 4    | 48     |
 | MEAN_PATH_DELAY_STD_DEV    | Mean path delay standard deviation, NaN if not available.                          | s    | float  | 4    | 52     |
@@ -452,7 +452,8 @@ The message reporting the PTP status and accuracy is detailed below:
 | CLOCK_OFFSET_STD_DEV       | Master clock offset standard deviation, NaN if not available.                      | s    | float  | 4    | 64     |
 | CLOCK_FREQ_OFFSET          | Offset between the frequency of the local and master clocks, NaN if not available. | Hz   | float  | 4    | 68     |
 | CLOCK_FREQ_OFFSET_STD_DEV  | Frequency offset standard deviation, NaN if not available.                         | Hz   | float  | 4    | 72     |
-| MASTER_MAC_ADDRESS         | Master clock MAC address, all fields to UINT32_MAX if invalid (added in v5.2).     | -    | uint8  | 6    | 76     |
+| MASTER_MAC_ADDRESS         | Master clock MAC address, all fields to UINT32_MAX if invalid (added in v5.2).     | -    | uint8[]| 6    | 76     |
+| DOMAIN_NUMBER              | Domain number attribute.                                                           | -    | uint8  | 1    | 82     |
 
 > [!NOTE]
 > The local clock members are valid if and only if the local clock identity is valid.

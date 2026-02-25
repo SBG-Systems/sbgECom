@@ -1,36 +1,37 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2025-12-02  
-Copyright (C) 2007-2025, SBG Systems SAS. All rights reserved.
+sbgECom C library change log issued on: 2026-02-20  
+Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-The sbgECom 5.4.1684-stable is a major release that supports the following products:
- - **High Performance INS**: Firmware 5.x and above
- - **ELLIPSE v3**: Firmware 3.x and above
- - **ELLIPSE v1/v2**: Firmware 2.6 (legacy support)
+The sbgECom 5.5.2130-stable release introduces compatibility with **High Performance INS (HPINS)** firmware version 6.0, **ELLIPSE** firmware version 3.3, and **IMU** firmware version 3.0, ensuring full support for the latest features and improvements across the product range.
 
-This release introduces support for the **ELLIPSE v3** major firmware update.  
-The ELLIPSE v3 firmware primarily relies on the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) for product configuration.
+## Configuration & Migration
 
-All new features and capabilities introduced by the ELLIPSE firmware v3 are fully accessible through this [sbgECom](https://developer.sbg-systems.com/sbgECom/) release, alongside the latest version of the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/).
+For product configuration, sbgECom should be used alongside the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) to ensure seamless integration and optimal setup.
 
-A significant effort has been dedicated to improving the sbgECom logs and protocol documentation.  
-The previously used Firmware Reference Manual PDF has been replaced with an integrated, always up-to-date, Markdown/Doxygen-based documentation system.
-
-Access this new and improved documentation here: [sbgECom Documentation](https://developer.sbg-systems.com/sbgECom/).
-
-Backward compatibility has been maintained as much as possible; however, please review the **Migration.md** file for further details on transitioning to this version.
+Backward compatibility has been maintained as much as possible; however, please review the [migration.md](https://github.com/SBG-Systems/sbgECom/blob/c1a1dd8047cf5e9d868b16fbb981aa04bef55cef/doc/migrations.md) file for further details on transitioning to this version.
 
 ## Import Highlights for this release
 
 Below are the key improvements and modifications in this release:
- - Support for the new ELLIPSE firmware v3
- - Support for output rates of up to 1 kHz
- - Added device info/settings streaming
- - Completely rewritten sbgECom protocol documentation
- - General code cleanup and improvements for better maintainability
+- Support for latest ELLIPSE firmware 3.3
+- Addition of new NMEA output messages
+- sbgECom protocol improvements
+- Documentation updates
+
+## Release - 5.5.2130-stable
+
+### New Features
+ - SBGECOM-536 - Add PTNL AVR NMEA frame
+
+### Improvements
+ - SBGECOM-525 - sbgEComProtocolPurgeIncoming: improved purge strategy on heavily loaded systems
+
+### Bug Fixes
+ - SBGECOM-534 - Doc: Fix NMEA ZDA timezone default value
 
 ## Release - 5.4.1684-stable
 

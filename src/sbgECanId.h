@@ -6,7 +6,7 @@
  *
  * \brief           Defines all sbgECom commands identifiers.
  *
- * \copyright       Copyright (C) 2007-2025, SBG Systems SAS. All rights reserved.
+ * \copyright       Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
  * \beginlicense    The MIT license
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -152,6 +152,15 @@ typedef enum _SbgECanMessageId
     SBG_ECAN_MSG_CASS_IACCS                 = 0x21C,
     SBG_ECAN_MSG_CASS_IOMG                  = 0x21D,
     SBG_ECAN_MSG_CASS_RR                    = 0x21E,
+    
+    //
+    // NMEA2000 Outputs Messages
+    // NMEA2000 ID(29 bits) = [Priority(3) | PGN(18) | Source(8)]
+    // Priority and PGN are set according to the NMEA 2000 standard. Source defaults to 0x00.
+    //
+    SBG_ECAN_MSG_NMEA_2000_SYSTEM_TIME      = 0X0DF01000,
+    SBG_ECAN_MSG_NMEA_2000_HEART_BEAT       = 0x1DF01100,
+    SBG_ECAN_MSG_NMEA_2000_VESSEL_HEADING   = 0x09F11200,
 
     //
     // Automotive specific CAN output

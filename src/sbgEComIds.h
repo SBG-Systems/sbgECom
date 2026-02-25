@@ -6,7 +6,7 @@
  *
  * \brief           Defines all sbgECom commands identifiers.
  *
- * \copyright       Copyright (C) 2007-2025, SBG Systems SAS. All rights reserved.
+ * \copyright       Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
  * \beginlicense    The MIT license
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -199,6 +199,7 @@ typedef enum _SbgEComIdNmea1Log
 
     SBG_ECOM_LOG_NMEA_1_GGK                 = 10,       /*!< Trimble NMEA like log with Time, Latitude, Longitude, Ellipsoidal height */
     SBG_ECOM_LOG_NMEA_1_PPS                 = 11,       /*!< Trimble (Applanix) NMEA like log with UTC and PPS information. */
+    SBG_ECOM_LOG_NMEA_1_AVR                 = 14,       /*!< Trimble NMEA like log with Yaw, Tilt, baseline range, and GNSS quality. */
 
     SBG_ECOM_LOG_NMEA_1_WASSP               = 12,       /*!< WASSP NMEA like log similar to PASHR one. */
 
