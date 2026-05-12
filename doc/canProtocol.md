@@ -113,6 +113,7 @@ For example, the two CAN messages `SBG_ECAN_MSG_UTC_0` and `SBG_ECAN_MSG_UTC_1` 
 | [SBG_ECAN_MSG_GPS1_HDT (0x179)](#SBG_ECAN_MSG_GPSX_HDT)                                  | GNSS module 1 dual antenna true heading, pitch angle, and accuracies.       |
 | [SBG_ECAN_MSG_GPS1_POS_SECURITY_STATUS (0x17A)](#SBG_ECAN_MSG_GPSX_POS_SECURITY_STATUS)  | GNSS module 1 security status including IFM, spoofing and OSNMA detection.  |
 | [SBG_ECAN_MSG_GPS1_HDT_SV (0x17B)](#SBG_ECAN_MSG_GPSX_HDT_SV)                            | GNSS module 1 dual antenna baseline and satellites tracked and used.        |
+| [SBG_ECAN_MSG_GPS1_POS_MON (0x17C)](#SBG_ECAN_MSG_GPSX_POS_MON)                          | GNSS module 1 monitoring, including receiver number of reboots and up time. |
 | [SBG_ECAN_MSG_GPS2_VEL_INFO (0x180)](#SBG_ECAN_MSG_GPSX_VEL_INFO)                        | GNSS module 2 velocity timestamp and status.                                |
 | [SBG_ECAN_MSG_GPS2_VEL (0x181)](#SBG_ECAN_MSG_GPSX_VEL)                                  | GNSS module 2 velocity North, East, Down values.                            |
 | [SBG_ECAN_MSG_GPS2_VEL_ACC (0x182)](#SBG_ECAN_MSG_GPSX_VEL_ACC)                          | GNSS module 2 velocity NED standard deviation accuracies.                   |
@@ -124,7 +125,8 @@ For example, the two CAN messages `SBG_ECAN_MSG_UTC_0` and `SBG_ECAN_MSG_UTC_1` 
 | [SBG_ECAN_MSG_GPS2_HDT_INFO (0x188)](#SBG_ECAN_MSG_GPSX_HDT_INFO)                        | GNSS module 2 dual antenna timestamp and status.                            |
 | [SBG_ECAN_MSG_GPS2_HDT (0x189)](#SBG_ECAN_MSG_GPSX_HDT)                                  | GNSS module 2 dual antenna true heading, pitch angle, and accuracies.       |
 | [SBG_ECAN_MSG_GPS2_POS_SECURITY_STATUS (0x18A)](#SBG_ECAN_MSG_GPSX_POS_SECURITY_STATUS)  | GNSS module 2 security status including IFM, spoofing and OSNMA detection.  |
-| [SBG_ECAN_MSG_GPS2_HDT_SV (0x17B)](#SBG_ECAN_MSG_GPSX_HDT_SV)                            | GNSS module 2 dual antenna baseline and satellites tracked and used.        |
+| [SBG_ECAN_MSG_GPS2_HDT_SV (0x18B)](#SBG_ECAN_MSG_GPSX_HDT_SV)                            | GNSS module 2 dual antenna baseline and satellites tracked and used.        |
+| [SBG_ECAN_MSG_GPS2_POS_MON (0x18C)](#SBG_ECAN_MSG_GPSX_POS_MON)                          | GNSS module 2 monitoring, including receiver number of reboots and up time. |
 | [SBG_ECAN_MSG_EVENT_INFO_A (0x200)](#SBG_ECAN_MSG_EVENT_INFO_X)                          | Sync In A event marker timestamp and status.                                |
 | [SBG_ECAN_MSG_EVENT_TIME_A (0x201)](#SBG_ECAN_MSG_EVENT_TIME_X)                          | Additional Sync In A event marker offset from primary timestamp.            |
 | [SBG_ECAN_MSG_EVENT_INFO_B (0x202)](#SBG_ECAN_MSG_EVENT_INFO_X)                          | Sync In B event marker timestamp and status.                                |
@@ -494,6 +496,10 @@ The `SBG_ECAN_MSG_SHIP_MOTION_0` message reports surge, sway, and heave motion m
 | SWAY          | Sway motion (positive right)                                       | 10^-3   | m     | int16  | 2    | 2      |
 | HEAVE         | Heave motion (positive down)                                       | 10^-3   | m     | int16  | 2    | 4      |
 
+> [!WARNING]
+> The `HEAVE` output follows the selected output monitoring point.  
+> The `SURGE` and `SWAY` outputs are only valid when this monitoring point is the IMU physical measurement point (`Bare IMU`).
+
 ### SBG_ECAN_MSG_SHIP_MOTION_1 (0x145) {#SBG_ECAN_MSG_SHIP_MOTION_1}
 
 The `SBG_ECAN_MSG_SHIP_MOTION_1` message reports longitudinal, lateral, and vertical accelerations.
@@ -509,6 +515,9 @@ The `SBG_ECAN_MSG_SHIP_MOTION_1` message reports longitudinal, lateral, and vert
 | ACCEL_Y       | Lateral acceleration (right)                                       | 10^-2   | m/s²  | int16  | 2    | 2      |
 | ACCEL_Z       | Vertical acceleration (down)                                       | 10^-2   | m/s²  | int16  | 2    | 4      |
 
+> [!WARNING]
+> The `ACCEL_X`, `ACCEL_Y`, and `ACCEL_Z` outputs are only valid when the selected output monitoring point is the IMU physical measurement point (`Bare IMU`).
+
 ### SBG_ECAN_MSG_SHIP_MOTION_2 (0x149) {#SBG_ECAN_MSG_SHIP_MOTION_2}
 
 The `SBG_ECAN_MSG_SHIP_MOTION_2` message reports the velocities in the longitudinal, lateral, and vertical directions.
@@ -523,6 +532,10 @@ The `SBG_ECAN_MSG_SHIP_MOTION_2` message reports the velocities in the longitudi
 | VEL_X         | Longitudinal velocity (positive forward)                           | 10^-2   | m/s   | int16  | 2    | 0      |
 | VEL_Y         | Lateral velocity (positive right)                                  | 10^-2   | m/s   | int16  | 2    | 2      |
 | VEL_Z         | Vertical velocity (positive down)                                  | 10^-2   | m/s   | int16  | 2    | 4      |
+
+> [!WARNING]
+> The `VEL_Z` output follows the selected output monitoring point.  
+> The `VEL_X` and `VEL_Y` outputs are only valid when this monitoring point is the IMU physical measurement point (`Bare IMU`).
 
 ### SBG_ECAN_MSG_SHIP_MOTION_HP_INFO (0x14A) {#SBG_ECAN_MSG_SHIP_MOTION_HP_INFO}
 
@@ -558,6 +571,10 @@ Surge and sway quantities are not computed by the delayed heave algorithm.
 | SWAY          | Not available for delayed heave.                                   | 10^-3   | m     | int16  | 2    | 2      |
 | HEAVE         | Delayed heave motion (positive down)                               | 10^-3   | m     | int16  | 2    | 4      |
 
+> [!WARNING]
+> The `HEAVE` output follows the selected output monitoring point.  
+> The `SURGE` and `SWAY` outputs are only valid when this monitoring point is the IMU physical measurement point (`Bare IMU`).
+
 ### SBG_ECAN_MSG_SHIP_MOTION_HP_1 (0x14C) {#SBG_ECAN_MSG_SHIP_MOTION_HP_1}
 
 The `SBG_ECAN_MSG_SHIP_MOTION_HP_1` message reports longitudinal, lateral, and vertical accelerations.
@@ -572,6 +589,9 @@ The `SBG_ECAN_MSG_SHIP_MOTION_HP_1` message reports longitudinal, lateral, and v
 | ACCEL_X       | Longitudinal acceleration (forward)                                | 10^-2   | m/s²  | int16  | 2    | 0      |
 | ACCEL_Y       | Lateral acceleration (right)                                       | 10^-2   | m/s²  | int16  | 2    | 2      |
 | ACCEL_Z       | Vertical acceleration (down)                                       | 10^-2   | m/s²  | int16  | 2    | 4      |
+
+> [!WARNING]
+> The `ACCEL_X`, `ACCEL_Y`, and `ACCEL_Z` outputs are only valid when the selected output monitoring point is the IMU physical measurement point (`Bare IMU`).
 
 ### SBG_ECAN_MSG_SHIP_MOTION_HP_2 (0x14D) {#SBG_ECAN_MSG_SHIP_MOTION_HP_2}
 
@@ -588,6 +608,10 @@ Surge and sway velocities are not computed by the delayed heave algorithm.
 | VEL_X         | Longitudinal velocity (positive forward)                           | 10^-2   | m/s   | int16  | 2    | 0      |
 | VEL_Y         | Lateral velocity (positive right)                                  | 10^-2   | m/s   | int16  | 2    | 2      |
 | VEL_Z         | Vertical velocity (positive down)                                  | 10^-2   | m/s   | int16  | 2    | 4      |
+
+> [!WARNING]
+> The `VEL_Z` output follows the selected output monitoring point.  
+> The `VEL_X` and `VEL_Y` outputs are not computed for delayed heave.
 ## Magnetometer Output
 
 These CAN logs provide fully calibrated and normalized magnetometer values in arbitrary units (a.u.), along with associated accelerometer measurements.   
@@ -926,7 +950,7 @@ The `SBG_ECAN_MSG_GPSX_POS_SECURITY_STATUS` message provides GNSS security monit
 |------------------|----------------------------------------------------------------------------------------|---------|-------|--------|------|--------|
 | STATUS           | Interference/spoofing status (see [GPS_POS_STATUS_EXT](#GPS_POS_STATUS_EXT)).          | -       | -     | uint32 | 4    | 0      |
 
-### SBG_ECAN_MSG_GPSX_HDT_SV (0x179 - 0x189) {#SBG_ECAN_MSG_GPSX_HDT_SV}
+### SBG_ECAN_MSG_GPSX_HDT_SV (0x17B - 0x18B) {#SBG_ECAN_MSG_GPSX_HDT_SV}
 
 The `SBG_ECAN_MSG_GPSX_HDT_SV` message provides the GNSS baseline, number of satellites tracked and number of satellites used.
 
@@ -940,6 +964,23 @@ The `SBG_ECAN_MSG_GPSX_HDT_SV` message provides the GNSS baseline, number of sat
 | BASELINE         | Distance between main and auxiliary antenna.                                           | -       | m     | float  | 4    | 0      |
 | NUM_SV_TRACKED   | Number of space vehicles tracked for true heading - 0xFF if N/A.                       | -       | -     | uint8  | 1    | 4      |
 | NUM_SV_USED      | Number of SV used in true heading solution - 0xFF if N/A.                              | -       | -     | uint8  | 1    | 5      |
+
+### SBG_ECAN_MSG_GPSX_POS_MON (0x17C - 0x18C) {#SBG_ECAN_MSG_GPSX_POS_MON}
+
+The `SBG_ECAN_MSG_GPSX_POS_MON` message provides receiver monitoring information, including the number of reboots triggered by abnormal operating conditions and the up time.
+
+- **Message Name (ID):** `SBG_ECAN_MSG_GPS1_POS_MON (0x17C)`, `SBG_ECAN_MSG_GPS2_POS_MON (0x18C)`
+- **Compatibility:** All products with GNSS capability
+- **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-4.1-blue) ![HPINS](https://img.shields.io/badge/HPINS-6.3-blue)
+- **Payload Size:** 5 bytes
+
+| Field            | Description                                                                            | Scaling | Unit  | Format | Size | Offset |
+|------------------|----------------------------------------------------------------------------------------|---------|-------|--------|------|--------|
+| NR_DIAG_REBOOTS  | Number of GNSS reboots triggered by abnormal operating conditions.                     | -       | -     | uint8  | 1    | 0      |
+| UP_TIME          | GNSS up time, in seconds - 0xFFFFFFFF if N/A.                                          | -       | s     | uint32 | 4    | 1      |
+
+> [!NOTE]
+> The GNSS receiver may be rebooted by the software if abnormal operating conditions are detected (e.g. interference or spoofing detection). Reboots triggered by normal user actions, including configuration changes or firmware updates, are not included in the counter.
 ## Event Markers
 
 SBG Systems Inertial Systems can detect event markers at up to 1 kHz on synchronization input signals, such as Sync A, Sync B, Sync C, Sync D, and Sync E.  

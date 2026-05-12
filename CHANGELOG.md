@@ -1,12 +1,16 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2026-02-20  
+sbgECom C library change log issued on: 2026-05-12  
 Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-The sbgECom 5.5.2130-stable release introduces compatibility with **High Performance INS (HPINS)** firmware version 6.0, **ELLIPSE** firmware version 3.3, and **IMU** firmware version 3.0, ensuring full support for the latest features and improvements across the product range.
+This release introduces compatibility with **High Performance INS (HPINS)** firmware version **6.2**, **ELLIPSE** firmware version **3.3**, and **IMU** firmware version **3.0**.
+
+All new features and capabilities introduced by these firmware versions are accessible through this sbgECom release, alongside the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) for product configuration.
+
+This release also extends GNSS monitoring with reboot counter and up time reporting, adds standard NMEA 2000 CAN messages, and improves depth-related logs and associated documentation.
 
 ## Configuration & Migration
 
@@ -17,10 +21,29 @@ Backward compatibility has been maintained as much as possible; however, please 
 ## Import Highlights for this release
 
 Below are the key improvements and modifications in this release:
-- Support for latest ELLIPSE firmware 3.3
-- Addition of new NMEA output messages
-- sbgECom protocol improvements
-- Documentation updates
+- Support for latest HPINS firmware 6.2
+- GNSS reboot counter and up time reporting in GNSS logs and CAN monitoring
+- Addition of standard NMEA 2000 CAN messages
+- Refined depth logging and PSBGA depth used documentation
+- Protocol and documentation updates, including QZSS L1 C/B support
+
+## Release - 5.6.2730-stable
+
+### New Features
+ - SBGECOM-561 - Add new CAN log with GNSS number of reboots and up time info
+ - SBGECOM-558 - Doc: Add depth used value in PSBGA message
+ - SBGECOM-552 - Add a reboot counter in GNSS logs
+ - SBGECOM-551 - Add an uptime field in GNSS logs
+ - SBGECOM-543 - Refactor log SBG_ECOM_LOG_DEPTH
+ - SBGECOM-531 - Add standard NMEA 2000 CAN messages 
+
+### Improvements
+ - SBGECOM-557 - Doc: Add a warning to clarify ship motion status depending on IMU reference point 
+ - SBGECOM-533 - Add QZSS signal L1 C/B
+
+### Bug Fixes
+ - SBGECOM-564 - Doc: Add missing documentation for external aiding protocols and NMEA from GNSS 
+ - SBGECOM-547 - Doc: Fix SBG_ECOM_SOL_POS1_USED missing in SOLUTION_STATUS
 
 ## Release - 5.5.2130-stable
 

@@ -8,7 +8,7 @@
  *
  * \copyright       Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
  * \beginlicense    The MIT license
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -26,7 +26,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * \endlicense
  */
 
@@ -109,6 +109,7 @@ typedef enum _SbgECanMessageId
     SBG_ECAN_MSG_GPS1_HDT                   = 0x179,
     SBG_ECAN_MSG_GPS1_POS_SECURITY_STATUS   = 0x17A,
     SBG_ECAN_MSG_GPS1_HDT_SV                = 0x17B,
+    SBG_ECAN_MSG_GPS1_POS_MON               = 0x17C,
 
     SBG_ECAN_MSG_GPS2_VEL_INFO              = 0x180,            /*!< Only for Ekinox, Apogee, Navsight & Quanta */
     SBG_ECAN_MSG_GPS2_VEL                   = 0x181,            /*!< Only for Ekinox, Apogee, Navsight & Quanta */
@@ -122,6 +123,7 @@ typedef enum _SbgECanMessageId
     SBG_ECAN_MSG_GPS2_HDT                   = 0x189,            /*!< Only for Ekinox, Apogee, Navsight & Quanta */
     SBG_ECAN_MSG_GPS2_POS_SECURITY_STATUS   = 0x18A,            /*!< Only for Ekinox, Apogee, Navsight & Quanta */
     SBG_ECAN_MSG_GPS2_HDT_SV                = 0x18B,            /*!< Only for Ekinox, Apogee, Navsight & Quanta */
+    SBG_ECAN_MSG_GPS2_POS_MON               = 0x18C,            /*!< Only for Ekinox, Apogee, Navsight & Quanta */
 
     SBG_ECAN_MSG_EVENT_INFO_A               = 0x200,
     SBG_ECAN_MSG_EVENT_TIME_A               = 0x201,
@@ -152,20 +154,25 @@ typedef enum _SbgECanMessageId
     SBG_ECAN_MSG_CASS_IACCS                 = 0x21C,
     SBG_ECAN_MSG_CASS_IOMG                  = 0x21D,
     SBG_ECAN_MSG_CASS_RR                    = 0x21E,
-    
-    //
-    // NMEA2000 Outputs Messages
-    // NMEA2000 ID(29 bits) = [Priority(3) | PGN(18) | Source(8)]
-    // Priority and PGN are set according to the NMEA 2000 standard. Source defaults to 0x00.
-    //
-    SBG_ECAN_MSG_NMEA_2000_SYSTEM_TIME      = 0X0DF01000,
-    SBG_ECAN_MSG_NMEA_2000_HEART_BEAT       = 0x1DF01100,
-    SBG_ECAN_MSG_NMEA_2000_VESSEL_HEADING   = 0x09F11200,
 
     //
     // Automotive specific CAN output
     //
     SBG_ECAN_MSG_AUTO_TRACK_SLIP_CURV       = 0x220,
+
+    //
+    // NMEA2000 Outputs Messages
+    // NMEA2000 ID(29 bits) = [Priority(3) | PGN(18) | Source(8)]
+    // Priority and PGN are set according to the NMEA 2000 standard. Source defaults to 0x00.
+    //
+    SBG_ECAN_MSG_NMEA_2000_ATTITUDE                     = 0x0DF11900,
+    SBG_ECAN_MSG_NMEA_2000_COG_SOG_RAPID_UPDATE         = 0x09F80200,
+    SBG_ECAN_MSG_NMEA_2000_HEART_BEAT                   = 0x1DF01100,
+    SBG_ECAN_MSG_NMEA_2000_HEAVE                        = 0x0DF11400,
+    SBG_ECAN_MSG_NMEA_2000_POSITION_RAPID_UPDATE        = 0x09F80100,
+    SBG_ECAN_MSG_NMEA_2000_RATE_OF_TURN                 = 0x09F11300,
+    SBG_ECAN_MSG_NMEA_2000_SYSTEM_TIME                  = 0x0DF01000,
+    SBG_ECAN_MSG_NMEA_2000_VESSEL_HEADING               = 0x09F11200,
 } SbgECanMessageId;
 
 #ifdef __cplusplus

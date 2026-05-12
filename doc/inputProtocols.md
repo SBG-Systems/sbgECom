@@ -9,19 +9,24 @@ Note that the availability of these input protocols varies by product family and
 
 ### sbgECom Input Protocol
 
-The sbgECom protocol allows the INS to receive specific aiding information, such as external velocity or altitude (airdata).  
+The sbgECom protocol allows the INS to receive specific aiding information, such as external velocity or altitude.  
 This binary protocol is compact and secure, making it ideal for injecting real-time aiding data.
 
 The following sbgECom logs are accepted based on the aiding configuration:
 
-- [SBG_ECOM_LOG_AIR_DATA (36)]{#SBG_ECOM_LOG_AIR_DATA}: Used by the AirData module to inject external barometric altitude and true airspeed.
+| Message                                                                   | Description                                                                            |
+|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+|[SBG_ECOM_LOG_MAG (04)](aidingMessages.md#SBG_ECOM_LOG_MAG)                | Used to inject magnetometer data.                                                      |
+|[SBG_ECOM_LOG_AIR_DATA (36)](aidingMessages.md#SBG_ECOM_LOG_AIR_DATA)      | Used to inject external barometric altitude and true airspeed.                         |
+|[SBG_ECOM_LOG_VELOCITY_1 (58)](aidingMessages.md#SBG_ECOM_LOG_VELOCITY_X)  | Used to inject external velocity aiding information.                                   |
+|[SBG_ECOM_LOG_POSITION_1 (62)](aidingMessages.md#SBG_ECOM_LOG_POSITION_X)  | Used to inject external position aiding information.                                   |
 
 > [!NOTE]
 > Please refer to the dedicated Operating Handbooks for more details and code samples.
 
 ### NMEA Protocol
 
-The NMEA protocol is commonly used for GPS aiding data in a read-only mode.  
+The NMEA protocol is commonly used for GNSS aiding data in a read-only mode.  
 The following NMEA sentences are expected for real-time INS integration:
 
 | Message                   | Rate | Required | Description                                                                                                  |
@@ -42,7 +47,7 @@ The UBX binary protocol from u-blox delivers optimal performance when integratin
 SBG Systems INS devices support u-blox generations 8, 9, and 10, as well as high-precision u-blox products like the F9P.
 
 This protocol allows the INS to interface with both primary and secondary positioning engines.  
-It enabled a single u-blox F9P receiver to compute both a true heading solution and a standalone PVT (Position, Velocity, Time) solution.
+It allows a single u-blox F9P receiver to compute both a true heading solution and a standalone PVT (Position, Velocity, Time) solution.
 
 | Message               | Rate | Required | Description                                                                                                  |
 |-----------------------|------|----------|--------------------------------------------------------------------------------------------------------------|
@@ -58,13 +63,14 @@ It enabled a single u-blox F9P receiver to compute both a true heading solution 
 | **UBX-NAV2-SIG**      | 1 Hz | Optional | Same as UBX_NAV_SIG but for the second positioning engine.                                                   |
 | **UBX-NAV2-SAT**      | 1 Hz | Optional | Same as UBX_NAV_SAT but for the second positioning engine.                                                   |
 | **UBX-NAV2-STATUS**   | 1 Hz | Optional | Same as UBX_NAV_STATUS but for the second positioning engine.                                                |
-| **UBX-MON-RF**        | 1 Hz | Optional | RF information used to detect and report interface mitigation status, such as jamming.                       |
-| **UBX-RXM-RAWX**      | 1 Hz | Optional | Multi-GNSS raw measurements supporting post-processing.                                                      |
-| **UBX-RXM-SFRBX**     | 1 Hz | Optional | Broadcast navigation data subframe, used to extract broadcasted Ephemeris data.                              |
+| **UBX-MON-SYS**       | 1 Hz | Optional | System performance information.                                                                              |
 | **UBX-RXM-RTCM**      | 1 Hz | Optional | Status of the input real-time RTCM stream.                                                                   |
+| **UBX-SEC-OSNMA**     | 1 Hz | Optional | Galileo OSNMA security information.                                                                          |
+| **UBX-SEC-SIG**       | 1 Hz | Optional | Reports jamming and spoofing indicators                                                                      |
 
-> [!WARNING]
-> Support for external u-blox GNSS receivers is limited to ELLIPSE products only.
+Additionally, the following messages are stored as part of the GNSS RAW stream to support post-processing:
+  - **UBX-RXM-RAWX**    
+  - **UBX-RXM-SFRBX**   
 
 ### Novatel Binary Protocol
 
@@ -113,10 +119,12 @@ The following messages are supported for real-time INS integration:
 | **AttCovEuler**         | 5 Hz     | Optional     | Accuracy of dual antenna true heading and pitch angles.                                                          |
 | **AuxAntPositions**     | 1 Hz     | Optional     | Baseline measurement for dual antenna systems.                                                                   |
 | **ReceiverTime**        | 1 Hz     | Required     | GNSS UTC time and date information associated with the PPS signal.                                               |
+| **ReceiverStatus**      | 1 Hz     | Optional     | Reports overall status information.                                                                              |
 | **DOP**                 | 1 Hz     | Optional     | GNSS Dilution of Precision.                                                                                      |
 | **ChannelStatus**       | 1 Hz     | Optional     | Reports all space vehicles in view with tracked/used signals.                                                    |
 | **RFStatus**            | 1 Hz     | Optional     | Reports interference (jamming) detections and mitigation.                                                        |
 | **GALAuthStatus**       | 1 Hz     | Optional     | Reports Galileo OSNMA authentication/spoofing status.                                                            |
+| **FugroStatus**         | 1 Hz     | Optional     | Reports Fugro decoder status such as expiration date.                                                            |
 
 Additionally, the following messages are stored as part of the GNSS RAW stream to support post-processing:
 
@@ -181,3 +189,14 @@ It is accepted as input for DVL aiding purposes.
 
 The Wayfinder protocol, a Teledyne RDI proprietary protocol for their new miniature DVL, supports bottom tracking velocity information.  
 It is accepted as input for DVL aiding purposes.
+
+### Nortek DVL AD2CP Protocol
+
+The Nortek DVL AD2CP binary proprietary logs output DVL data, such as bottom tracking and water tracking.  
+The bottom track log and the water track log are accepted as inputs for DVL and depth aiding purposes.
+
+### Nortek DVL Nucleus Protocol
+
+The Nortek DVL Nucleus binary proprietary logs output DVL data, such as bottom tracking and water tracking.  
+The bottom track log and the water track log are accepted as inputs for DVL aiding purposes.
+The altimeter log is accepted as input for depth aiding purposes.

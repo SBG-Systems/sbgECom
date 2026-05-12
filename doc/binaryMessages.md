@@ -700,34 +700,35 @@ Furthermore, the effects of Earth's gravity and rotation rate are also removed, 
 
 This status provides information about the Extended Kalman Filter (EKF), indicating which aiding data is used and the current solution mode.
 
-| Bit   | Name                               | Description                                                                              |
-|-------|------------------------------------|------------------------------------------------------------------------------------------|
-| [0-3] | SBG_ECOM_SOLUTION_MODE             | Indicates the Kalman filter computation mode (see [SOLUTION_MODE](#SOLUTION_MODE))       |
-| 4     | SBG_ECOM_SOL_ATTITUDE_VALID        | Set if attitude data is reliable (Roll/Pitch error within defined criteria).             |
-| 5     | SBG_ECOM_SOL_HEADING_VALID         | Set if heading data is reliable (Heading error within defined criteria).                 |
-| 6     | SBG_ECOM_SOL_VELOCITY_VALID        | Set if velocity data is reliable (Velocity error within defined criteria).               |
-| 7     | SBG_ECOM_SOL_POSITION_VALID        | Set if position data is reliable (Position error within defined criteria).               |
-| 8     | SBG_ECOM_SOL_VERT_REF_USED         | Set if the vertical reference is used in the solution.                                   |
-| 9     | SBG_ECOM_SOL_MAG_REF_USED          | Set if magnetometer is used in the solution.                                             |
-| 10    | SBG_ECOM_SOL_GPS1_VEL_USED         | Set if GNSS 1 velocity is used in the solution.                                          |
-| 11    | SBG_ECOM_SOL_GPS1_POS_USED         | Set if GNSS 1 position is used in the solution.                                          |
-| 12    | SBG_ECOM_SOL_VEL_CONSTRAINTS_USED  | Set if vehicle velocity constraint is used to improve accuracy.                          |
-| 13    | SBG_ECOM_SOL_GPS1_HDT_USED         | Set if GNSS 1 true heading is used in the solution.                                      |
-| 14    | SBG_ECOM_SOL_GPS2_VEL_USED         | Set if GNSS 2 velocity is used in the solution.                                          |
-| 15    | SBG_ECOM_SOL_GPS2_POS_USED         | Set if GNSS 2 position is used in the solution.                                          |
-| 17    | SBG_ECOM_SOL_GPS2_HDT_USED         | Set if GNSS 2 true heading is used in the solution.                                      |
-| 18    | SBG_ECOM_SOL_ODO_USED              | Set if odometer velocity is used in the solution.                                        |
-| 19    | SBG_ECOM_SOL_DVL_BT_USED           | Set if DVL bottom tracking velocity is used in the solution.                             |
-| 20    | SBG_ECOM_SOL_DVL_WT_USED           | Set if DVL water layer velocity is used in the solution.                                 |
-| 21    | SBG_ECOM_SOL_VEL1_USED             | Set if generic velocity 1 is used in the solution.                                       |
-| 22    | Reserved                           | Reserved for future use.                                                                 |
-| 23    | Reserved                           | Reserved for future use.                                                                 |
-| 24    | SBG_ECOM_SOL_USBL_USED             | Set if USBL position is used in the solution.                                            |
-| 25    | SBG_ECOM_SOL_AIRSPEED_USED         | Set if true airspeed is used in the solution.                                            |
-| 26    | SBG_ECOM_SOL_ZUPT_USED             | Set if a Zero Velocity Update (ZUPT) is is used in the solution.                         |
-| 27    | SBG_ECOM_SOL_ALIGN_VALID           | Set if sensor alignment and residual sensors errors have fully converged.                |
-| 28    | SBG_ECOM_SOL_VERTICAL_AIDING_USED  | Set if a vertical aiding source (depth or barometric altimeter) is used in the solution. |
-| 29    | SBG_ECOM_SOL_ZARU_USED             | Set if a Zero Angular Rate Update (ZARU) is used in the solution.                        |
+| Bit   | Name                              | Description                                                                              |
+| ----- | --------------------------------- | ---------------------------------------------------------------------------------------- |
+| [0-3] | SBG_ECOM_SOLUTION_MODE            | Indicates the Kalman filter computation mode (see [SOLUTION_MODE](#SOLUTION_MODE))       |
+| 4     | SBG_ECOM_SOL_ATTITUDE_VALID       | Set if attitude data is reliable (Roll/Pitch error within defined criteria).             |
+| 5     | SBG_ECOM_SOL_HEADING_VALID        | Set if heading data is reliable (Heading error within defined criteria).                 |
+| 6     | SBG_ECOM_SOL_VELOCITY_VALID       | Set if velocity data is reliable (Velocity error within defined criteria).               |
+| 7     | SBG_ECOM_SOL_POSITION_VALID       | Set if position data is reliable (Position error within defined criteria).               |
+| 8     | SBG_ECOM_SOL_VERT_REF_USED        | Set if the vertical reference is used in the solution.                                   |
+| 9     | SBG_ECOM_SOL_MAG_REF_USED         | Set if magnetometer is used in the solution.                                             |
+| 10    | SBG_ECOM_SOL_GPS1_VEL_USED        | Set if GNSS 1 velocity is used in the solution.                                          |
+| 11    | SBG_ECOM_SOL_GPS1_POS_USED        | Set if GNSS 1 position is used in the solution.                                          |
+| 12    | SBG_ECOM_SOL_VEL_CONSTRAINTS_USED | Set if vehicle velocity constraint is used to improve accuracy.                          |
+| 13    | SBG_ECOM_SOL_GPS1_HDT_USED        | Set if GNSS 1 true heading is used in the solution.                                      |
+| 14    | SBG_ECOM_SOL_GPS2_VEL_USED        | Set if GNSS 2 velocity is used in the solution.                                          |
+| 15    | SBG_ECOM_SOL_GPS2_POS_USED        | Set if GNSS 2 position is used in the solution.                                          |
+| 17    | SBG_ECOM_SOL_GPS2_HDT_USED        | Set if GNSS 2 true heading is used in the solution.                                      |
+| 18    | SBG_ECOM_SOL_ODO_USED             | Set if odometer velocity is used in the solution.                                        |
+| 19    | SBG_ECOM_SOL_DVL_BT_USED          | Set if DVL bottom tracking velocity is used in the solution.                             |
+| 20    | SBG_ECOM_SOL_DVL_WT_USED          | Set if DVL water layer velocity is used in the solution.                                 |
+| 21    | SBG_ECOM_SOL_VEL1_USED            | Set if generic velocity 1 is used in the solution.                                       |
+| 22    | Reserved                          | Reserved for future use.                                                                 |
+| 23    | Reserved                          | Reserved for future use.                                                                 |
+| 24    | SBG_ECOM_SOL_USBL_USED            | Set if USBL position is used in the solution.                                            |
+| 25    | SBG_ECOM_SOL_AIRSPEED_USED        | Set if true airspeed is used in the solution.                                            |
+| 26    | SBG_ECOM_SOL_ZUPT_USED            | Set if a Zero Velocity Update (ZUPT) is is used in the solution.                         |
+| 27    | SBG_ECOM_SOL_ALIGN_VALID          | Set if sensor alignment and residual sensors errors have fully converged.                |
+| 28    | SBG_ECOM_SOL_VERTICAL_AIDING_USED | Set if a vertical aiding source (depth or barometric altimeter) is used in the solution. |
+| 29    | SBG_ECOM_SOL_ZARU_USED            | Set if a Zero Angular Rate Update (ZARU) is used in the solution.                        |
+| 30    | SBG_ECOM_SOL_POS1_USED            | Set if generic position 1 is used in the solution.                                       |
 
 #### SOLUTION_MODE {#SOLUTION_MODE}
 
@@ -935,8 +936,8 @@ Ship motion measurements are defined in a vessel-specific coordinate frame:
 - **Surge**: Longitudinal displacement (positive toward the bow/forward).
 - **Sway**: Transverse displacement (positive toward the starboard side/right).
 
-The heave measurement and vertical velocity (`HEAVE` and `VEL_Z` fields) are affected by the selected output monitoring point and will be re-located accordingly.  
-However, surge/sway, horizontal velocities and accelerations values are **only valid** when output at the IMU physical measurement point (Bare IMU).
+The ship-motion `HEAVE` and `VEL_Z` outputs are re-located to the selected output monitoring point.  
+The `SURGE`, `SWAY`, `VEL_X`, `VEL_Y`, `ACCEL_X`, `ACCEL_Y`, and `ACCEL_Z` outputs are **only valid** when this monitoring point is the IMU physical measurement point (`Bare IMU`). If another monitoring point is selected, these fields should be considered invalid.
 
 ### Ship Motion Status {#SHIP_MOTION_STATUS}
 
@@ -996,7 +997,8 @@ This log provides real-time ship motion data, including main heave period, surge
 > All other fields are set to zero and reported as invalid in the `STATUS` bitmask.
 
 > [!WARNING]
-> Surge, sway, X/Y velocities, and acceleration values are only valid when measured at the IMU's physical location (Bare IMU).
+> The `HEAVE` and `VEL_Z` outputs follow the selected output monitoring point.  
+> The `SURGE`, `SWAY`, `VEL_X`, `VEL_Y`, `ACCEL_X`, `ACCEL_Y`, and `ACCEL_Z` outputs are only valid when this monitoring point is the IMU physical measurement point (`Bare IMU`).
 
 ### SBG_ECOM_LOG_SHIP_MOTION_HP (32) {#SBG_ECOM_LOG_SHIP_MOTION_HP}
 
@@ -1026,11 +1028,12 @@ The data corresponds to conditions roughly 150 seconds earlier than other logs t
 | STATUS        | Ship motion output status (see [SHIP_MOTION_STATUS](#SHIP_MOTION_STATUS)) | -     | uint16 | 2    | 44     |
 
 > [!NOTE]
-> The `SBG_ECOM_LOG_SHIP_MOTION_HP` message only computes and outputs delayed heave, vertical velocity and acceleration.  
+> The `SBG_ECOM_LOG_SHIP_MOTION_HP` message only computes and outputs delayed heave, vertical velocity and accelerations.  
 > All other fields are reported as 0 and the `STATUS` bitmask is set accordingly.
 
 > [!WARNING]
-> Acceleration values are only valid when measured at the IMU's physical location (Bare IMU).
+> The `HEAVE` and `VEL_Z` outputs follow the selected output monitoring point.  
+> The `ACCEL_X`, `ACCEL_Y`, and `ACCEL_Z` outputs are only valid when this monitoring point is the IMU physical measurement point (`Bare IMU`).
 ## GNSS aiding (PVT, HDT)
 
 The following logs provide the navigation unit's output, including Euler angles, quaternions, velocity and position.  
@@ -1102,25 +1105,30 @@ The timestamp indicates the actual GPS position data time, not synchronized with
 - **Message Name (ID):** `SBG_ECOM_LOG_GPS1_POS (14)`, `SBG_ECOM_LOG_GPS2_POS (17)`
 - **Compatibility:** INS capable products
 - **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-1.0-blue) ![HPINS](https://img.shields.io/badge/HPINS-1.0-blue)
-- **Payload Size:** 62 bytes
+- **Payload Size:** 67 bytes
 
-| Field           | Description                                                                                | Unit  | Format  | Size | Offset |
-|-----------------|--------------------------------------------------------------------------------------------|-------|---------|------|--------|
-| TIME_STAMP      | Time since the sensor was powered up                                                       | µs    | uint32  | 4    | 0      |
-| STATUS_TYPE     | Position solution type and status (see [GPS_POS_STATUS_TYPE](#GPS_POS_STATUS_TYPE))        | -     | uint32  | 4    | 4      |
-| TOW             | GNSS Time of Week                                                                          | ms    | uint32  | 4    | 8      |
-| LATITUDE        | Latitude, positive North                                                                   | °     | double  | 8    | 12     |
-| LONGITUDE       | Longitude, positive East                                                                   | °     | double  | 8    | 20     |
-| ALTITUDE        | Altitude Above Mean Sea Level                                                              | m     | double  | 8    | 28     |
-| UNDULATION      | Altitude difference between the geoid and the Ellipsoid                                    | m     | float   | 4    | 36     |
-| LAT_ACC         | 1σ Latitude Accuracy                                                                       | m     | float   | 4    | 40     |
-| LONG_ACC        | 1σ Longitude Accuracy                                                                      | m     | float   | 4    | 44     |
-| ALTI_ACC        | 1σ Altitude Accuracy                                                                       | m     | float   | 4    | 48     |
-| NUM_SV_USED     | Number of space vehicles used in GNSS solution - 0xFF if N/A (since v1.4)                  | -     | uint8   | 1    | 52     |
-| BASE_STATION_ID | ID of the DGPS/RTK base station in use - 0xFFFF if N/A (since v1.4)                        | -     | uint16  | 2    | 53     |
-| DIFF_AGE        | Differential data age - 0xFFFF if N/A (since v1.4)                                         | 0.01s | uint16  | 2    | 55     |
-| NUM_SV_TRACKED  | Number of tracked SV - 0xFF if N/A (since v4.0)                                            | -     | uint8   | 1    | 57     |
-| STATUS_EXT      | Interference/spoofing status (see [GPS_POS_STATUS_EXT](#GPS_POS_STATUS_EXT)). (since v4.0) | -     | uint32  | 4    | 58     |
+| Field               | Description                                                                                | Unit  | Format  | Size | Offset |
+|---------------------|--------------------------------------------------------------------------------------------|-------|---------|------|--------|
+| TIME_STAMP          | Time since the sensor was powered up                                                       | µs    | uint32  | 4    | 0      |
+| STATUS_TYPE         | Position solution type and status (see [GPS_POS_STATUS_TYPE](#GPS_POS_STATUS_TYPE))        | -     | uint32  | 4    | 4      |
+| TOW                 | GNSS Time of Week                                                                          | ms    | uint32  | 4    | 8      |
+| LATITUDE            | Latitude, positive North                                                                   | °     | double  | 8    | 12     |
+| LONGITUDE           | Longitude, positive East                                                                   | °     | double  | 8    | 20     |
+| ALTITUDE            | Altitude Above Mean Sea Level                                                              | m     | double  | 8    | 28     |
+| UNDULATION          | Altitude difference between the geoid and the Ellipsoid                                    | m     | float   | 4    | 36     |
+| LAT_ACC             | 1σ Latitude Accuracy                                                                       | m     | float   | 4    | 40     |
+| LONG_ACC            | 1σ Longitude Accuracy                                                                      | m     | float   | 4    | 44     |
+| ALTI_ACC            | 1σ Altitude Accuracy                                                                       | m     | float   | 4    | 48     |
+| NUM_SV_USED         | Number of space vehicles used in GNSS solution - 0xFF if N/A (since v1.4)                  | -     | uint8   | 1    | 52     |
+| BASE_STATION_ID     | ID of the DGPS/RTK base station in use - 0xFFFF if N/A (since v1.4)                        | -     | uint16  | 2    | 53     |
+| DIFF_AGE            | Differential data age - 0xFFFF if N/A (since v1.4)                                         | 0.01s | uint16  | 2    | 55     |
+| NUM_SV_TRACKED      | Number of tracked SV - 0xFF if N/A (since v4.0)                                            | -     | uint8   | 1    | 57     |
+| STATUS_EXT          | Interference/spoofing status (see [GPS_POS_STATUS_EXT](#GPS_POS_STATUS_EXT)). (since v4.0) | -     | uint32  | 4    | 58     |
+| NR_DIAG_REBOOTS     | Number of GNSS reboots triggered by abnormal operating conditions. (since v5.6)            | -     | uint8   | 1    | 62     |
+| UP_TIME             | GNSS up time, in seconds - 0xFFFFFFFF if N/A. (since v5.6)                                 | s     | uint32  | 4    | 63     |
+
+> [!NOTE]
+> The GNSS receiver may be rebooted by the software if abnormal operating conditions are detected (e.g. interference or spoofing detection). Reboots triggered by normal user actions, including configuration changes or firmware updates, are not included in the counter.
 
 #### Status and Solution Type Field {#GPS_POS_STATUS_TYPE}
 
@@ -1234,18 +1242,18 @@ The timestamp represents the actual time of the GPS true heading data.
 - **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-1.0-blue) ![HPINS](https://img.shields.io/badge/HPINS-1.0-blue)
 - **Payload Size:** 32 bytes
 
-| Field            | Description                                                                  | Unit  | Format  | Size | Offset |
-|------------------|------------------------------------------------------------------------------|-------|---------|------|--------|
-| TIME_STAMP       | Time since the sensor was powered up                                         | µs    | uint32  | 4    | 0      |
-| STATUS           | GNSS True Heading status (see [GPS_HDT_STATUS_BIT](#GPS_HDT_STATUS_BIT))     | -     | uint16  | 2    | 4      |
-| TOW              | GPS Time of Week                                                             | ms    | uint32  | 4    | 6      |
-| TRUE_HEADING     | True heading angle (0 to 360°)                                               | °     | float   | 4    | 10     |
-| TRUE_HEADING_ACC | 1σ True heading estimated accuracy (0 to 360°)                               | °     | float   | 4    | 14     |
-| PITCH            | Pitch angle from the master to the rover (-90 to +90°)                       | °     | float   | 4    | 18     |
-| PITCH_ACC        | 1σ pitch estimated accuracy (0 to 90°)                                       | °     | float   | 4    | 22     |
-| BASELINE         | Distance between main and auxiliary antenna (since v1.11)                    | m     | float   | 4    | 26     |
-| NUM_SV_TRACKED   | Number of space vehicles tracked for true heading - 0xFF if N/A (since v4.0) | -     | uint8   | 1    | 30     |
-| NUM_SV_USED      | Number of SV used in true heading solution - 0xFF if N/A (since v4.0)        | -     | uint8   | 1    | 31     |
+| Field            | Description                                                                       | Unit  | Format  | Size | Offset |
+|------------------|-----------------------------------------------------------------------------------|-------|---------|------|--------|
+| TIME_STAMP       | Time since the sensor was powered up                                              | µs    | uint32  | 4    | 0      |
+| STATUS           | GNSS True Heading status (see [GPS_HDT_STATUS_BIT](#GPS_HDT_STATUS_BIT))          | -     | uint16  | 2    | 4      |
+| TOW              | GPS Time of Week                                                                  | ms    | uint32  | 4    | 6      |
+| TRUE_HEADING     | True heading angle (0 to 360°)                                                    | °     | float   | 4    | 10     |
+| TRUE_HEADING_ACC | 1σ True heading estimated accuracy (0 to 360°)                                    | °     | float   | 4    | 14     |
+| PITCH            | Pitch angle from the master to the rover (-90 to +90°)                            | °     | float   | 4    | 18     |
+| PITCH_ACC        | 1σ pitch estimated accuracy (0 to 90°)                                            | °     | float   | 4    | 22     |
+| BASELINE         | Distance between main and auxiliary antenna (since v1.11)                         | m     | float   | 4    | 26     |
+| NUM_SV_TRACKED   | Number of space vehicles tracked for true heading - 0xFF if N/A (since v4.0)      | -     | uint8   | 1    | 30     |
+| NUM_SV_USED      | Number of SV used in true heading solution - 0xFF if N/A (since v4.0)             | -     | uint8   | 1    | 31     |
 
 #### Status and Validity {#GPS_HDT_STATUS_BIT}
 
@@ -1555,44 +1563,45 @@ The timestamp reflects the actual time of the depth measurement, rather than bei
 
 - **Message Name (ID):** `SBG_ECOM_LOG_DEPTH (47)`
 - **Compatibility:** High Performance INS
-- **Firmware:** ![HPINS](https://img.shields.io/badge/HPINS-1.3-blue)
+- **Firmware:** ![HPINS](https://img.shields.io/badge/HPINS-6.3-blue)
 - **Payload Size:** 14 bytes
 
 | Field         | Description                                                     | Unit  | Format | Size | Offset |
 |---------------|-----------------------------------------------------------------|-------|--------|------|--------|
 | TIME_STAMP    | Time since the sensor was powered up or measurement delay       | µs    | uint32 | 4    | 0      |
 | DEPTH_STATUS  | Depth sensor status bitmask (see [DEPTH_STATUS](#DEPTH_STATUS)) | -     | uint16 | 2    | 4      |
-| PRESSURE_ABS  | Absolute water pressure measured                                | Pa    | float  | 4    | 6      |
-| DEPTH         | Measured depth, positive upward                                 | m     | float  | 4    | 10     |
+| PRESSURE      | Hydrostatic pressure measured                                   | Pa    | float  | 4    | 6      |
+| DEPTH         | Measured depth, positive downward                               | m     | float  | 4    | 10     |
 
 #### DEPTH_STATUS Definition {#DEPTH_STATUS}
 
 | Bit | Name                              | Description                                                      |
 |-----|-----------------------------------|------------------------------------------------------------------|
 | 0   | SBG_ECOM_DEPTH_TIME_IS_DELAY      | Set if the timestamp represents a delay instead of absolute time |
-| 1   | SBG_ECOM_DEPTH_PRESSURE_ABS_VALID | Set if the pressure field is valid                               |
+| 1   | SBG_ECOM_DEPTH_PRESSURE_VALID     | Set if the hydrostatic pressure field is valid                   |
 | 2   | SBG_ECOM_DEPTH_ALTITUDE_VALID     | Set if the depth field is valid                                  |
 
 ### SBG_ECOM_LOG_USBL (37) {#SBG_ECOM_LOG_USBL}
 
-This log retrieves the position information as determined by a USBL (Ultra-Short Baseline) beacon.  
-The timestamp indicates the actual time of the positioning data, rather than being synchronized with the main loop.
+This log retrieves the position information as determined by a USBL (Ultra-Short Baseline) beacon.
+The timestamp represents the time at which the USBL message was received.
 
 - **Message Name (ID):** `SBG_ECOM_LOG_USBL (37)`
 - **Compatibility:** High Performance INS
-- **Firmware:** ![HPINS](https://img.shields.io/badge/HPINS-1.3-blue)
-- **Payload Size:** 38 bytes
+- **Firmware:** ![HPINS](https://img.shields.io/badge/HPINS-6.3-blue)
+- **Payload Size:** 42 bytes
 
-| Field         | Description                                                    | Unit   | Format | Size | Offset |
-|---------------|----------------------------------------------------------------|--------|--------|------|--------|
-| TIME_STAMP    | Time since the sensor was powered up                           | µs     | uint32 | 4    | 0      |
-| USBL_STATUS   | USBL system status bitmask (see [USBL_STATUS](#USBL_STATUS))   | -      | uint16 | 2    | 4      |
-| LATITUDE      | Latitude in degrees, positive north                            | °      | double | 8    | 6      |
-| LONGITUDE     | Longitude in degrees, positive east                            | °      | double | 8    | 14     |
-| DEPTH         | Depth below mean sea level, positive down                      | m      | float  | 4    | 22     |
-| LATITUDE_STD  | 1σ standard deviation of latitude accuracy                     | m      | float  | 4    | 26     |
-| LONGITUDE_STD | 1σ standard deviation of longitude accuracy                    | m      | float  | 4    | 30     |
-| DEPTH_STD     | 1σ standard deviation of depth accuracy                        | m      | float  | 4    | 34     |
+| Field            | Description                                                    | Unit   | Format | Size | Offset |
+|------------------|----------------------------------------------------------------|--------|--------|------|--------|
+| TIME_STAMP       | Time since the sensor was powered up                           | µs     | uint32 | 4    | 0      |
+| USBL_STATUS      | USBL system status bitmask (see [USBL_STATUS](#USBL_STATUS))   | -      | uint16 | 2    | 4      |
+| LATITUDE         | Latitude in degrees, positive north                            | °      | double | 8    | 6      |
+| LONGITUDE        | Longitude in degrees, positive east                            | °      | double | 8    | 14     |
+| DEPTH            | Depth below mean sea level, positive down                      | m      | float  | 4    | 22     |
+| LATITUDE_STD     | 1σ standard deviation of latitude accuracy                     | m      | float  | 4    | 26     |
+| LONGITUDE_STD    | 1σ standard deviation of longitude accuracy                    | m      | float  | 4    | 30     |
+| DEPTH_STD        | 1σ standard deviation of depth accuracy                        | m      | float  | 4    | 34     |
+| INFORMATION_AGE  | Age of the USBL measurement at processing time                 | µs     | uint32 | 4    | 38     |
 
 #### USBL_STATUS Definition {#USBL_STATUS}
 
