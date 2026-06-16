@@ -54,6 +54,8 @@ typedef enum _SbgEComLogPtpState
     SBG_ECOM_LOG_PTP_STATE_FAULTY           = 1,                        /*!< The device is in the faulty state. */
     SBG_ECOM_LOG_PTP_STATE_MASTER           = 2,                        /*!< The device is the domain master. */
     SBG_ECOM_LOG_PTP_STATE_PASSIVE          = 3,                        /*!< The device is passive. */
+    SBG_ECOM_LOG_PTP_STATE_UNCALIBRATED     = 4,                        /*!< The device is an uncalibrated slave. */
+    SBG_ECOM_LOG_PTP_STATE_SLAVE            = 5,                        /*!< The device is a slave. */
 } SbgEComLogPtpState;
 
 /*!

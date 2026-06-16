@@ -476,12 +476,14 @@ The field encodes several enumerations as described below:
 
 Main PTP operating mode and status.
 
-| Value | Name                                | Description                        |
-|-------|-------------------------------------|------------------------------------|
-| 0     | SBG_ECOM_LOG_PTP_STATE_DISABLED     | PTP is disabled.                   |
-| 1     | SBG_ECOM_LOG_PTP_STATE_FAULTY       | The device is in the faulty state. |
-| 2     | SBG_ECOM_LOG_PTP_STATE_MASTER       | The device is the domain master.   |
-| 3     | SBG_ECOM_LOG_PTP_STATE_PASSIVE      | The device is passive.             |
+| Value | Name                                | Description                          |
+|-------|-------------------------------------|--------------------------------------|
+| 0     | SBG_ECOM_LOG_PTP_STATE_DISABLED     | PTP is disabled.                     |
+| 1     | SBG_ECOM_LOG_PTP_STATE_FAULTY       | The device is in the faulty state.   |
+| 2     | SBG_ECOM_LOG_PTP_STATE_MASTER       | The device is the domain master.     |
+| 3     | SBG_ECOM_LOG_PTP_STATE_PASSIVE      | The device is passive.               |
+| 4     | SBG_ECOM_LOG_PTP_STATE_UNCALIBRATED | The device is an uncalibrated slave. |
+| 5     | SBG_ECOM_LOG_PTP_STATE_SLAVE        | The device is a slave.               |
 
 ##### PTP Transport {#PTP_TRANSPORT}
 

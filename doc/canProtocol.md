@@ -82,6 +82,8 @@ For example, the two CAN messages `SBG_ECAN_MSG_UTC_0` and `SBG_ECAN_MSG_UTC_1` 
 | [SBG_ECAN_MSG_EKF_VEL_NED (0x137)](#SBG_ECAN_MSG_EKF_VEL_NED)                            | INS velocity in North, East, Down navigation frame.                         |
 | [SBG_ECAN_MSG_EKF_VEL_NED_ACC (0x138)](#SBG_ECAN_MSG_EKF_VEL_NED_ACC)                    | INS velocity standard deviation accuracy in the NED frame.                  |
 | [SBG_ECAN_MSG_EKF_VEL_BODY (0x139)](#SBG_ECAN_MSG_EKF_VEL_BODY)                          | INS velocity X, Y, Z body frame.                                            |
+| [SBG_ECAN_MSG_EKF_AIR_DATA (0x13A)](#SBG_ECAN_MSG_EKF_AIR_DATA)                          | Air velocity in the North, East, Down (NED) navigation frame.               |
+| [SBG_ECAN_MSG_EKF_AIR_DATA_ACC (0x13B)](#SBG_ECAN_MSG_EKF_AIR_DATA_ACC)                  | Air velocity standard deviation in the North, East, Down (NED) frame.       |
 | [SBG_ECAN_MSG_AUTO_TRACK_SLIP_CURV (0x220)](#SBG_ECAN_MSG_AUTO_TRACK_SLIP_CURV)          | Automotive-specific track angle, slip angle, and curvature radius.          |
 | [SBG_ECAN_MSG_SHIP_MOTION_INFO (0x140)](#SBG_ECAN_MSG_SHIP_MOTION_INFO)                  | Marine-specific heave, surge, sway timestamp, and status.                   |
 | [SBG_ECAN_MSG_SHIP_MOTION_0 (0x141)](#SBG_ECAN_MSG_SHIP_MOTION_0)                        | Surge, sway, and heave measurements.                                        |
@@ -430,6 +432,36 @@ The `SBG_ECAN_MSG_EKF_VEL_BODY` message provides INS velocity data in the body X
 | VELOCITY_X    | Velocity in body/INS X direction | 10^-2   | m/s    | int16  | 2    | 0      |
 | VELOCITY_Y    | Velocity in body/INS Y direction | 10^-2   | m/s    | int16  | 2    | 2      |
 | VELOCITY_Z    | Velocity in body/INS Z direction | 10^-2   | m/s    | int16  | 2    | 4      |
+
+### SBG_ECAN_MSG_EKF_AIR_DATA (0x13A) {#SBG_ECAN_MSG_EKF_AIR_DATA}
+
+This log provides air velocity in the North, East, Down (NED) navigation frame.
+
+- **Message Name (ID):** `SBG_ECAN_MSG_EKF_AIR_DATA (0x13A)`
+- **Compatibility:** INS capable products
+- **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-3.4-blue) ![HPINS](https://img.shields.io/badge/HPINS-6.3-blue)
+- **Payload Size:** 6 bytes
+
+| Field    | Description                          | Scaling | Unit | Format | Size | Offset |
+|----------|--------------------------------------|---------|------|--------|------|--------|
+| WIND_N   | Air velocity in the North direction. | 10^-2   | m/s  | int16  | 2    | 0      |
+| WIND_E   | Air velocity in the East direction.  | 10^-2   | m/s  | int16  | 2    | 2      |
+| WIND_D   | Air velocity in the Down direction.  | 10^-2   | m/s  | int16  | 2    | 4      |
+
+### SBG_ECAN_MSG_EKF_AIR_DATA_ACC (0x13B) {#SBG_ECAN_MSG_EKF_AIR_DATA_ACC}
+
+This log provides air velocity standard deviation in the North, East, Down (NED) navigation frame.
+
+- **Message Name (ID):** `SBG_ECAN_MSG_EKF_AIR_DATA_ACC (0x13B)`
+- **Compatibility:** INS capable products
+- **Firmware:** ![ELLIPSE](https://img.shields.io/badge/ELLIPSE-3.4-blue) ![HPINS](https://img.shields.io/badge/HPINS-6.3-blue)
+- **Payload Size:** 6 bytes
+
+| Field       | Description                                             | Scaling | Unit | Format | Size | Offset |
+|-------------|---------------------------------------------------------|---------|------|--------|------|--------|
+| WIND_ACC_N  | Air velocity standard deviation in the North direction. | 10^-2   | m/s  | uint16 | 2    | 0      |
+| WIND_ACC_E  | Air velocity standard deviation in the East direction.  | 10^-2   | m/s  | uint16 | 2    | 2      |
+| WIND_ACC_D  | Air velocity standard deviation in the Down direction.  | 10^-2   | m/s  | uint16 | 2    | 4      |
 ## Automotive Outputs
 
 All messages in this section are specifically designed for automotive applications.

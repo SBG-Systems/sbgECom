@@ -294,6 +294,16 @@ BO_ 320 SBG_ECAN_MSG_SHIP_MOTION_INFO: 8 Vector__XXX
  SG_ PERIOD : 32|16@1+ (0.01,0) [0|655.35] "s" Vector__XXX
  SG_ TIME_STAMP : 0|32@1+ (1,0) [0|4294970000] "µs" Vector__XXX
 
+BO_ 315 SBG_ECAN_MSG_EKF_AIR_DATA_ACC: 6 Vector__XXX
+ SG_ WIND_ACC_D : 32|16@1+ (0.01,0) [0|655.35] "m.s-1" Vector__XXX
+ SG_ WIND_ACC_E : 16|16@1+ (0.01,0) [0|655.35] "m.s-1" Vector__XXX
+ SG_ WIND_ACC_N : 0|16@1+ (0.01,0) [0|655.35] "m.s-1" Vector__XXX
+
+BO_ 314 SBG_ECAN_MSG_EKF_AIR_DATA: 6 Vector__XXX
+ SG_ WIND_D : 32|16@1- (0.01,0) [-327.68|327.67] "m.s-1" Vector__XXX
+ SG_ WIND_E : 16|16@1- (0.01,0) [-327.68|327.67] "m.s-1" Vector__XXX
+ SG_ WIND_N : 0|16@1- (0.01,0) [-327.68|327.67] "m.s-1" Vector__XXX
+
 BO_ 313 SBG_ECAN_MSG_EKF_VEL_BODY: 6 Vector__XXX
  SG_ VELOCITY_Z : 32|16@1- (0.01,0) [-327.68|327.67] "m.s-1" Vector__XXX
  SG_ VELOCITY_Y : 16|16@1- (0.01,0) [-327.68|327.67] "m.s-1" Vector__XXX
@@ -391,7 +401,5 @@ BO_ 256 SBG_ECAN_MSG_STATUS_01: 8 Vector__XXX
  SG_ CLOCK : 48|16@1+ (1,0) [0|65535] "" Vector__XXX
  SG_ GENERAL : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
  SG_ TIME_STAMP : 0|32@1+ (1,0) [0|4294970000] "µs" Vector__XXX
-
-
 
 

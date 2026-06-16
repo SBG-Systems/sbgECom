@@ -53,8 +53,9 @@ extern "C" {
 typedef enum _SbgEComOutputPort
 {
     SBG_ECOM_OUTPUT_PORT_A = 0,             /*!< Main output port. */
-    SBG_ECOM_OUTPUT_PORT_C = 2,             /*!< Secondary output port only available on Ellipse-E devices */
-    SBG_ECOM_OUTPUT_PORT_E = 4              /*!< Secondary output port only available on B1 devices */
+    SBG_ECOM_OUTPUT_PORT_C = 2,             /*!< Secondary output port only available on Ellipse-E devices. */
+    SBG_ECOM_OUTPUT_PORT_D = 3,             /*!< Secondary output port only available on Ellipse-E devices. */
+    SBG_ECOM_OUTPUT_PORT_E = 4              /*!< Secondary output port only available on B1 devices. */
 } SbgEComOutputPort;
 
 /*!

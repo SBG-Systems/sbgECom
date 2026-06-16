@@ -1,16 +1,16 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2026-05-12  
+sbgECom C library change log issued on: 2026-06-12  
 Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-This release introduces compatibility with **High Performance INS (HPINS)** firmware version **6.2**, **ELLIPSE** firmware version **3.3**, and **IMU** firmware version **3.0**.
+This release introduces compatibility with **High Performance INS (HPINS)** firmware version **6.3**, **ELLIPSE** firmware version **3.3**, and **IMU** firmware version **3.0**.
 
 All new features and capabilities introduced by these firmware versions are accessible through this sbgECom release, alongside the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) for product configuration.
 
-This release also extends GNSS monitoring with reboot counter and up time reporting, adds standard NMEA 2000 CAN messages, and improves depth-related logs and associated documentation.
+This release also extends CAN messages and improves PTP reprorted states.
 
 ## Configuration & Migration
 
@@ -21,11 +21,18 @@ Backward compatibility has been maintained as much as possible; however, please 
 ## Import Highlights for this release
 
 Below are the key improvements and modifications in this release:
-- Support for latest HPINS firmware 6.2
-- GNSS reboot counter and up time reporting in GNSS logs and CAN monitoring
-- Addition of standard NMEA 2000 CAN messages
-- Refined depth logging and PSBGA depth used documentation
-- Protocol and documentation updates, including QZSS L1 C/B support
+- Support for latest HPINS firmware 6.3
+- Addition of EKF Air Data CAN message
+- Addition of new PTP states
+
+## Release - 5.7.626-stable
+
+### New Features
+ - SBGECOM-572 - Add sbgECan EKF Air Data message
+ - SBGECOM-565 - Add PTP uncalibrated and slave states
+
+### Bug Fixes
+ - SBGECOM-580 - Doc: Fix links on external aiding section
 
 ## Release - 5.6.2730-stable
 

@@ -222,6 +222,12 @@ std::string CLoggerEntryPtpStatus::convertState(SbgEComLogPtpState state)
 	case SBG_ECOM_LOG_PTP_STATE_PASSIVE:
 		stateStr = "passive";
 		break;
+	case SBG_ECOM_LOG_PTP_STATE_UNCALIBRATED:
+		stateStr = "uncalibrated";
+		break;
+	case SBG_ECOM_LOG_PTP_STATE_SLAVE:
+		stateStr = "slave";
+		break;
 	}
 
 	return stateStr;

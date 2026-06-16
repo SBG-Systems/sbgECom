@@ -72,6 +72,8 @@ typedef enum _SbgECanMessageId
     SBG_ECAN_MSG_EKF_VEL_NED                = 0x137,
     SBG_ECAN_MSG_EKF_VEL_NED_ACC            = 0x138,
     SBG_ECAN_MSG_EKF_VEL_BODY               = 0x139,
+    SBG_ECAN_MSG_EKF_AIR_DATA               = 0x13A,
+    SBG_ECAN_MSG_EKF_AIR_DATA_ACC           = 0x13B,
 
     SBG_ECAN_MSG_SHIP_MOTION_INFO           = 0x140,
     SBG_ECAN_MSG_SHIP_MOTION_0              = 0x141,
