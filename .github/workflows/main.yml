@@ -1,0 +1,65 @@
+name: CI
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        matrix:
+            os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+    
+      - if: runner.os == 'Windows'
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+            arch: x64
+
+      - name: Configure
+        run: |
+          cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=ON -DBUILD_TOOLS=ON -DUSE_DEPRECATED_MACROS=OFF
+
+      - name: Build
+        run: |
+          cmake --build build
+  
+  packages:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        matrix:
+            os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install CMake and Ninja
+        uses: lukka/get-cmake@latest
+    
+      - if: runner.os == 'Windows'
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+            arch: x64
+
+      - name: Configure
+        run: |
+          cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF -DBUILD_TOOLS=OFF -DUSE_DEPRECATED_MACROS=OFF
+
+      - name: Build
+        run: |
+          cmake --build build --target package
+
+      - if: startsWith(github.ref, 'refs/tags/')
+        name: Create/Update release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          draft: true
+          artifacts: 'build/*.zip'

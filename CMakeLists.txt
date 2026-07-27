@@ -80,7 +80,7 @@ if (BUILD_EXAMPLES OR BUILD_TOOLS)
     FetchContent_Declare(
         argtable3
         GIT_REPOSITORY https://github.com/argtable/argtable3.git
-        GIT_TAG v3.2.2.f25c624
+        GIT_TAG v3.3.1
     )
     
     FetchContent_MakeAvailable(argtable3)
