@@ -1,7 +1,7 @@
 # NMEA Protocol & Messages {#nmeaMsg}
 
 SBG Systems AHRS and INS support input and output standard NMEA protocol.  
-The NMEA protocol is a an well known and simple ASCII based format that is widely used in different industry.
+The NMEA protocol is a well known and simple ASCII based format that is widely used in different industry.
 
 Using NMEA output messages allows straightforward and easy integration in a wide range of products and software without requiring any development.
 
@@ -135,8 +135,8 @@ When the data source is a GNSS, the standard DOP and quality indicator definitio
 | < 100 m             | Dead Reckoning | Caution     | 6           | 1           | E            | C               |
 | < 10 m              | Standalone Fix | Safe        | 1           | 4           | A            | S               |
 | < 1.2 m             | DGPS Fix       | Safe        | 2           | 2           | D            | S               |
-| < 30 cm             | Floating RTK   | Safe        | 5           | 3           | F            | S               |
-| < 10 cm             | Fixed RTK      | Safe        | 4           | 2           | R            | S               |
+| < 30 cm             | Floating RTK   | Safe        | 5           | 3           | D            | S               |
+| < 10 cm             | Fixed RTK      | Safe        | 4           | 2           | D            | S               |
 
 ### DOP Computation
 
@@ -144,10 +144,10 @@ DOP (Dilution of Precision) is a quality indicator traditionally associated with
 When using an INS, DOP has no intrinsic meaning because the INS does not rely on satellite geometry.  
 Instead, the INS provides more reliable quality indicators directly related to the estimated position standard deviation.
 
-However, since some software still relies on DOP values to filter out outliers and inaccurate solutions, the INS can output a DOP value based on the estimated position standard deviation.  
+However, since some softwares still rely on DOP values to filter out outliers and inaccurate solutions, the INS can output a DOP value based on the estimated position standard deviation.  
 This allows for backward compatibility with systems that use DOP for quality assessment, even though more modern and accurate indicators are available from the INS.
 
-SBG Systems products implements the following computation to convert a position standard deviation to an horizontal DOP value:
+SBG Systems products implement the following computation to convert a position standard deviation to an horizontal DOP value:
 
 $$DOP_{std} = \sqrt{North_{std}^2+East_{std}^2}$$
 ## Standard NMEA Messages

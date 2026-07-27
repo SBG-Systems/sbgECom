@@ -106,6 +106,7 @@ typedef enum _SbgEComGnssType
     SBG_ECOM_GNSS_TYPE_SEP_AX4          = 6,    /*!< Septentrio AsteRx-m4 */
     SBG_ECOM_GNSS_TYPE_SEP_AXM2A        = 7,    /*!< Septentrio AsteRx-m2a */
     SBG_ECOM_GNSS_TYPE_UBX_F9P          = 8,    /*!< Ublox ZED-F9P module */
+    SBG_ECOM_GNSS_TYPE_SEP_MOSG5P3      = 9,    /*!< Septentrio Mosaic G5 P3 */
 } SbgEComGnssType;
 
 /*!

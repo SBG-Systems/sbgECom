@@ -47,6 +47,21 @@ extern "C" {
 typedef enum _SbgECanMessageId
 {
     //
+    // NMEA2000 Outputs Messages
+    //
+    SBG_ECAN_MSG_NMEA_2000_ATTITUDE                     = 0x0,
+    SBG_ECAN_MSG_NMEA_2000_COG_SOG_RAPID_UPDATE         = 0x1,
+    SBG_ECAN_MSG_NMEA_2000_GNSS_POSITION_DATA           = 0X2,
+    SBG_ECAN_MSG_NMEA_2000_GNSS_SATS_IN_VIEW            = 0x3,
+    SBG_ECAN_MSG_NMEA_2000_HEART_BEAT                   = 0x4,
+    SBG_ECAN_MSG_NMEA_2000_HEAVE                        = 0x5,
+    SBG_ECAN_MSG_NMEA_2000_POSITION_RAPID_UPDATE        = 0x6,
+    SBG_ECAN_MSG_NMEA_2000_RATE_OF_TURN                 = 0x7,
+    SBG_ECAN_MSG_NMEA_2000_SYSTEM_TIME                  = 0x8,
+    SBG_ECAN_MSG_NMEA_2000_VESSEL_HEADING               = 0x9,
+    SBG_ECAN_MSG_NMEA_2000_VESSEL_SPEED_COMPONENTS      = 0xA,
+
+    //
     // Output Messages
     //
     SBG_ECAN_MSG_STATUS_01                  = 0x100,
@@ -161,20 +176,6 @@ typedef enum _SbgECanMessageId
     // Automotive specific CAN output
     //
     SBG_ECAN_MSG_AUTO_TRACK_SLIP_CURV       = 0x220,
-
-    //
-    // NMEA2000 Outputs Messages
-    // NMEA2000 ID(29 bits) = [Priority(3) | PGN(18) | Source(8)]
-    // Priority and PGN are set according to the NMEA 2000 standard. Source defaults to 0x00.
-    //
-    SBG_ECAN_MSG_NMEA_2000_ATTITUDE                     = 0x0DF11900,
-    SBG_ECAN_MSG_NMEA_2000_COG_SOG_RAPID_UPDATE         = 0x09F80200,
-    SBG_ECAN_MSG_NMEA_2000_HEART_BEAT                   = 0x1DF01100,
-    SBG_ECAN_MSG_NMEA_2000_HEAVE                        = 0x0DF11400,
-    SBG_ECAN_MSG_NMEA_2000_POSITION_RAPID_UPDATE        = 0x09F80100,
-    SBG_ECAN_MSG_NMEA_2000_RATE_OF_TURN                 = 0x09F11300,
-    SBG_ECAN_MSG_NMEA_2000_SYSTEM_TIME                  = 0x0DF01000,
-    SBG_ECAN_MSG_NMEA_2000_VESSEL_HEADING               = 0x09F11200,
 } SbgECanMessageId;
 
 #ifdef __cplusplus

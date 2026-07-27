@@ -200,3 +200,16 @@ The bottom track log and the water track log are accepted as inputs for DVL and 
 The Nortek DVL Nucleus binary proprietary logs output DVL data, such as bottom tracking and water tracking.  
 The bottom track log and the water track log are accepted as inputs for DVL aiding purposes.
 The altimeter log is accepted as input for depth aiding purposes.
+
+### Water Linked DVL JSON Protocol
+
+The Water Linked DVL JSON protocol outputs DVL data using velocity and transducer reports.  
+Both bottom tracking and water tracking modes are supported.  
+Only velocity and transducer reports are accepted as inputs for DVL aiding purposes.  
+The protocol allows only one report per TCP transmission otherwise, all reports are discarded.
+
+### Water Linked DVL Serial Protocol
+
+The Water Linked DVL serial protocol outputs DVL data using WRZ and WRS logs, supporting both bottom tracking and water tracking.  
+Only WRZ and WRS logs are accepted as inputs for DVL aiding purposes.
+The WRS report used corresponds to velocity data and not to the time status report.

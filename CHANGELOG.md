@@ -1,16 +1,16 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2026-06-12  
+sbgECom C library change log issued on: 2026-07-27  
 Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-This release introduces compatibility with **High Performance INS (HPINS)** firmware version **6.3**, **ELLIPSE** firmware version **3.3**, and **IMU** firmware version **3.0**.
+This release introduces compatibility with **High Performance INS (HPINS)** firmware version **6.3**, **ELLIPSE** firmware version **3.4**, and **IMU** firmware version **3.4**.
 
 All new features and capabilities introduced by these firmware versions are accessible through this sbgECom release, alongside the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) for product configuration.
 
-This release also extends CAN messages and improves PTP reprorted states.
+This release also extends NMEA 2000 CAN message support, adds Water Linked DVL aiding protocols, and introduces a new Septentrio GNSS receiver variant.
 
 ## Configuration & Migration
 
@@ -21,9 +21,23 @@ Backward compatibility has been maintained as much as possible; however, please 
 ## Import Highlights for this release
 
 Below are the key improvements and modifications in this release:
-- Support for latest HPINS firmware 6.3
-- Addition of EKF Air Data CAN message
-- Addition of new PTP states
+- Support for latest ELLIPSE firmware 3.4 and IMU firmware 3.4
+- Addition of new NMEA 2000 standard and fast packet messages
+- Support for Water Linked DVL JSON and serial aiding protocols
+- Addition of Septentrio Mosaic G5 P3 GNSS receiver
+
+## Release - 5.8.935-stable
+
+### New Features
+ - SBGECOM-560 - Add new NMEA 2000 messages
+
+### Improvements
+ - SBGECOM-590 - Doc: Add Water Linked JSON and Serial DVL aidings
+ - SBGECOM-585 - Add GNSS type Septentrio Mosaic G5 P3
+
+### Bug Fixes
+ - SBGECOM-591 - Fix missing start range in dbc files
+ - SBGECOM-587 - Doc: Fix NMEA VTG and RMC mode indicators that are not compatible with standard
 
 ## Release - 5.7.626-stable
 
