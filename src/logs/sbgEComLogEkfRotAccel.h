@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComLogEkfRotAccel.h
  * \ingroup         binaryLogs
  * \author          SBG Systems

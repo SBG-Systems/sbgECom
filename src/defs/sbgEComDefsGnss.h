@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComDefsGnss.h
  * \ingroup         main
  * \author          SBG Systems

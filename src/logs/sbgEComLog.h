@@ -52,10 +52,12 @@
 #include "sbgEComLogEkf.h"
 #include "sbgEComLogEkfRotAccel.h"
 #include "sbgEComLogEvent.h"
+#include "sbgEComLogGnssDop.h"
 #include "sbgEComLogGnssHdt.h"
 #include "sbgEComLogGnssPos.h"
 #include "sbgEComLogGnssVel.h"
 #include "sbgEComLogImu.h"
+#include "sbgEComLogEkfStatus.h"
 #include "sbgEComLogMag.h"
 #include "sbgEComLogMagCalib.h"
 #include "sbgEComLogOdometer.h"
@@ -99,6 +101,7 @@ typedef union _SbgEComLogUnion
     SbgEComLogGnssPos               gpsPosData;         /*!< Stores data for the SBG_ECOM_LOG_GPS_POS message. */
     SbgEComLogGnssVel               gpsVelData;         /*!< Stores data for the SBG_ECOM_LOG_GPS#_VEL message. */
     SbgEComLogGnssHdt               gpsHdtData;         /*!< Stores data for the SBG_ECOM_LOG_GPS#_HDT message. */
+    SbgEComLogGnssDop               gpsDopData;         /*!< Stores data for the SBG_ECOM_LOG_GPS#_DOP message. */
     SbgEComLogRawData               gpsRawData;         /*!< Stores data for the SBG_ECOM_LOG_GPS#_RAW message. */
     SbgEComLogRawData               rtcmRawData;        /*!< Stores data for the SBG_ECOM_LOG_RTCM_RAW message. */
     SbgEComLogMag                   magData;            /*!< Stores data for the SBG_ECOM_LOG_MAG message. */
@@ -116,7 +119,7 @@ typedef union _SbgEComLogUnion
     SbgEComLogVibMonReport          vibMonReport;       /*!< Stores data for the SBG_ECOM_LOG_VIB_MON_REPORT message. */
     SbgEComLogEkfAirData            ekfAirData;         /*!< Stores data for the SBG_ECOM_LOG_EKF_AIR_DATA message. */
     SbgEComLogPosition              positionData;       /*!< Stores data for the SBG_ECOM_LOG_POSITION_# message. */
-
+    SbgEComLogEkfStatus             ekfStatusData;      /*!< Stores data for the SBG_ECOM_LOG_EKF_STATUS message. */
 
     /* Fast logs */
     SbgEComLogImuFastLegacy         fastImuData;        /*!< Stores Fast IMU Data for 1KHz output */

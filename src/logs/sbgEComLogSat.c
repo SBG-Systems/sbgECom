@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComLogSat.c
  * \author          SBG Systems
  * \date            1 March 2022

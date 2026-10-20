@@ -347,7 +347,7 @@ The `SBG_ECAN_MSG_EKF_ORIENTATION_ACC` message provides the standard deviation a
 
 ### SBG_ECAN_MSG_EKF_POS (0x134) {#SBG_ECAN_MSG_EKF_POS}
 
-The `SBG_ECAN_MSG_EKF_POS` message provides the INS position data, consisting of latitude and longitude expressed in the WGS84 datum.
+The `SBG_ECAN_MSG_EKF_POS` message provides the INS position data, consisting of latitude and longitude expressed in the datum of the position aiding sources.
 
 - **Message Name (ID):** `SBG_ECAN_MSG_EKF_POS (0x134)`
 - **Compatibility:** All products

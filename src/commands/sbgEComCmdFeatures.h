@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComCmdFeatures.h
  * \ingroup         commands
  * \author          SBG Systems
@@ -86,6 +86,7 @@ extern "C" {
 #define SBG_ECOM_GNSS_FEATURE_IM                (0x00000001 << 7)           /*!< The GNSS receiver is able to detect and mitigate RF interferences. */
 #define SBG_ECOM_GNSS_FEATURE_OSNMA             (0x00000001 << 8)           /*!< The GNSS receiver implements Galileo OSNMA spoofing detection. */
 #define SBG_ECOM_GNSS_FEATURE_CLAS              (0x00000001 << 9)           /*!< The GNSS receiver implements Centimeter-Level Augmentation Service. */
+#define SBG_ECOM_GNSS_FEATURE_HAS               (0x00000001 << 10)          /*!< The GNSS receiver implements High Accuracy Service. */
 
 //----------------------------------------------------------------------//
 //- Feature commands types definition                                  -//
@@ -107,6 +108,7 @@ typedef enum _SbgEComGnssType
     SBG_ECOM_GNSS_TYPE_SEP_AXM2A        = 7,    /*!< Septentrio AsteRx-m2a */
     SBG_ECOM_GNSS_TYPE_UBX_F9P          = 8,    /*!< Ublox ZED-F9P module */
     SBG_ECOM_GNSS_TYPE_SEP_MOSG5P3      = 9,    /*!< Septentrio Mosaic G5 P3 */
+    SBG_ECOM_GNSS_TYPE_SEP_MOSG5P6      = 10,   /*!< Septentrio Mosaic G5 P6 */
 } SbgEComGnssType;
 
 /*!

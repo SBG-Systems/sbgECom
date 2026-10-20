@@ -1,4 +1,4 @@
-﻿// sbgCommonLib headers
+// sbgCommonLib headers
 #include <sbgCommon.h>
 #include <streamBuffer/sbgStreamBuffer.h>
 
@@ -14,10 +14,12 @@
 #include "sbgEComLogEkf.h"
 #include "sbgEComLogEkfRotAccel.h"
 #include "sbgEComLogEvent.h"
+#include "sbgEComLogGnssDop.h"
 #include "sbgEComLogGnssHdt.h"
 #include "sbgEComLogGnssPos.h"
 #include "sbgEComLogGnssVel.h"
 #include "sbgEComLogImu.h"
+#include "sbgEComLogEkfStatus.h"
 #include "sbgEComLogMag.h"
 #include "sbgEComLogMagCalib.h"
 #include "sbgEComLogOdometer.h"
@@ -125,6 +127,10 @@ SbgErrorCode sbgEComLogParse(SbgEComClass msgClass, SbgEComMsgId msgId, const vo
         case SBG_ECOM_LOG_GPS2_SAT:
             errorCode = sbgEComLogSatListReadFromStream(&pLogData->satGroupData, &inputStream);
             break;
+        case SBG_ECOM_LOG_GPS1_DOP:
+        case SBG_ECOM_LOG_GPS2_DOP:
+            errorCode = sbgEComLogGnssDopReadFromStream(&pLogData->gpsDopData, &inputStream);
+            break;
         case SBG_ECOM_LOG_RTCM_RAW:
             errorCode = sbgEComLogRawDataReadFromStream(&pLogData->rtcmRawData, &inputStream);
             break;
@@ -172,6 +178,9 @@ SbgErrorCode sbgEComLogParse(SbgEComClass msgClass, SbgEComMsgId msgId, const vo
             break;
         case SBG_ECOM_LOG_POSITION_1:
             errorCode = sbgEComLogPositionReadFromStream(&pLogData->positionData, &inputStream);
+            break;
+        case SBG_ECOM_LOG_EKF_STATUS:
+            errorCode = sbgEComLogEkfStatusReadFromStream(&pLogData->ekfStatusData, &inputStream);
             break;
 
         default:

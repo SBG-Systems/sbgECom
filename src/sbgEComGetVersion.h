@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComGetVersion.h
  * \ingroup         main
  * \author          SBG Systems

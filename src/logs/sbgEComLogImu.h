@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComLogImu.h
  * \ingroup         binaryLogs
  * \author          SBG Systems

@@ -1,4 +1,4 @@
-﻿#include "sbgEComLogEkf.h"
+#include "sbgEComLogEkf.h"
 
 //----------------------------------------------------------------------//
 //- Private definitions                                                -//

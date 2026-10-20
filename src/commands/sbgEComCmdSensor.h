@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComCmdSensor.h
  * \ingroup         commands
  * \author          SBG Systems

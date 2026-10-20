@@ -1,4 +1,4 @@
-﻿#include "sbgEComLogUsbl.h"
+#include "sbgEComLogUsbl.h"
 
 //----------------------------------------------------------------------//
 //- Public methods                                                     -//

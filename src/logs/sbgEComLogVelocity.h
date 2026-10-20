@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComLogVelocity.h
  * \ingroup         binaryLogs
  * \author          SBG Systems

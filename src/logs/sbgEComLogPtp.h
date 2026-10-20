@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComLogPtp.h
  * \ingroup         binaryLogs
  * \author          SBG Systems

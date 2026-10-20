@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComLogGnssPos.h
  * \ingroup         binaryLogs
  * \author          SBG Systems

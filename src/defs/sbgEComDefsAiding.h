@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComDefsAiding.h
  * \ingroup         main
  * \author          SBG Systems

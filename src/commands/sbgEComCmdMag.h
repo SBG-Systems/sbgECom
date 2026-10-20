@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComCmdMag.h
  * \ingroup         commands
  * \author          SBG Systems

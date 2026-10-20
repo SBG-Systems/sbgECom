@@ -76,6 +76,7 @@ void CLoggerApp::createLogger(const CLoggerSettings &settings)
 	m_manager->registerLog<sbg::CLoggerEntryEkfRotAccelBody>();
 	m_manager->registerLog<sbg::CLoggerEntryEkfRotAccelNed>();
 	m_manager->registerLog<sbg::CLoggerEntryEkfAirData>();
+	m_manager->registerLog<sbg::CLoggerEntryEkfStatus>();
 
 	//
 	// Register event in/out logs
@@ -105,6 +106,7 @@ void CLoggerApp::createLogger(const CLoggerSettings &settings)
 	m_manager->registerLog<sbg::CLoggerEntryGnss1Hdt>();
 	m_manager->registerLog<sbg::CLoggerEntryGnss1Raw>();
 	m_manager->registerLog<sbg::CLoggerEntryGnss1Sat>();
+	m_manager->registerLog<sbg::CLoggerEntryGnss1Dop>();
 
 	//
 	// Register GNSS 2 logs
@@ -114,6 +116,7 @@ void CLoggerApp::createLogger(const CLoggerSettings &settings)
 	m_manager->registerLog<sbg::CLoggerEntryGnss2Hdt>();
 	m_manager->registerLog<sbg::CLoggerEntryGnss2Raw>();
 	m_manager->registerLog<sbg::CLoggerEntryGnss2Sat>();
+	m_manager->registerLog<sbg::CLoggerEntryGnss2Dop>();
 
 	//
 	// IMU logs

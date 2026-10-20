@@ -1,4 +1,4 @@
-﻿// sbgCommonLib headers
+// sbgCommonLib headers
 #include <sbgCommon.h>
 
 // Local headers

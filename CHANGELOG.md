@@ -1,16 +1,18 @@
 # Change Log
 This change log lists all modifications for each sbgECom library release.
 
-sbgECom C library change log issued on: 2026-07-27  
+sbgECom C library change log issued on: 2026-10-20  
 Copyright (C) 2007-2026, SBG Systems SAS. All rights reserved.
 
 ## Release Summary
 
-This release introduces compatibility with **High Performance INS (HPINS)** firmware version **6.3**, **ELLIPSE** firmware version **3.4**, and **IMU** firmware version **3.4**.
+This release introduces a new **`SBG_ECOM_LOG_EKF_STATUS`** message, providing enhanced EKF status information, including advanced GNSS spoofing detection reporting and navigation safety indicators.
 
-All new features and capabilities introduced by these firmware versions are accessible through this sbgECom release, alongside the [sbgRestApi](https://developer.sbg-systems.com/sbgInsRestApi/) for product configuration.
+It also adds native **GNSS DOP reporting** and a new **Python implementation** for sbgECom logs and commands, extending integration capabilities.
 
-This release also extends NMEA 2000 CAN message support, adds Water Linked DVL aiding protocols, and introduces a new Septentrio GNSS receiver variant.
+Additional improvements include more consistent command timeout handling, faster updates of solution aiding status flags, and a new GitHub workflow for the public library.
+
+This release maintains compatibility with **High Performance INS (HPINS) firmware 6.3**, **ELLIPSE firmware 3.4**, and **IMU firmware 3.4**.
 
 ## Configuration & Migration
 
@@ -21,12 +23,34 @@ Backward compatibility has been maintained as much as possible; however, please 
 ## Import Highlights for this release
 
 Below are the key improvements and modifications in this release:
-- Support for latest ELLIPSE firmware 3.4 and IMU firmware 3.4
-- Addition of new NMEA 2000 standard and fast packet messages
-- Support for Water Linked DVL JSON and serial aiding protocols
-- Addition of Septentrio Mosaic G5 P3 GNSS receiver
+- Addition of `SBG_ECOM_LOG_EKF_STATUS` with enhanced EKF status and GNSS spoofing reporting
+- Native GNSS DOP message support
+- New Python implementation for sbgECom logs and commands
+- Improved command timeout handling and responsiveness of solution aiding status flags
+- Deprecation of legacy `SOLUTION_STATUS` and `SOLUTION_MODE` fields in favor of the new EKF status message
+- Addition of a GitHub workflow for the public library
 
-## Release - 5.8.935-stable
+## Release - 6.0.4661-stable
+
+### New Features
+ - SBGECOM-600 - Add a github workflow for public library
+ - SBGECOM-554 - Add new SBG_ECOM_LOG_EKF_STATUS with advanced spoofing reporting
+ - SBGECOM-386 - Add native GNSS DOP message
+ - SBGECOM-182 - Add Python implementation for sbgECom logs and commands
+ 
+### Improvements
+ - SBGECOM-599 - Improve sbgEComReceiveAnyCmd2() timeout handling and normalize no-data result to SBG_TIME_OUT
+ - SBGECOM-570 - Reduce 'used in solution' flags time out from 3s to 1s for all SBG_ECOM_LOG messages
+ 
+### Bug Fixes
+ - SBGECOM-626 - sbgBasicLogger: Fix spacing of EKF nav log
+ - SBGECOM-606 - Doc: Fix height datum indication 
+ 
+### Removed Features
+ - SBGECOM-632 - Doc: Remove NMEA2000 detailed messages specifications
+ - SBGECOM-569 - Deprecate SOLUTION_STATUS and SOLUTION_MODE in LOG_EKF_EULER, LOG_EKF_QUAT, LOG_EKF_NAV, etc
+
+## Release - 5.8.876-stable
 
 ### New Features
  - SBGECOM-560 - Add new NMEA 2000 messages

@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComIds.h
  * \ingroup         main
  * \author          SBG Systems
@@ -137,7 +137,7 @@ typedef enum _SbgEComLog
 
     SBG_ECOM_LOG_SESSION_INFO               = 55,       /*!< Session information, including device information and current settings. */
 
-    SBG_ECOM_LOG_EKF_DEBUG                  = 56,       /*!< EKF debug data. */
+    SBG_ECOM_LOG_EKF_DEBUG                  = 56,       /*!< Private only EKF debug data. */
 
     SBG_ECOM_LOG_PTP_STATUS                 = 57,       /*!< PTP status. */
 
@@ -149,6 +149,11 @@ typedef enum _SbgEComLog
     SBG_ECOM_LOG_EKF_AIR_DATA               = 61,       /*!< Air velocity log in NED frame. */
 
     SBG_ECOM_LOG_POSITION_1                 = 62,       /*!< Generic position 1 log. */
+
+    SBG_ECOM_LOG_EKF_STATUS                 = 63,       /*!< EKF status log. */
+
+    SBG_ECOM_LOG_GPS1_DOP                   = 64,       /*!< GPS 1 dilution of precision data. */
+    SBG_ECOM_LOG_GPS2_DOP                   = 65,       /*!< GPS 2 dilution of precision data. */
 
     SBG_ECOM_LOG_ECOM_NUM_MESSAGES                      /*!< Helper definition to know the number of ECom messages */
 } SbgEComLog;

@@ -49,7 +49,7 @@ namespace sbg
         /*!
          * Returns the log name.
          *
-         * \return                                          log name.
+         * \return                                          Log name.
          */
         std::string getName() const override;
 
@@ -97,7 +97,7 @@ namespace sbg
         /*!
          * Returns the log name.
          *
-         * \return                                          log name.
+         * \return                                          Log name.
          */
         std::string getName() const override;
 
@@ -145,7 +145,7 @@ namespace sbg
         /*!
          * Returns the log name.
          *
-         * \return                                          log name.
+         * \return                                          Log name.
          */
         std::string getName() const override;
 
@@ -193,7 +193,7 @@ namespace sbg
         /*!
          * Returns the log name.
          *
-         * \return                                          log name.
+         * \return                                          Log name.
          */
         std::string getName() const override;
 
@@ -242,7 +242,7 @@ namespace sbg
         /*!
          * Returns the log name.
          *
-         * \return                                          log name.
+         * \return                                          Log name.
          */
         std::string getName() const override;
 
@@ -269,6 +269,54 @@ namespace sbg
 
         /*!
          * Write the data log to the console
+         *
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToConsole(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+    };
+
+    /*!
+     * Handle SBG_ECOM_LOG_EKF_STATUS
+     */
+    class CLoggerEntryEkfStatus : public IFileLogger, public ILoggerEntryKey<SBG_ECOM_CLASS_LOG_ECOM_0, SBG_ECOM_LOG_EKF_STATUS>
+    {
+    public:
+
+        //----------------------------------------------------------------------//
+        //- Public getters                                                     -//
+        //----------------------------------------------------------------------//
+
+        /*!
+         * Returns the log name.
+         *
+         * \return                                          Log name.
+         */
+        std::string getName() const override;
+
+    private:
+
+        //----------------------------------------------------------------------//
+        //- Private methods                                                    -//
+        //----------------------------------------------------------------------//
+
+        /*!
+         * Write the header to the file and/or console.
+         *
+         * \param[in]   context                             Logger context and settings.
+         */
+        void writeHeaderToFile(const CLoggerContext &context) override;
+
+        /*!
+         * Write the data log to the file.
+         *
+         * \param[in]   context                             Logger context and settings.
+         * \param[in]   logData                             Input sbgECom log data to write.
+         */
+        void writeDataToFile(const CLoggerContext &context, const SbgEComLogUnion &logData) override;
+
+        /*!
+         * Write the data log to the console.
          *
          * \param[in]   context                             Logger context and settings.
          * \param[in]   logData                             Input sbgECom log data to write.

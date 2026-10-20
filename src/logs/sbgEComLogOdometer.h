@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file            sbgEComLogOdometer.h
  * \ingroup         binaryLogs
  * \author          SBG Systems

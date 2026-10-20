@@ -45,9 +45,9 @@ extern "C" {
 //- Version definitions                                                -//
 //----------------------------------------------------------------------//
 
-#define SBG_E_COM_VERSION_MAJOR         5
-#define SBG_E_COM_VERSION_MINOR         8
-#define SBG_E_COM_VERSION_REV           935
+#define SBG_E_COM_VERSION_MAJOR         6
+#define SBG_E_COM_VERSION_MINOR         0
+#define SBG_E_COM_VERSION_REV           4661
 #define SBG_E_COM_VERSION_BUILD         SBG_VERSION_QUALIFIER_STABLE
 
 #define SBG_E_COM_VERSION               SBG_VERSION_SOFTWARE(SBG_E_COM_VERSION_MAJOR,SBG_E_COM_VERSION_MINOR,SBG_E_COM_VERSION_REV,SBG_E_COM_VERSION_BUILD)
