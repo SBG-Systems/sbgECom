@@ -40,6 +40,8 @@ import crcmod
 
 class SbgCrc:
 
+	_crc = crcmod.mkCrcFun(0x11021, initCrc=0)
+
 	@staticmethod
 	def compute(buffer: bytearray) -> int:
 		"""
@@ -51,5 +53,4 @@ class SbgCrc:
 		Return:
 			int:							The computed CRC.
 		"""
-		crc = crcmod.mkCrcFun(0x11021, initCrc=0)
-		return crc(buffer)
+		return _crc(buffer)
